@@ -1,8 +1,7 @@
 <template>
-
     <Head :title="title" />
 
-    <div>
+    <div class="min-h-screen flex flex-col">
         <!-- Navigation and sidebar code -->
         <nav class="lg:hidden py-4 px-4 bg-gray-800">
             <div class="flex items-center justify-between">
@@ -34,7 +33,7 @@
         </div>
 
         <!-- Slot for page-specific content -->
-        <main class="lg:ml-80 pl-4 pt-4">
+        <main class="flex-grow lg:ml-80 pl-4 pt-4 bg-gray-100">
             <slot></slot>
         </main>
     </div>

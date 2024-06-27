@@ -62,7 +62,7 @@ const submit = () => {
                 </label>
 
                 <div>
-                    <Link v-if="canResetPassword" :href="route('password.request')"
+                    <Link :href="route('password.request')"
                         class="underline text-sm text-gray-600 hover:text-blue-500">
                     Forgot your password?
                     </Link>

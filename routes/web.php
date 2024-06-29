@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UserRolesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,6 @@ Route::middleware([
 
     Route::get('/services', [UserRolesController::class, 'viewService'])->name('service.view');
     Route::get('/services/create', [UserRolesController::class, 'createService'])->name('service.create');
+
+    Route::post('/api/services/create', [ServicesController::class, 'createNewService'])->name('service.new.create');
 });

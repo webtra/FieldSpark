@@ -15,6 +15,9 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+            alias: {
+                '@': '/src',
+            },
         }),
     ],
 });

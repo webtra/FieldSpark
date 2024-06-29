@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserRolesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,7 +14,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [UserRolesController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/services', [UserRolesController::class, 'viewService'])->name('service.view');
+    Route::get('/services/create', [UserRolesController::class, 'createService'])->name('service.create');
 });

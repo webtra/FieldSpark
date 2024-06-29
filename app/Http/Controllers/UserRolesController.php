@@ -5,62 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\UserRoles;
 use App\Http\Requests\StoreUserRolesRequest;
 use App\Http\Requests\UpdateUserRolesRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class UserRolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function dashboard()
     {
-        //
+        $userId = Auth::id();
+        $userRole = DB::table('user_roles')
+            ->where('user_id', $userId)
+            ->first();
+
+        // Adding detailed logging to see what's retrieved
+        // Log::info('User Role:', ['role' => $userRole]);
+
+        $roleId = optional($userRole)->role_id;
+        $isAdmin = ($roleId === 1);
+
+        return Inertia::render('Dashboard', [
+            'isAdmin' => $isAdmin,
+            'roleId' => $roleId
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function viewService()
     {
-        //
+        return Inertia::render('Service/View');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRolesRequest $request)
+    public function createService()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserRoles $userRoles)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserRoles $userRoles)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserRolesRequest $request, UserRoles $userRoles)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserRoles $userRoles)
-    {
-        //
+        return Inertia::render('Service/Create');
     }
 }

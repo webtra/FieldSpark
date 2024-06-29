@@ -22,7 +22,7 @@ defineProps({
         </template>
 
         <div>
-            <div class="mr-4 my-4 pb-4">
+            <div>
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm :user="$page.props.auth.user" />
 

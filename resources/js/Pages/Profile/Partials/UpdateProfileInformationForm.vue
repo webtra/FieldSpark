@@ -88,11 +88,12 @@ const clearPhotoFileInput = () => {
 
         <template #form>
             <!-- Profile Photo -->
-            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
+            <div v-if="$page.props.jetstream.managesProfilePhotos"
+                class="col-span-6 flex flex-col items-center justify-center">
                 <!-- Profile Photo File Input -->
                 <input id="photo" ref="photoInput" type="file" class="hidden" @change="updatePhotoPreview">
 
-                <InputLabel for="photo" value="Photo" />
+                <InputLabel for="photo" value="Profile Photo" />
 
                 <!-- Current Profile Photo -->
                 <div v-show="!photoPreview" class="mt-2">
@@ -116,21 +117,25 @@ const clearPhotoFileInput = () => {
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
 
-            <!-- Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="first_name" value="First Name" />
-                <TextInput id="first_name" v-model="form.first_name" type="text" class="mt-1 block w-full" required />
-                <InputError :message="form.errors.first_name" class="mt-2" />
-            </div>
+            <div class="flex space-x-4 col-span-6">
+                <!-- Name -->
+                <div class="flex-1">
+                    <InputLabel for="first_name" value="First Name" />
+                    <TextInput id="first_name" v-model="form.first_name" type="text" class="mt-1 block w-full"
+                        required />
+                    <InputError :message="form.errors.first_name" class="mt-2" />
+                </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="last_name" value="Last Name" />
-                <TextInput id="last_name" v-model="form.last_name" type="text" class="mt-1 block w-full" required />
-                <InputError :message="form.errors.last_name" class="mt-2" />
+                <!-- Last Name -->
+                <div class="flex-1">
+                    <InputLabel for="last_name" value="Last Name" />
+                    <TextInput id="last_name" v-model="form.last_name" type="text" class="mt-1 block w-full" required />
+                    <InputError :message="form.errors.last_name" class="mt-2" />
+                </div>
             </div>
 
             <!-- Email -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6">
                 <InputLabel for="email" value="Email" />
                 <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
                     autocomplete="username" />
@@ -155,13 +160,15 @@ const clearPhotoFileInput = () => {
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
-                Saved.
-            </ActionMessage>
+            <div class="w-full my-2">
+                <ActionMessage :on="form.recentlySuccessful">
+                    Saved.
+                </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
-            </PrimaryButton>
+                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Save
+                </PrimaryButton>
+            </div>
         </template>
     </FormSection>
 </template>

@@ -10,17 +10,18 @@ Route::get('/', function () {
     return Inertia::render('Auth/Login');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', [UserRolesController::class, 'dashboard'])->name('dashboard');
 
+    // USERS
+    Route::get('/api/users', [UserRolesController::class, 'fetch_users']);
+
+    // SERVICES
     Route::get('/services', [UserRolesController::class, 'viewService'])->name('service.view');
     Route::get('/services/create', [UserRolesController::class, 'createService'])->name('service.create');
     Route::post('/api/services/create', [ServicesController::class, 'createNewService'])->name('service.new.create');
     Route::get('/api/services/index', [ServicesController::class, 'getAllServices'])->name('service.index');
 
+    // PROJECTS
     Route::get('/project/estimation', [ServicesController::class, 'project_estimation'])->name('project.estimation');
 });

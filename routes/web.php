@@ -19,6 +19,8 @@ Route::middleware([
 
     Route::get('/services', [UserRolesController::class, 'viewService'])->name('service.view');
     Route::get('/services/create', [UserRolesController::class, 'createService'])->name('service.create');
-
     Route::post('/api/services/create', [ServicesController::class, 'createNewService'])->name('service.new.create');
+    Route::get('/api/services/index', [ServicesController::class, 'getAllServices'])->name('service.index');
+
+    Route::get('/project/estimation', [ServicesController::class, 'project_estimation'])->name('project.estimation');
 });

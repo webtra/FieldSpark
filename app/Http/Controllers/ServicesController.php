@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateServicesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class ServicesController extends Controller
 {
@@ -44,5 +45,18 @@ class ServicesController extends Controller
             // Log::error('Failed to save the service.', ['error' => $e->getMessage(), 'service' => $service]);
             return response()->json(['message' => 'Failed to create service', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    public function getAllServices()
+    {
+        $services = Services::all(); // Make sure to use pagination if necessary
+        return response()->json(['services' => $services]);
+    }
+
+    public function project_estimation()
+    {
+        return Inertia::render('Project/Estimation', [
+            'page_name' => 'Project Estimation',
+        ]);
     }
 }

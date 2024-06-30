@@ -27,13 +27,16 @@ class UserRolesController extends Controller
 
         return Inertia::render('Dashboard', [
             'isAdmin' => $isAdmin,
-            'roleId' => $roleId
+            'roleId' => $roleId,
+            'page_name' => 'Dashboard',
         ]);
     }
 
     public function viewService()
     {
-        return Inertia::render('Service/View');
+        return Inertia::render('Service/View', [
+            'page_name' => 'Services',
+        ]);
     }
 
     public function createService()

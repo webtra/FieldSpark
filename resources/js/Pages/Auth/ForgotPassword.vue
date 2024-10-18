@@ -29,11 +29,11 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <div class="mb-4 text-xs text-gray-600">
             Forgot your password? <br> Enter your email, and we'll send you a reset link.
         </div>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        <div v-if="status" class="mb-4 font-medium text-xs text-green-600">
             {{ status }}
         </div>
 
@@ -51,9 +51,9 @@ const submit = () => {
                 </PrimaryButton>
             </div>
 
-            <div class="flex justify-center mt-2 text-sm text-gray-600">
+            <div class="flex justify-center mt-2 text-xs text-gray-600">
                 Go back to
-                <Link :href="route('login')" class="ml-1 underline text-sm text-gray-600 hover:text-blue-500">
+                <Link :href="route('login')" class="ml-1 underline text-xs text-gray-600 hover:text-blue-500">
                     Login
                 </Link>
             </div>

@@ -16,10 +16,9 @@ class RolesSeeder extends Seeder
     {
         // Define the roles
         $roles = [
-            ['roles' => 'Admin',  'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['roles' => 'Editor', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['roles' => 'Viewer', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['roles' => 'User',   'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['role' => 'Administrator',  'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['role' => 'Staff', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['role' => 'Viewer', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
         // Insert roles into the database

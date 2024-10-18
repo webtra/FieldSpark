@@ -48,7 +48,7 @@ const closeModal = () => {
         </template>
 
         <template #content>
-            <div class="text-sm text-gray-600">
+            <div class="text-xs text-gray-600">
                 Once your account is deleted, all of its resources and data will be permanently deleted.
             </div>
 

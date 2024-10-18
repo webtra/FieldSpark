@@ -30,7 +30,7 @@ watchEffect(async () => {
                             </svg>
                         </span>
 
-                        <p class="ms-3 font-medium text-sm text-white truncate">
+                        <p class="ms-3 font-medium text-xs text-white truncate">
                             {{ message }}
                         </p>
                     </div>

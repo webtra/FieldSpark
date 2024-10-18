@@ -22,7 +22,7 @@
         <div :class="{ 'block': mobileNavOpen, 'hidden': !mobileNavOpen, 'lg:block': true }" class="relative z-50">
             <div @click="toggleMobileNav" class="fixed lg:hidden inset-0 bg-gray-900 opacity-0"></div>
             <nav
-                class="fixed top-16 lg:top-0 left-0 bottom-0 flex flex-col w-full lg:w-80 sm:max-w-xs py-4 bg-gray-900 overflow-y-auto">
+                class="fixed top-16 lg:top-0 left-0 bottom-0 flex flex-col w-full lg:w-80 sm:max-w-xs py-4 bg-gray-900 overflow-y-auto z-50">
                 <div class="px-4">
                     <!-- Desktop Logo -->
                     <a class="hidden lg:flex lg:justify-center text-lg text-white font-medium" href="#">
@@ -42,8 +42,24 @@
                                 <path
                                     d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
                             </svg>
-                            <span class="tracking-wide text-xs">
+                            <span class="tracking-wider text-xs">
                                 Dashboard
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link :href="route('cultivar.index')"
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/cultivar' }">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M12 3.75a6.715 6.715 0 0 0-3.722 1.118.75.75 0 1 1-.828-1.25 8.25 8.25 0 0 1 12.8 6.883c0 3.014-.574 5.897-1.62 8.543a.75.75 0 0 1-1.395-.551A21.69 21.69 0 0 0 18.75 10.5 6.75 6.75 0 0 0 12 3.75ZM6.157 5.739a.75.75 0 0 1 .21 1.04A6.715 6.715 0 0 0 5.25 10.5c0 1.613-.463 3.12-1.265 4.393a.75.75 0 0 1-1.27-.8A6.715 6.715 0 0 0 3.75 10.5c0-1.68.503-3.246 1.367-4.55a.75.75 0 0 1 1.04-.211ZM12 7.5a3 3 0 0 0-3 3c0 3.1-1.176 5.927-3.105 8.056a.75.75 0 1 1-1.112-1.008A10.459 10.459 0 0 0 7.5 10.5a4.5 4.5 0 1 1 9 0c0 .547-.022 1.09-.067 1.626a.75.75 0 0 1-1.495-.123c.041-.495.062-.996.062-1.503a3 3 0 0 0-3-3Zm0 2.25a.75.75 0 0 1 .75.75c0 3.908-1.424 7.485-3.781 10.238a.75.75 0 0 1-1.14-.975A14.19 14.19 0 0 0 11.25 10.5a.75.75 0 0 1 .75-.75Zm3.239 5.183a.75.75 0 0 1 .515.927 19.417 19.417 0 0 1-2.585 5.544.75.75 0 0 1-1.243-.84 17.915 17.915 0 0 0 2.386-5.116.75.75 0 0 1 .927-.515Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Cultivar
                             </span>
                             </Link>
                         </li>
@@ -53,7 +69,7 @@
         </div>
 
         <!-- Slot for page-specific content -->
-        <main class="flex-grow lg:ml-80  bg-gray-100 text-sm">
+        <main class="flex-grow lg:ml-80  bg-gray-100 text-xs z-10">
             <div class="bg-white px-4 py-2 md:sticky top-0 shadow-sm">
                 <div class="flex items-center justify-between">
                     <p class="font-medium text-lg text-black">{{ $page.props.page_name }}</p>
@@ -63,7 +79,7 @@
                             <Dropdown align="right" width="48">
                                 <template #trigger>
                                     <button v-if="$page.props.jetstream.managesProfilePhotos"
-                                        class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                        class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                         <img class="h-10 w-10 rounded-full object-cover"
                                             :src="$page.props.auth.user.profile_photo_url"
                                             :alt="$page.props.auth.user.first_name">
@@ -71,7 +87,7 @@
 
                                     <span v-else class="inline-flex rounded-md">
                                         <button type="button"
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-xs leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                             {{ $page.props.auth.user.first_name }}
 
                                             <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"

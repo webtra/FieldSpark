@@ -17,6 +17,7 @@ export default defineConfig({
             },
             alias: {
                 '@': '/src',
+                'primevue': 'node_modules/primevue',
             },
         }),
     ],

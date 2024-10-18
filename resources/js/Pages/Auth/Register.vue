@@ -72,7 +72,7 @@ const submit = () => {
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
 
                         <div class="ms-2 font-normal">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-blue-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-blue-500">Privacy Policy</a>
+                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-xs text-gray-600 hover:text-blue-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-xs text-gray-600 hover:text-blue-500">Privacy Policy</a>
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
@@ -85,9 +85,9 @@ const submit = () => {
                 </PrimaryButton>
             </div>
 
-            <div class="flex justify-center mt-2 text-sm text-gray-600">
+            <div class="flex justify-center mt-2 text-xs text-gray-600">
                 Already registered?
-                <Link :href="route('login')" class="ml-1 underline text-sm text-gray-600 hover:text-blue-500">
+                <Link :href="route('login')" class="ml-1 underline text-xs text-gray-600 hover:text-blue-500">
                     Login
                 </Link>
             </div>

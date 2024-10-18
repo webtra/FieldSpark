@@ -38,7 +38,7 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        <div v-if="status" class="mb-4 font-medium text-xs text-green-600">
             {{ status }}
         </div>
 
@@ -58,12 +58,12 @@ const submit = () => {
             <div class="flex items-center justify-between mt-4">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ms-2 text-xs text-gray-600">Remember me</span>
                 </label>
 
                 <div>
                     <Link :href="route('password.request')"
-                        class="underline text-sm text-gray-600 hover:text-blue-500">
+                        class="underline text-xs text-gray-600 hover:text-blue-500">
                     Forgot your password?
                     </Link>
                 </div>
@@ -75,9 +75,9 @@ const submit = () => {
                 </PrimaryButton>
             </div>
 
-            <div class="flex justify-center mt-2 text-sm text-gray-600">
+            <div class="flex justify-center mt-2 text-xs text-gray-600">
                 Not registered?
-                <Link :href="route('register')" class="ml-1 underline text-sm text-gray-600 hover:text-blue-500">
+                <Link :href="route('register')" class="ml-1 underline text-xs text-gray-600 hover:text-blue-500">
                     Register
                 </Link>
             </div>

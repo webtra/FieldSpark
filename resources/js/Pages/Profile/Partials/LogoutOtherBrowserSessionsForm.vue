@@ -53,7 +53,7 @@ const closeModal = () => {
         </template>
 
         <template #content>
-            <div class="text-sm text-gray-600">
+            <div class="text-xs text-gray-600">
                 If needed, you can log out of all browser sessions on all devices. Below is a list of recent sessions,
                 but it may not be complete. Update your password if you suspect your account is compromised.
             </div>
@@ -78,7 +78,7 @@ const closeModal = () => {
                     </div>
 
                     <div class="ms-3">
-                        <div class="text-sm text-gray-600">
+                        <div class="text-xs text-gray-600">
                             {{ session.agent.platform ? session.agent.platform : 'Unknown' }} - {{ session.agent.browser
                                 ? session.agent.browser : 'Unknown' }}
                         </div>

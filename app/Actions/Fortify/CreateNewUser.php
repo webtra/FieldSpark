@@ -37,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         // Retrieve the 'User' role
-        $userRole = Roles::where('roles', 'User')->firstOrFail();
+        $userRole = Roles::where('role', 'User')->firstOrFail();
 
         // Insert the user role into the user_roles table
         DB::table('user_roles')->insert([

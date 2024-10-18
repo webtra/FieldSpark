@@ -6,6 +6,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Webtra Web Solutions';
 
@@ -32,6 +34,11 @@ createInertiaApp({
         app.use(plugin);
         app.use(ZiggyVue);
         app.use(Toast, toastOptions);
+        app.use(PrimeVue, {
+            theme: {
+                preset: Aura
+            }
+        });
         app.mount(el);
     },
     progress: {

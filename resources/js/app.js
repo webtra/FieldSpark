@@ -4,27 +4,8 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import Toast from "vue-toastification";
-import "vue-toastification/dist/index.css";
-import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Webtra Web Solutions';
-
-const toastOptions = {
-    position: "top-center",
-    timeout: 5000,
-    closeOnClick: true,
-    pauseOnFocusLoss: true,
-    pauseOnHover: true,
-    draggable: true,
-    draggablePercent: 0.6,
-    showCloseButtonOnHover: false,
-    hideProgressBar: false,
-    closeButton: "button",
-    icon: true,
-    rtl: false
-};
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -33,12 +14,6 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) });
         app.use(plugin);
         app.use(ZiggyVue);
-        app.use(Toast, toastOptions);
-        app.use(PrimeVue, {
-            theme: {
-                preset: Aura
-            }
-        });
         app.mount(el);
     },
     progress: {

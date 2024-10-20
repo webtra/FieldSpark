@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cultivars', function (Blueprint $table) {
             $table->id();
             $table->string('prime_name');
-            $table->string('variety_number')->nullable();
+            $table->string('variety_number')->nullable()->unique();
             $table->string('country')->nullable();
             $table->text('color_of_berry_skin')->nullable();
             $table->string('country_of_origin')->nullable();

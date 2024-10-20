@@ -1,70 +1,133 @@
 <template>
     <AppLayout title="Cultivar">
-        <div class="overflow-x-hidden overflow-y-auto !z-0" :style="{ zIndex: '-1' }">
-            <div class="flex items-center">
-                <div class="flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Wine Grape Cultivars</h1>
-                    <p class="mt-2 text-xs text-gray-700">
-                        A list of all the grape cultivars including their variety number, prime name, country, color of
-                        berry skin, country of origin, and species.
+        <div class="overflow-x-hidden overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Cultivar Management</h1>
+                    <p class="mt-2 text-gray-500">Total Cultivars: {{ filteredCultivars.length }} (Filtered from {{
+                        cultivarCount }})
                     </p>
                 </div>
-                <div>
-                    <InputText type="text" class="text-xs placeholder:text-xs" v-model="searchQuery"
-                        placeholder="Search cultivars..." />
+
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <TextInput type="text" v-model="searchTerm" placeholder="Search Cultivar..." class="w-96" />
+
+                    <div>
+                        <PrimaryButton @click="downloadPDF">
+                            Export to PDF
+                        </PrimaryButton>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-8 bg-white border rounded">
-                <DataTable :value="cultivars" :paginator="true" :rows="20" responsiveLayout="scroll"
-                    :style="{ borderRadius: '12px' }">
-                    <!-- Setting fixed widths for each column -->
-                    <Column field="variety_number" header="Variety Number" :style="{ width: '150px' }" />
-                    <Column field="prime_name" header="Prime Name" :style="{ width: '150px' }" />
-                    <Column field="country" header="Country" :style="{ width: '150px' }" />
-                    <Column field="color_of_berry_skin" header="Color of Berry Skin" :style="{ width: '150px' }" />
-                    <Column field="country_of_origin" header="Country of Origin" :style="{ width: '200px' }" />
-                    <!-- <Column field="species" header="Species" :style="{ width: '150px' }" /> -->
+            <!-- Table of Cultivars -->
+            <div class="mt-4" v-if="filteredCultivars && filteredCultivars.length > 0">
+                <div class="border border-gray-300 rounded-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="text-black bg-white">
+                            <tr>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Variety Number
+                                </th>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Prime Name
+                                </th>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Country
+                                </th>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Color of Berry Skin
+                                </th>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Country of Origin
+                                </th>
+                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Species
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="cultivar in filteredCultivars" :key="cultivar.id"
+                                class="odd:bg-white even:bg-gray-50">
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{ cultivar.variety_number
+                                    }}</td>
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{ cultivar.prime_name }}
+                                </td>
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{ cultivar.country }}
+                                </td>
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{
+                                    cultivar.color_of_berry_skin }}</td>
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{
+                                    cultivar.country_of_origin }}</td>
+                                <td class="px-8 py-4 whitespace-nowrap text-xs text-gray-500">{{ cultivar.species }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                    <Column header="Actions" :style="{ width: '150px' }">
-                        <template #body="slotProps">
-                            <div class="flex justify-end space-x-4">
-                                <button class="w-full text-xs bg-blue-500 text-white py-2 px-4 rounded"
-                                    @click="editCultivar(slotProps.data)">
-                                    Edit
-                                </button>
-                                <button class="w-full text-xs bg-red-500 text-white py-2 px-4 rounded"
-                                    @click="deleteCultivar(slotProps.data)">
-                                    Delete
-                                </button>
-                            </div>
-                        </template>
-                    </Column>
-                </DataTable>
+            <!-- If no cultivars found -->
+            <div v-else>
+                <p>No cultivars found</p>
             </div>
         </div>
     </AppLayout>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { defineProps, ref, computed } from 'vue';
+import TextInput from '@/Components/TextInput.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import InputText from 'primevue/inputtext';
-
-const props = defineProps({
+// Props received from the controller
+const { cultivars, cultivarCount } = defineProps({
     cultivars: Array,
+    cultivarCount: Number,
 });
 
-const searchQuery = ref('');
+// Reactive search term
+const searchTerm = ref('');
 
-// Computed property to filter cultivars based on search query
+// Computed property to filter cultivars based on the search term
 const filteredCultivars = computed(() => {
-    return props.cultivars.filter(cultivar => {
-        // Match against any field
-        return cultivar.prime_name.toLowerCase().includes(searchQuery.value.toLowerCase());
+    if (!searchTerm.value) return cultivars;
+
+    // Return cultivars that match the search term in any field
+    return cultivars.filter((cultivar) => {
+        return (
+            cultivar.variety_number.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+            cultivar.prime_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+            cultivar.country.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+            cultivar.color_of_berry_skin.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+            cultivar.country_of_origin.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+            cultivar.species.toLowerCase().includes(searchTerm.value.toLowerCase())
+        );
     });
 });
+
+const downloadPDF = () => {
+    // Use axios to send a GET request to download the PDF
+    axios.get('/cultivars/pdf', { responseType: 'blob' })
+        .then((response) => {
+            // Create a URL for the blob object
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'cultivars.pdf'); // Download the file
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Clean up the link element
+        })
+        .catch((error) => {
+            console.error("Error downloading PDF:", error);
+            alert('Failed to download PDF. Please try again later.');
+        });
+};
+
+// For debugging
+console.log(cultivars);
+console.log('Total Cultivars: ', cultivarCount);
 </script>

@@ -18,6 +18,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/cultivars/pdf', [CultivarsController::class, 'downloadPDF'])->name('cultivars.pdf');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user.index');
-    Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('user.destroy');
-    Route::put('/users/{id}', [UsersController::class, 'update'])->name('user.update');
+    Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('user.destroy');
+    Route::put('/users/update/role/{id}', [UsersController::class, 'update'])->name('user.update');
+    Route::put('/users/update/profile/{id}', [UsersController::class, 'updateProfile'])->name('user.update.profile');
+    Route::post('/users/store', [UsersController::class, 'store'])->name('user.store');
 });

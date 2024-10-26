@@ -14,9 +14,49 @@
                     <TextInput type="text" v-model="searchTerm" placeholder="Search User..." class="w-96" />
 
                     <div>
-                        <PrimaryButton>
+                        <PrimaryButton @click="showCreateUserModal = true">
                             Create User
                         </PrimaryButton>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Creating a New User -->
+            <div v-if="showCreateUserModal" class="fixed z-50 inset-0 flex items-center justify-center">
+                <!-- Black overlay (backdrop) -->
+                <div class="fixed inset-0 bg-black opacity-50"></div>
+
+                <!-- Modal content -->
+                <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                    <h3 class="text-lg font-semibold mb-4">Create New User</h3>
+
+                    <div class="flex space-x-2">
+                        <div class="mb-4">
+                            <InputLabel for="first_name" value="First Name" />
+                            <TextInput id="first_name" type="text" v-model="newUser.first_name"
+                                class="mt-1 block w-full" placeholder="First Name" />
+                            <InputError :message="errors.first_name" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel for="last_name" value="Last Name" />
+                            <TextInput id="last_name" type="text" v-model="newUser.last_name" class="mt-1 block w-full"
+                                placeholder="Last Name" />
+                            <InputError :message="errors.last_name" class="mt-2" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel for="email" value="Email Address" />
+                        <TextInput id="email" type="email" v-model="newUser.email" class="mt-1 block w-full"
+                            placeholder="Email Address" />
+                        <InputError :message="errors.email" class="mt-2" />
+                    </div>
+
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <button class="px-4 py-2 bg-gray-300 rounded"
+                            @click="showCreateUserModal = false">Cancel</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded" @click="createUser">Create</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +142,7 @@
 
                                             <!-- Modal content -->
                                             <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
-                                                <h3 class="text-lg font-semibold mb-4">Confirm Delete</h3>
+                                                <h3 class="text-black text-lg font-semibold mb-4">Confirm Delete</h3>
                                                 <p>Are you sure you want to delete <span class="font-semibold">{{
                                                     user.first_name
                                                         }} {{ user.last_name
@@ -112,13 +152,64 @@
                                                     <button class="px-4 py-2 bg-gray-300 rounded"
                                                         @click="showDeleteModal = false">Cancel</button>
                                                     <button class="px-4 py-2 bg-red-600 text-white rounded"
-                                                        @click="deleteUser">Continue</button>
+                                                        @click="deleteUser(user)">Continue</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <button class="underline">Edit</button>
+                                    <!-- edit button -->
+                                    <div class="mt-2">
+                                        <!-- Delete Button -->
+                                        <button class="underline" @click="openEditModal(user)">Edit</button>
+
+                                        <!-- Confirmation Modal -->
+                                        <div v-if="showEditModal"
+                                            class="fixed z-50 inset-0 flex items-center justify-center">
+                                            <!-- Black overlay (backdrop) -->
+                                            <div class="fixed inset-0 bg-black opacity-50"></div>
+
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                                <h3 class="text-black text-lg font-semibold mb-4">Edit User</h3>
+
+                                                <div class="flex space-x-2">
+                                                    <!-- Input for First Name -->
+                                                    <div class="mb-4">
+                                                        <InputLabel for="first_name" value="First Name" />
+                                                        <TextInput id="first_name" type="text"
+                                                            v-model="editForm.first_name" class="mt-1 block w-full"
+                                                            placeholder="First Name" />
+                                                        <InputError :message="errors.first_name" class="mt-2" />
+                                                    </div>
+
+                                                    <!-- Input for Last Name -->
+                                                    <div class="mb-4">
+                                                        <InputLabel for="last_name" value="Last Name" />
+                                                        <TextInput id="last_name" type="text"
+                                                            v-model="editForm.last_name" class="mt-1 block w-full"
+                                                            placeholder="Last Name" />
+                                                        <InputError :message="errors.last_name" class="mt-2" />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Input for Email -->
+                                                <div class="mb-4">
+                                                    <InputLabel for="email" value="Email Address" />
+                                                    <TextInput id="email" type="email" v-model="editForm.email"
+                                                        class="mt-1 block w-full" placeholder="Email Address" />
+                                                    <InputError :message="errors.email" class="mt-2" />
+                                                </div>
+
+                                                <div class="mt-6 flex justify-end space-x-4">
+                                                    <button class="px-4 py-2 bg-gray-300 rounded"
+                                                        @click="showEditModal = false">Cancel</button>
+                                                    <button class="px-4 py-2 bg-blue-600 text-white rounded"
+                                                        @click="editUser(user)">Update</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -140,17 +231,16 @@ import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';;
 
-// Props received from the controller
 const { users, usersCount } = defineProps({
     users: Array,
     usersCount: Number,
 });
 
-// Reactive search term
 const searchTerm = ref('');
 
-// Computed property to filter users based on the search term
 const filteredUsers = computed(() => {
     if (!searchTerm.value) return users;
 
@@ -165,29 +255,108 @@ const filteredUsers = computed(() => {
 
 const updateUserRole = async (user) => {
     try {
-        const response = await axios.put(`/users/${user.id}/role`, { role_id: user.role_id });
+        const response = await axios.put(`/users/update/role/${user.id}`, { role_id: user.role_id });
 
+        alert('Role updated successfully');
         console.log('Role updated successfully', response.data);
     } catch (error) {
 
+        alert('Error updating role');
         console.error('Error updating role:', error);
     }
 };
 
-// State for modal visibility
 const showDeleteModal = ref(false);
 
-// Method to delete the user
 const deleteUser = async (user) => {
-  try {
-    const response = await axios.put(`/users/${user.id}`);
+    try {
+        const response = await axios.delete(`/users/delete/${user.id}`);
 
-    showDeleteModal.value = false;
+        if (response.status === 200) {
+            showDeleteModal.value = false;
+            alert('Deleted Successfully');
+            console.log('Deleted Successfully', response.data);
+        } else {
+            alert('Error deleting user');
+            console.error('Unexpected response:', response);
+        }
+    } catch (error) {
+        alert('Error deleting user');
+        console.error('Error deleting user:', error);
+    }
+};
 
-    console.log('Deleted Successfully', response.data)
-    window.location.reload();
-  } catch (error) {
-    console.error('Error deleting user:', error); 
-  }
+const showEditModal = ref(false);
+
+const editForm = ref({
+    first_name: '',
+    last_name: '',
+    email: ''
+});
+
+const errors = ref({});
+
+const openEditModal = (user) => {
+    showEditModal.value = true;
+
+    editForm.value = {
+        first_name: user.first_name || '',
+        last_name: user.last_name || '',
+        email: user.email || ''
+    };
+};
+
+const editUser = async (user) => {
+    try {
+        const response = await axios.put(`/users/update/profile/${user.id}`, {
+            first_name: editForm.value.first_name,
+            last_name: editForm.value.last_name,
+            email: editForm.value.email
+        });
+
+
+        errors.value = {};
+
+        showEditModal.value = false;
+        alert('User updated successfully');
+    } catch (error) {
+
+        console.error('Error updating user:', error);
+        alert('Error updating user');
+    }
+};
+
+const showCreateUserModal = ref(false);
+
+const newUser = ref({
+    first_name: '',
+    last_name: '',
+    email: ''
+});
+
+const createUser = async () => {
+    try {
+        const response = await axios.post('/users/store', {
+            first_name: newUser.value.first_name,
+            last_name: newUser.value.last_name,
+            email: newUser.value.email
+        });
+
+        showCreateUserModal.value = false;
+        alert('User created successfully and email sent!');
+
+        // Emit an event to refresh the user list after creation
+        emit('userCreated', response.data);
+
+        // Clear the form
+        newUser.value = { first_name: '', last_name: '', email: '' };
+
+    } catch (error) {
+        if (error.response && error.response.data.errors) {
+            errors.value = error.response.data.errors;
+        }
+        alert('Error creating user');
+        console.error('Error creating user:', error);
+    }
 };
 </script>

@@ -13,10 +13,7 @@ use Stringable;
 
 class UsersController extends Controller
 {
-    public function dashboard()
-    {
-        return Inertia::render('Dashboard');
-    }
+
 
     public function index()
     {
@@ -29,34 +26,38 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function edit(Request $request, $id)
     {
-        $request->validate([
-            'role_id' => 'required|integer|in:1,2,3',
-        ]);
+        // Define validation rules based on the fields provided in the request
+        $rules = [];
 
-        // Find the user by id and update the role_id
+        if ($request->has('role_id')) {
+            $rules['role_id'] = 'required|integer|in:1,2,3';
+        }
+
+        if ($request->has(['first_name', 'last_name', 'email'])) {
+            $rules['first_name'] = 'required|string|max:255';
+            $rules['last_name'] = 'required|string|max:255';
+            $rules['email'] = 'required|string|email|max:255|unique:users,email,' . $id;
+        }
+
+        // Validate only the fields that are provided in the request
+        $request->validate($rules);
+
+        // Find the user by ID
         $user = User::findOrFail($id);
-        $user->role_id = $request->input('role_id');
-        $user->save();
 
-        return response()->json(['message' => 'Role updated successfully'], 200);
-    }
+        // Update the user attributes conditionally
+        if ($request->has('role_id')) {
+            $user->role_id = $request->input('role_id');
+        }
 
-    public function updateProfile(Request $request, $id)
-    {
-        // Validate incoming data
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        ]);
+        if ($request->has('first_name') && $request->has('last_name') && $request->has('email')) {
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->email = $request->input('email');
+        }
 
-        // Find the user and update the data
-        $user = User::findOrFail($id);
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
         $user->save();
 
         return response()->json(['message' => 'User updated successfully'], 200);

@@ -226,6 +226,7 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify'
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
@@ -253,32 +254,62 @@ const filteredUsers = computed(() => {
     });
 });
 
-const updateUserRole = async (user) => {
-    try {
-        const response = await axios.put(`/users/update/role/${user.id}`, { role_id: user.role_id });
+const updateUserRole = (user) => {
+    axios.put(`/user/edit/${user.id}`, {
+        role_id: user.role_id
+    })
+        .then(response => {
+            toast("Role updated successfully!", {
+                "theme": "colored",
+                "type": "success",
+                "position": "top-center",
+                "hideProgressBar": true,
+                "transition": "zoom",
+            })
 
-        alert('Role updated successfully');
-        console.log('Role updated successfully', response.data);
-    } catch (error) {
+            // alert(response.data.message);
+        })
 
-        alert('Error updating role');
-        console.error('Error updating role:', error);
-    }
+        .catch(error => {
+            toast("Error updating role!", {
+                "theme": "colored",
+                "type": "error",
+                "position": "top-center",
+                "hideProgressBar": true,
+                "transition": "zoom",
+            })
+
+            // alert('Failed to update role. Please try again.');
+        });
 };
 
 const showDeleteModal = ref(false);
 
 const deleteUser = async (user) => {
     try {
-        const response = await axios.delete(`/users/delete/${user.id}`);
+        const response = await axios.delete(`/user/delete/${user.id}`);
 
         if (response.status === 200) {
             showDeleteModal.value = false;
-            alert('Deleted Successfully');
-            console.log('Deleted Successfully', response.data);
+            toast("User deleted successfully!", {
+                "theme": "colored",
+                "type": "success",
+                "position": "top-center",
+                "hideProgressBar": true,
+                "transition": "zoom",
+            })
+
+            // alert('Deleted Successfully');
         } else {
-            alert('Error deleting user');
-            console.error('Unexpected response:', response);
+            toast("Error deleting user!", {
+                "theme": "colored",
+                "type": "error",
+                "position": "top-center",
+                "hideProgressBar": true,
+                "transition": "zoom",
+            })
+
+            // alert('Error deleting user');
         }
     } catch (error) {
         alert('Error deleting user');
@@ -308,21 +339,32 @@ const openEditModal = (user) => {
 
 const editUser = async (user) => {
     try {
-        const response = await axios.put(`/users/update/profile/${user.id}`, {
+        const response = await axios.put(`/user/edit/${user.id}`, {
             first_name: editForm.value.first_name,
             last_name: editForm.value.last_name,
             email: editForm.value.email
         });
-
-
         errors.value = {};
-
         showEditModal.value = false;
-        alert('User updated successfully');
-    } catch (error) {
 
-        console.error('Error updating user:', error);
-        alert('Error updating user');
+        toast("User edited successfully!", {
+            "theme": "colored",
+            "type": "success",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+        // alert('User updated successfully');
+    } catch (error) {
+        toast("Error editing user!", {
+            "theme": "colored",
+            "type": "error",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+
+        // alert('Error updating user');
     }
 };
 
@@ -336,14 +378,22 @@ const newUser = ref({
 
 const createUser = async () => {
     try {
-        const response = await axios.post('/users/store', {
+        const response = await axios.post('/user/store', {
             first_name: newUser.value.first_name,
             last_name: newUser.value.last_name,
             email: newUser.value.email
         });
 
         showCreateUserModal.value = false;
-        alert('User created successfully and email sent!');
+
+        toast("User created successfully!", {
+            "theme": "colored",
+            "type": "success",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+        // alert('User created successfully and email sent!');
 
         // Emit an event to refresh the user list after creation
         emit('userCreated', response.data);
@@ -355,8 +405,15 @@ const createUser = async () => {
         if (error.response && error.response.data.errors) {
             errors.value = error.response.data.errors;
         }
-        alert('Error creating user');
-        console.error('Error creating user:', error);
+        toast("Error creating user!", {
+            "theme": "colored",
+            "type": "error",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+
+        // alert('Error creating user');
     }
 };
 </script>

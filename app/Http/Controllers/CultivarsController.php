@@ -11,7 +11,7 @@ use Spatie\LaravelPdf\Facades\Pdf;
 
 class CultivarsController extends Controller
 {
-    public function downloadPDF()
+    public function download()
     {
         try {
             // Fetch your data (e.g., cultivars)

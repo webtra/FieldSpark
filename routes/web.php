@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CultivarsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
-use App\Http\Requests\StoreCultivarsRequest;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,15 +11,17 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    // General Menu Links //
-    Route::get('/dashboard', [UsersController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::get('/cultivar', [CultivarsController::class, 'index'])->name('cultivar.index');
-    Route::get('/cultivars/pdf', [CultivarsController::class, 'downloadPDF'])->name('cultivars.pdf');
+    Route::prefix('cultivar')->group(function () {
+        Route::get('/', [CultivarsController::class, 'index'])->name('cultivar.index');
+        Route::get('/download', [CultivarsController::class, 'download'])->name('cultivar.download');
+    });
 
-    Route::get('/user', [UsersController::class, 'index'])->name('user.index');
-    Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('user.destroy');
-    Route::put('/users/update/role/{id}', [UsersController::class, 'update'])->name('user.update');
-    Route::put('/users/update/profile/{id}', [UsersController::class, 'updateProfile'])->name('user.update.profile');
-    Route::post('/users/store', [UsersController::class, 'store'])->name('user.store');
+    Route::prefix('user')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('user.index');
+        Route::delete('/delete/{id}', [UsersController::class, 'destroy'])->name('user.destroy');
+        Route::put('/edit/{id}', [UsersController::class, 'edit'])->name('user.edit');
+        Route::post('/store', [UsersController::class, 'store'])->name('user.store');
+    });
 });

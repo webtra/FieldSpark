@@ -11,10 +11,10 @@
 
                 <div class="flex items-center space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="searchTerm" placeholder="Search Cultivar..." class="w-96" />
+                    <TextInput type="text" v-model="search" placeholder="Search Cultivar..." class="w-96" />
 
                     <div>
-                        <PrimaryButton @click="downloadPDF">
+                        <PrimaryButton @click="download">
                             Export to PDF
                         </PrimaryButton>
                     </div>
@@ -89,45 +89,46 @@ const { cultivars, cultivarCount } = defineProps({
 });
 
 // Reactive search term
-const searchTerm = ref('');
+const search = ref('');
 
 // Computed property to filter cultivars based on the search term
 const filteredCultivars = computed(() => {
-    if (!searchTerm.value) return cultivars;
+    if (!search.value) return cultivars;
 
     // Return cultivars that match the search term in any field
     return cultivars.filter((cultivar) => {
         return (
-            cultivar.variety_number.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            cultivar.prime_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            cultivar.country.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            cultivar.color_of_berry_skin.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            cultivar.country_of_origin.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            cultivar.species.toLowerCase().includes(searchTerm.value.toLowerCase())
+            cultivar.variety_number.toLowerCase().includes(search.value.toLowerCase()) ||
+            cultivar.prime_name.toLowerCase().includes(search.value.toLowerCase()) ||
+            cultivar.country.toLowerCase().includes(search.value.toLowerCase()) ||
+            cultivar.color_of_berry_skin.toLowerCase().includes(search.value.toLowerCase()) ||
+            cultivar.country_of_origin.toLowerCase().includes(search.value.toLowerCase()) ||
+            cultivar.species.toLowerCase().includes(search.value.toLowerCase())
         );
     });
 });
 
-const downloadPDF = () => {
-    // Use axios to send a GET request to download the PDF
-    axios.get('/cultivars/pdf', { responseType: 'blob' })
+const download = () => {
+    axios.get('/cultivar/download', { responseType: 'blob' })
         .then((response) => {
-            // Create a URL for the blob object
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', 'cultivars.pdf'); // Download the file
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link); // Clean up the link element
+            document.body.removeChild(link);
         })
         .catch((error) => {
-            console.error("Error downloading PDF:", error);
-            alert('Failed to download PDF. Please try again later.');
+            toast("Error downloading file!", {
+                "theme": "colored",
+                "type": "error",
+                "position": "top-center",
+                "hideProgressBar": true,
+                "transition": "zoom",
+            })
+
+            // alert('Failed to download PDF. Please try again later.');
         });
 };
-
-// For debugging
-console.log(cultivars);
-console.log('Total Cultivars: ', cultivarCount);
 </script>

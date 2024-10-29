@@ -32,7 +32,7 @@
                 <div class="px-4 py-8">
                     <ul class="space-y-2">
                         <li>
-                            <Link :href="route('dashboard')"
+                            <Link :href="route('dashboard.index')"
                                 class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
                                 :class="{ 'bg-gray-800/75 text-white': $page.url === '/dashboard' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

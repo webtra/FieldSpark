@@ -61,4 +61,30 @@ class CropsController extends Controller
 
         return response()->json(['message' => 'Crop deleted successfully'], 200);
     }
+
+    /**
+     * Create a new crop in the database.
+     */
+    public function store(Request $request)
+    {
+        // Validate incoming data with custom error message
+        $validatedData = $request->validate([
+            'cultivar_id' => 'required|exists:cultivars,id',
+            'block_number' => 'nullable|string',
+            'planting_date' => 'nullable|date',
+            'harvest_date' => 'nullable|date',
+            'location' => 'required|string',
+            'status' => 'nullable|string|in:planted,growing,harvested,failed',
+            'size' => 'nullable|numeric',
+        ], [
+            'cultivar_id.required' => 'The cultivar field is required.',
+            'cultivar_id.exists' => 'The selected cultivar does not exist.',
+            'status.in' => 'The status must be one of the following: planted, growing, harvested, or failed.',
+        ]);
+
+        // Create the new crop entry
+        $crop = Crops::create($validatedData);
+
+        return response()->json(['message' => 'Crop created successfully', 'crop' => $crop], 201);
+    }
 }

@@ -12,6 +12,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::prefix('cultivar')->group(function () {
@@ -23,6 +24,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/', [CropsController::class, 'index'])->name('crop.index');
         Route::delete('/{crop}', [CropsController::class, 'destroy'])->name('crop.destroy');
         Route::put('/{crop}', [CropsController::class, 'update'])->name('crop.update');
+        Route::post('/store', [CropsController::class, 'store'])->name('crop.store');
     });
 
     Route::prefix('api')->group(function () {

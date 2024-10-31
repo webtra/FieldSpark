@@ -1,19 +1,19 @@
 <template>
     <AppLayout title="User">
         <div class="overflow-x-hidden overflow-y-auto">
-            <div class="flex items-center justify-between mb-4">
+            <div class="block md:flex items-center justify-between mb-4">
                 <div>
                     <h1 class="text-base font-semibold leading-6 text-gray-900">User Management</h1>
-                    <p class="mt-2 text-gray-500">Total Users: {{ filteredUsers.length }} (Filtered from {{
+                    <p class="mt-1 text-gray-500">Total Users: {{ filteredUsers.length }} (Filtered from {{
                         usersCount }})
                     </p>
                 </div>
 
-                <div class="flex items-center space-x-4">
+                <div class="text-gray-500 mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
                     <TextInput type="text" v-model="searchTerm" placeholder="Search User..." class="w-96" />
 
-                    <div>
+                    <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateUserModal = true">
                             Create User
                         </PrimaryButton>
@@ -62,48 +62,32 @@
             </div>
 
             <!-- Table of Users -->
-            <div class="mt-4" v-if="filteredUsers && filteredUsers.length > 0">
+            <div class="mt-4" v-if="paginatedUsers && paginatedUsers.length > 0">
                 <div class="border border-gray-300 rounded-md overflow-hidden">
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="text-black bg-white">
                             <tr>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    ID
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    First Name
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Last Name
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Email Address
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Email Verified
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Created At
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Role
-                                </th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Actions
-                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-24">ID</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">First Name</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">Last Name</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-64">Email Address</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Email Verified</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Created At</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Role</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="user in filteredUsers" :key="user.id" class="odd:bg-white even:bg-gray-50">
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.id
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.id
                                     }}</td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.first_name
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.first_name
                                     }}</td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.last_name }}
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.last_name }}
                                 </td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.email }}
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.email }}
                                 </td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
                                     <span v-if="user.email_verified_at">
                                         {{ new Date(user.email_verified_at).toLocaleDateString('en-GB', {
                                             day:
@@ -111,7 +95,7 @@
                                         }) }}
                                     </span>
                                 </td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
                                     <span v-if="user.created_at">
                                         {{ new Date(user.created_at).toLocaleDateString('en-GB', {
                                             day:
@@ -119,7 +103,7 @@
                                         }) }}
                                     </span>
                                 </td>
-                                <td class="px-8 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
                                     <select v-model="user.role_id" @change="updateUserRole(user)"
                                         class="px-4 py-2 border border-gray-300 rounded text-xs w-full">
                                         <option value="1">Admin</option>
@@ -128,7 +112,7 @@
                                     </select>
                                 </td>
                                 <td
-                                    class="px-8 py-2 whitespace-nowrap text-xs text-gray-500 space-x-4 flex items-center">
+                                    class="px-4 py-2 whitespace-nowrap text-xs text-gray-500 space-x-4 flex items-center">
                                     <!-- delete button -->
                                     <div class="mt-2">
                                         <!-- Delete Button -->
@@ -215,6 +199,13 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Load More Button -->
+                <div class="flex justify-center mt-4">
+                    <button v-if="displayedItems < filteredUsers.length" @click="loadMore" class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">
+                        Load More
+                    </button>
+                </div>
             </div>
 
             <!-- If no users found -->
@@ -241,18 +232,21 @@ const { users, usersCount } = defineProps({
 });
 
 const searchTerm = ref('');
+const displayedItems = ref(10);
 
 const filteredUsers = computed(() => {
     if (!searchTerm.value) return users;
-
-    return users.filter((user) => {
-        return (
-            user.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            user.last_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.value.toLowerCase())
-        );
-    });
+    const term = searchTerm.value.toLowerCase();
+    return users.filter(user => 
+        user.first_name.toLowerCase().includes(term) || 
+        user.last_name.toLowerCase().includes(term) || 
+        user.email.toLowerCase().includes(term)
+    );
 });
+
+const paginatedUsers = computed(() => filteredUsers.value.slice(0, displayedItems.value));
+
+const loadMore = () => { displayedItems.value += 10; };
 
 const updateUserRole = (user) => {
     axios.put(`/user/edit/${user.id}`, {

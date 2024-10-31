@@ -7,11 +7,11 @@
                     <p class="mt-1 text-gray-500">Total Cultivars: {{ filteredCultivars.length }} (Filtered from {{ cultivarCount }})</p>
                 </div>
 
-                <div class="mt-4 md:mt-0 flex items-center space-x-4">
+                <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
                     <TextInput type="text" v-model="search" placeholder="Search Cultivar..." class="w-full md:w-96" />
 
-                    <div class="hidden md:block">
+                    <div class="w-full md:w-fit">
                         <PrimaryButton @click="download">
                             Export to PDF
                         </PrimaryButton>

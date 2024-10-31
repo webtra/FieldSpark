@@ -3,33 +3,124 @@
     <Head :title="title" />
 
     <div class="min-h-screen flex flex-col">
-        <!-- Navigation and sidebar code -->
-        <nav class="lg:hidden py-4 px-4 bg-gray-900">
-            <div class="flex items-center justify-between">
-                <!-- Mobile Logo -->
-                <a class="text-lg text-white font-medium" href="#">
-                    <p>FieldSpark by Webtra</p>
-                </a>
-                <button @click="toggleMobileNav" class="flex items-center rounded focus:outline-none">
-                    <svg class="text-white h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor">
-                        <title>Mobile menu</title>
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-                    </svg>
-                </button>
+        <!-- MOBILE -->
+        <div>
+            <nav class="lg:hidden py-4 px-4 bg-gray-900">
+                <div class="flex items-center justify-between">
+                    <!-- Mobile Logo -->
+                    <a class="text-lg text-white font-medium" href="#">
+                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
+                    </a>
+                    <!-- Toggle Button -->
+                    <button @click="toggleMobileNav" class="text-white focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- MOBILE DROPDOWN MENU -->
+            <div v-show="mobileNavOpen" class="lg:hidden fixed inset-0 z-20">
+                <nav class="absolute inset-y-0 w-full bg-gray-900 text-white overflow-y-auto p-4">
+                    <!-- Mobile Logo -->
+                    <a class="text-lg text-white font-medium" href="#">
+                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
+                    </a>
+
+                    <div class="py-8">
+                        <ul class="space-y-2">
+                            <li>
+                                <Link :href="route('dashboard.index')"
+                                    class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                    :class="{ 'bg-gray-800/75 text-white': $page.url === '/dashboard' }">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-5 h-5">
+                                    <path
+                                        d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+                                    <path
+                                        d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+                                </svg>
+                                <span class="tracking-wider text-xs">
+                                    Dashboard
+                                </span>
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="route('cultivar.index')"
+                                    class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                    :class="{ 'bg-gray-800/75 text-white': $page.url === '/cultivar' }">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M12 3.75a6.715 6.715 0 0 0-3.722 1.118.75.75 0 1 1-.828-1.25 8.25 8.25 0 0 1 12.8 6.883c0 3.014-.574 5.897-1.62 8.543a.75.75 0 0 1-1.395-.551A21.69 21.69 0 0 0 18.75 10.5 6.75 6.75 0 0 0 12 3.75ZM6.157 5.739a.75.75 0 0 1 .21 1.04A6.715 6.715 0 0 0 5.25 10.5c0 1.613-.463 3.12-1.265 4.393a.75.75 0 0 1-1.27-.8A6.715 6.715 0 0 0 3.75 10.5c0-1.68.503-3.246 1.367-4.55a.75.75 0 0 1 1.04-.211ZM12 7.5a3 3 0 0 0-3 3c0 3.1-1.176 5.927-3.105 8.056a.75.75 0 1 1-1.112-1.008A10.459 10.459 0 0 0 7.5 10.5a4.5 4.5 0 1 1 9 0c0 .547-.022 1.09-.067 1.626a.75.75 0 0 1-1.495-.123c.041-.495.062-.996.062-1.503a3 3 0 0 0-3-3Zm0 2.25a.75.75 0 0 1 .75.75c0 3.908-1.424 7.485-3.781 10.238a.75.75 0 0 1-1.14-.975A14.19 14.19 0 0 0 11.25 10.5a.75.75 0 0 1 .75-.75Zm3.239 5.183a.75.75 0 0 1 .515.927 19.417 19.417 0 0 1-2.585 5.544.75.75 0 0 1-1.243-.84 17.915 17.915 0 0 0 2.386-5.116.75.75 0 0 1 .927-.515Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span class="tracking-wider text-xs">
+                                    Cultivars
+                                </span>
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="route('crop.index')"
+                                    class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                    :class="{ 'bg-gray-800/75 text-white': $page.url === '/crop' }">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="size-5">
+                                    <path
+                                        d="M19.906 9c.382 0 .749.057 1.094.162V9a3 3 0 0 0-3-3h-3.879a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H6a3 3 0 0 0-3 3v3.162A3.756 3.756 0 0 1 4.094 9h15.812ZM4.094 10.5a2.25 2.25 0 0 0-2.227 2.568l.857 6A2.25 2.25 0 0 0 4.951 21H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-2.227-2.568H4.094Z" />
+                                </svg>
+                                <span class="tracking-wider text-xs">
+                                    Crops
+                                </span>
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="route('user.index')"
+                                    class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                    :class="{ 'bg-gray-800/75 text-white': $page.url === '/user' }">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                                        clip-rule="evenodd" />
+                                    <path
+                                        d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                                </svg>
+                                <span class="tracking-wider text-xs">
+                                    Users
+                                </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button @click="toggleMobileNav" class="absolute top-5 z-30 right-4 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+
+                    </button>
+                </nav>
             </div>
-        </nav>
-        <div :class="{ 'block': mobileNavOpen, 'hidden': !mobileNavOpen, 'lg:block': true }" class="relative z-10">
-            <div @click="toggleMobileNav" class="fixed lg:hidden inset-0 bg-gray-900 opacity-0"></div>
-            <nav
-                class="fixed top-16 lg:top-0 left-0 bottom-0 flex flex-col w-full lg:w-80 sm:max-w-xs py-4 bg-gray-900 overflow-y-auto z-10">
-                <div class="px-4">
+        </div>
+
+        <!-- DESKTOP -->
+        <div class="hidden lg:block fixed top-0 left-0 w-80 h-full bg-gray-900 text-white overflow-y-auto">
+            <nav>
+                <div class="px-4 py-4">
                     <!-- Desktop Logo -->
-                    <a class="hidden lg:flex lg:justify-center text-xl text-white font-semibold tracking-wide" href="#">
-                        <p>FieldSpark by Webtra</p>
+                    <a class="hidden lg:flex items-center text-[25px] text-white font-semibold tracking-wide" href="#">
+                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
                     </a>
                 </div>
-                <div class="px-4 py-8">
+                <div class="px-4">
                     <ul class="space-y-2">
                         <li>
                             <Link :href="route('dashboard.index')"
@@ -197,5 +288,6 @@ const mobileNavOpen = ref(false);
 
 function toggleMobileNav() {
     mobileNavOpen.value = !mobileNavOpen.value;
+    // console.log('Mobile nav open:', mobileNavOpen.value);
 }
 </script>

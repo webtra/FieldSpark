@@ -8,17 +8,91 @@
                         }})</p>
                 </div>
 
-                <div class="mt-4 md:mt-0 flex items-center space-x-4">
+                <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
                     <TextInput type="text" v-model="search" placeholder="Search Crop..." class="w-96" />
 
-                    <div>
-                        <PrimaryButton>
+                    <div class="w-full md:w-fit">
+                        <PrimaryButton @click="showCreateCropModal = true">
                             Create Crop
                         </PrimaryButton>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal for Creating a New User -->
+            <div v-if="showCreateCropModal" class="fixed z-50 inset-0 flex items-center justify-center">
+                <!-- Black overlay (backdrop) -->
+                <div class="fixed inset-0 bg-black opacity-50"></div>
+
+                <!-- Modal content -->
+                <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                    <h3 class="text-lg font-semibold mb-4">Create New Crop</h3>
+
+                    <!-- Cultivar Dropdown -->
+                    <div class="mb-4">
+                        <InputLabel for="cultivar" value="Cultivar" />
+                        <select id="cultivar" v-model="createForm.cultivar_id"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                            <option v-for="cultivar in cultivars" :key="cultivar.id" :value="cultivar.id">
+                                {{ cultivar.prime_name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Input fields for creating crop -->
+                    <div class="mb-4">
+                        <InputLabel for="block_number" value="Block Number" />
+                        <TextInput id="block_number" type="text" v-model="createForm.block_number"
+                            class="mt-1 block w-full" placeholder="Block Number" />
+                    </div>
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="w-full">
+                            <InputLabel for="planting_date" value="Planting Date" />
+                            <TextInput id="planting_date" type="date" v-model="createForm.planting_date"
+                                class="mt-1 block w-full" placeholder="Planting Date" />
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel for="harvest_date" value="Harvest Date" />
+                            <TextInput id="harvest_date" type="date" v-model="createForm.harvest_date"
+                                class="mt-1 block w-full" placeholder="Harvest Date" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel for="location" value="Location" />
+                        <TextInput id="location" type="text" v-model="createForm.location" class="mt-1 block w-full"
+                            placeholder="Location" />
+                    </div>
+
+                    <!-- Status Dropdown -->
+                    <div class="mb-4">
+                        <InputLabel for="status" value="Status" />
+                        <select id="status" v-model="createForm.status"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                            <option value="planted">Planted</option>
+                            <option value="growing">Growing</option>
+                            <option value="harvested">Harvested</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel for="size" value="Size" />
+                        <TextInput id="size" type="number" v-model="createForm.size" class="mt-1 block w-full"
+                            placeholder="Size" />
+                    </div>
+
+                    <div class="mt-6 text-gray-500 flex justify-end space-x-4">
+                        <button class="px-4 py-2 bg-gray-300 rounded"
+                            @click="showCreateCropModal = false">Cancel</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded" @click="createCrop">Create</button>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Table of Crops -->
             <div class="mt-4" v-if="paginatedCrops && paginatedCrops.length > 0">
@@ -61,12 +135,12 @@
                                 <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.harvest_date }}</td>
                                 <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.location }}</td>
                                 <td class="px-4 py-4 text-xs text-gray-500 w-28 uppercase tracking-wide">
-                                    <span class="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white" :class="{
-                                        'bg-emerald-100 text-emerald-700': crop.status === 'planted',
-                                        'bg-violet-100 text-violet-700': crop.status === 'growing',
-                                        'bg-sky-100 text-sky-700': crop.status === 'harvested',
-                                        'bg-red-100 text-red-700': crop.status === 'failed'
-                                    }">
+                                    <span :class="{
+                                        'bg-status-planted-bg text-status-planted-text': crop.status === 'planted',
+                                        'bg-status-growing-bg text-status-growing-text': crop.status === 'growing',
+                                        'bg-status-harvested-bg text-status-harvested-text': crop.status === 'harvested',
+                                        'bg-status-failed-bg text-status-failed-text': crop.status === 'failed'
+                                    }" class="px-3 py-1.5 rounded-full text-[11px] font-semibold">
                                         {{ crop.status }}
                                     </span>
                                 </td>
@@ -146,9 +220,9 @@
                                                 </div>
 
                                                 <div class="mb-4">
-                                                    <InputLabel for="location" value="Location (Farm Name)" />
+                                                    <InputLabel for="location" value="Locatiom" />
                                                     <TextInput id="location" type="text" v-model="editForm.location"
-                                                        class="mt-1 block w-full" placeholder="Location (Farm Name)" />
+                                                        class="mt-1 block w-full" placeholder="Location" />
                                                 </div>
 
                                                 <!-- Status Dropdown -->
@@ -214,6 +288,8 @@ const { crops, cropCount } = defineProps({
     cropCount: Number,
 });
 
+const showCreateCropModal = ref(false);
+
 const search = ref('');
 const displayedItems = ref(10); // Start with 10 items displayed
 
@@ -250,6 +326,8 @@ const showDeleteModal = ref(false);
 const showEditModal = ref(false);
 const selectedCrop = ref(null);
 const cultivars = ref([]); // List of cultivars for dropdown
+
+
 
 // The editable fields in a crop record
 const editForm = ref({
@@ -314,7 +392,6 @@ const deleteCrop = async (crop) => {
     }
 };
 
-
 // Open the edit modal for the selected crop and pre-fill form data
 function openEditModal(crop) {
     selectedCrop.value = crop;
@@ -330,11 +407,10 @@ function openEditModal(crop) {
     showEditModal.value = true;
 }
 
-
 // Save edited crop
 const editCrop = async (crop) => {
     try {
-        await axios.put(`/crop/${crop.id}`, { 
+        await axios.put(`/crop/${crop.id}`, {
             cultivar_id: editForm.value.cultivar_id,
             block_number: editForm.value.block_number,
             planting_date: editForm.value.planting_date,
@@ -370,6 +446,55 @@ const editCrop = async (crop) => {
         console.error("Error updating crop:", error);
     }
 };
+
+const createForm = ref({
+    cultivar_id: null,
+    block_number: '',
+    planting_date: '',
+    harvest_date: '',
+    location: '',
+    status: '',
+    size: 0,
+});
+
+const createCrop = async () => {
+    try {
+        // Await the API call and check the response status
+        const response = await axios.post('/crop/store', {
+            cultivar_id: createForm.value.cultivar_id,
+            block_number: createForm.value.block_number,
+            planting_date: createForm.value.planting_date,
+            harvest_date: createForm.value.harvest_date,
+            location: createForm.value.location,
+            status: createForm.value.status,
+            size: createForm.value.size,
+        });
+        // Hide the modal
+        showCreateCropModal.value = false;
+
+        // Display success notification
+        toast("Crop created successfully!", {
+            theme: "colored",
+            type: "success",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+    } catch (error) {
+        // Only display error message if there's an actual error response
+        toast("Error creating crop!", {
+            theme: "colored",
+            type: "error",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+
+        // Optional: Log error for debugging
+        console.error("Error in createCrop:", error);
+    }
+};
+
 
 // Fetch cultivars on component mount
 onMounted(() => {

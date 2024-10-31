@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgrochemicalsController;
 use App\Http\Controllers\CropsController;
 use App\Http\Controllers\CultivarsController;
 use App\Http\Controllers\DashboardController;
@@ -12,6 +13,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    
+    Route::prefix('agrochemical')->group(function () {
+        Route::get('/', [AgrochemicalsController::class, 'index'])->name('agrochemical.index');
+        Route::delete('/{agrochemical}', [AgrochemicalsController::class, 'destroy'])->name('agrochemical.destroy');
+        Route::put('/{agrochemical}', [AgrochemicalsController::class, 'update'])->name('agrochemical.update');
+        Route::post('/store', [AgrochemicalsController::class, 'store'])->name('agrochemical.store');
+    });
     
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 

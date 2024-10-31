@@ -3,7 +3,7 @@
     <Head :title="title" />
 
     <div class="min-h-screen flex flex-col">
-        <!-- Navigation and sidebar code -->
+        <!-- Mobile Navigation (visible only on mobile) -->
         <nav class="lg:hidden py-4 px-4 bg-gray-900">
             <div class="flex items-center justify-between">
                 <!-- Mobile Logo -->
@@ -19,18 +19,30 @@
                 </button>
             </div>
         </nav>
-        <div :class="{ 'block': mobileNavOpen, 'hidden': !mobileNavOpen, 'lg:block': true }" class="relative z-10">
-            <div @click="toggleMobileNav" class="fixed lg:hidden inset-0 bg-gray-900 opacity-0"></div>
-            <nav
-                class="fixed top-16 lg:top-0 left-0 bottom-0 flex flex-col w-full lg:w-80 sm:max-w-xs py-4 bg-gray-900 overflow-y-auto z-10">
+
+        <!-- Mobile Dropdown Menu -->
+        <div>
+            <!-- Overlay (click to close menu) -->
+            <div v-show="mobileNavOpen" @click="toggleMobileNav" class="fixed inset-0 bg-gray-900 opacity-50 lg:hidden">
+            </div>
+
+            <!-- Dropdown menu content (only visible on mobile) -->
+            <nav v-show="mobileNavOpen"
+                class="fixed top-16 left-0 bottom-0 w-full sm:max-w-xs py-4 bg-gray-900 overflow-y-auto z-10 lg:hidden">
                 <div class="px-4">
                     <!-- Desktop Logo -->
-                    <a class="hidden lg:flex lg:justify-center text-lg text-white font-medium" href="#">
-                        <p>Logo Here</p>
+                    <a class="flex justify-center text-lg text-white font-medium mb-4" href="#">
+                        Logo Here
                     </a>
                 </div>
                 <div class="px-4 py-8">
                     <ul class="space-y-2">
+                        <li class="!mt-10">
+                            <p class="text-white/50 uppercase pl-12 tracking-wider text-xs">
+                                GENERAL
+                            </p>
+                        </li>
+
                         <li>
                             <Link :href="route('dashboard.index')"
                                 class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
@@ -59,7 +71,23 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="tracking-wider text-xs">
-                                Cultivar Management
+                                Cultivars
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link :href="route('crop.index')"
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/crop' }">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM8.547 4.505a8.25 8.25 0 1 0 11.672 8.214l-.46-.46a2.252 2.252 0 0 1-.422-.586l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.211.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.654-.261a2.25 2.25 0 0 1-1.384-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.279-2.132Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Crops
                             </span>
                             </Link>
                         </li>
@@ -77,7 +105,64 @@
                                     d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                             </svg>
                             <span class="tracking-wider text-xs">
-                                User Management
+                                Users
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li class="!mt-10">
+                            <p class="text-white/50 uppercase pl-12 tracking-wider text-xs">
+                                WORK IN PROGRESS
+                            </p>
+                        </li>
+
+                        <li>
+                            <Link
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                                    clip-rule="evenodd" />
+                                <path
+                                    d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Employees
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                                    clip-rule="evenodd" />
+                                <path
+                                    d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Tasks
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                                    clip-rule="evenodd" />
+                                <path
+                                    d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Fertilizer Program
                             </span>
                             </Link>
                         </li>
@@ -164,8 +249,6 @@ defineProps({
     title: String,
 });
 
-const showingNavigationDropdown = ref(false);
-
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
         team_id: team.id,
@@ -180,7 +263,9 @@ const logout = () => {
 
 const mobileNavOpen = ref(false);
 
-function toggleMobileNav() {
+const toggleMobileNav = () => {
+    console.log("toggleMobileNav clicked"); // Add this to check if it logs on click
     mobileNavOpen.value = !mobileNavOpen.value;
-}
+};
+
 </script>

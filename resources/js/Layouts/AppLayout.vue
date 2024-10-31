@@ -8,7 +8,7 @@
             <div class="flex items-center justify-between">
                 <!-- Mobile Logo -->
                 <a class="text-lg text-white font-medium" href="#">
-                    <p>Logo Here</p>
+                    <p>FieldSpark by Webtra</p>
                 </a>
                 <button @click="toggleMobileNav" class="flex items-center rounded focus:outline-none">
                     <svg class="text-white h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
@@ -25,8 +25,8 @@
                 class="fixed top-16 lg:top-0 left-0 bottom-0 flex flex-col w-full lg:w-80 sm:max-w-xs py-4 bg-gray-900 overflow-y-auto z-10">
                 <div class="px-4">
                     <!-- Desktop Logo -->
-                    <a class="hidden lg:flex lg:justify-center text-lg text-white font-medium" href="#">
-                        <p>Logo Here</p>
+                    <a class="hidden lg:flex lg:justify-center text-xl text-white font-semibold tracking-wide" href="#">
+                        <p>FieldSpark by Webtra</p>
                     </a>
                 </div>
                 <div class="px-4 py-8">
@@ -59,7 +59,22 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="tracking-wider text-xs">
-                                Cultivar Management
+                                Cultivars
+                            </span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link :href="route('crop.index')"
+                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
+                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/crop' }">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-5">
+                                <path
+                                    d="M19.906 9c.382 0 .749.057 1.094.162V9a3 3 0 0 0-3-3h-3.879a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H6a3 3 0 0 0-3 3v3.162A3.756 3.756 0 0 1 4.094 9h15.812ZM4.094 10.5a2.25 2.25 0 0 0-2.227 2.568l.857 6A2.25 2.25 0 0 0 4.951 21H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-2.227-2.568H4.094Z" />
+                            </svg>
+                            <span class="tracking-wider text-xs">
+                                Crops
                             </span>
                             </Link>
                         </li>
@@ -77,7 +92,7 @@
                                     d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                             </svg>
                             <span class="tracking-wider text-xs">
-                                User Management
+                                Users
                             </span>
                             </Link>
                         </li>

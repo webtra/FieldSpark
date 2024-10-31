@@ -138,7 +138,7 @@
                                         <div v-if="showDeleteModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
                                             <!-- Black overlay (backdrop) -->
-                                            <div class="fixed inset-0 bg-black opacity-50"></div>
+                                            <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
                                             <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
@@ -167,7 +167,7 @@
                                         <div v-if="showEditModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
                                             <!-- Black overlay (backdrop) -->
-                                            <div class="fixed inset-0 bg-black opacity-50"></div>
+                                            <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
                                             <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">

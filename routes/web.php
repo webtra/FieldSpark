@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CropsController;
 use App\Http\Controllers\CultivarsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
@@ -17,10 +16,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::prefix('cultivar')->group(function () {
         Route::get('/', [CultivarsController::class, 'index'])->name('cultivar.index');
         Route::get('/download', [CultivarsController::class, 'download'])->name('cultivar.download');
-    });
-
-    Route::prefix('crop')->group(function () {
-        Route::get('/', [CropsController::class, 'index'])->name('crop.index');
     });
 
     Route::prefix('user')->group(function () {

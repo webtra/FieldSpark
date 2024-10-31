@@ -17,9 +17,4 @@ class Cultivars extends Model
         'country_of_origin',
         'species',
     ];
-
-    public function crops()
-    {
-        return $this->hasMany(Crops::class);
-    }
 }

@@ -33,7 +33,7 @@
                     <div class="mb-4">
                         <InputLabel for="cultivar" value="Cultivar" />
                         <select id="cultivar" v-model="createForm.cultivar_id"
-                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                             <option v-for="cultivar in cultivars" :key="cultivar.id" :value="cultivar.id">
                                 {{ cultivar.prime_name }}
                             </option>
@@ -71,7 +71,7 @@
                     <div class="mb-4">
                         <InputLabel for="status" value="Status" />
                         <select id="status" v-model="createForm.status"
-                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                             <option value="planted">Planted</option>
                             <option value="growing">Growing</option>
                             <option value="harvested">Harvested</option>
@@ -88,7 +88,7 @@
                     <div class="mt-6 text-gray-500 flex justify-end space-x-4">
                         <button class="px-4 py-2 bg-gray-300 rounded"
                             @click="showCreateCropModal = false">Cancel</button>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded" @click="createCrop">Create</button>
+                        <button class="px-4 py-2 bg-blue-600 [#00434b] rounded" @click="createCrop">Create</button>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                                                 <div class="mt-6 flex justify-end space-x-4">
                                                     <button class="px-4 py-2 bg-gray-300 rounded"
                                                         @click="showDeleteModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-red-600 text-white rounded"
+                                                    <button class="px-4 py-2 bg-red-600 [#00434b] rounded"
                                                         @click="deleteCrop(selectedCrop)">Delete</button>
                                                 </div>
                                             </div>
@@ -187,7 +187,7 @@
                                                 <div class="mb-4">
                                                     <InputLabel for="cultivar" value="Cultivar" />
                                                     <select id="cultivar" v-model="editForm.cultivar_id"
-                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                                                         <option v-for="cultivar in cultivars" :key="cultivar.id"
                                                             :value="cultivar.id">
                                                             {{ cultivar.prime_name }}
@@ -229,7 +229,7 @@
                                                 <div class="mb-4">
                                                     <InputLabel for="status" value="Status" />
                                                     <select id="status" v-model="editForm.status"
-                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded">
+                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                                                         <option value="planted">Planted</option>
                                                         <option value="growing">Growing</option>
                                                         <option value="harvested">Harvested</option>
@@ -246,7 +246,7 @@
                                                 <div class="mt-6 flex justify-end space-x-4">
                                                     <button class="px-4 py-2 bg-gray-300 rounded"
                                                         @click="showEditModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-blue-600 text-white rounded"
+                                                    <button class="px-4 py-2 bg-blue-600 [#00434b] rounded"
                                                         @click="editCrop(selectedCrop)">Update</button>
                                                 </div>
                                             </div>
@@ -261,7 +261,7 @@
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
                     <button v-if="displayedItems < filteredCrops.length" @click="loadMore"
-                        class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">
+                        class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
                         Load More
                     </button>
                 </div>

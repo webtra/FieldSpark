@@ -56,7 +56,7 @@
                     <div class="mt-6 flex justify-end space-x-4">
                         <button class="px-4 py-2 bg-gray-300 rounded"
                             @click="showCreateUserModal = false">Cancel</button>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded" @click="createUser">Create</button>
+                        <button class="px-4 py-2 bg-blue-600 [#00434b] rounded" @click="createUser">Create</button>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                                                 <div class="mt-6 flex justify-end space-x-4">
                                                     <button class="px-4 py-2 bg-gray-300 rounded"
                                                         @click="showDeleteModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-red-600 text-white rounded"
+                                                    <button class="px-4 py-2 bg-red-600 [#00434b] rounded"
                                                         @click="deleteUser(user)">Continue</button>
                                                 </div>
                                             </div>
@@ -188,7 +188,7 @@
                                                 <div class="mt-6 flex justify-end space-x-4">
                                                     <button class="px-4 py-2 bg-gray-300 rounded"
                                                         @click="showEditModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-blue-600 text-white rounded"
+                                                    <button class="px-4 py-2 bg-blue-600 [#00434b] rounded"
                                                         @click="editUser(user)">Update</button>
                                                 </div>
                                             </div>
@@ -202,7 +202,7 @@
 
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
-                    <button v-if="displayedItems < filteredUsers.length" @click="loadMore" class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">
+                    <button v-if="displayedItems < filteredUsers.length" @click="loadMore" class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
                         Load More
                     </button>
                 </div>
@@ -237,9 +237,9 @@ const displayedItems = ref(10);
 const filteredUsers = computed(() => {
     if (!searchTerm.value) return users;
     const term = searchTerm.value.toLowerCase();
-    return users.filter(user => 
-        user.first_name.toLowerCase().includes(term) || 
-        user.last_name.toLowerCase().includes(term) || 
+    return users.filter(user =>
+        user.first_name.toLowerCase().includes(term) ||
+        user.last_name.toLowerCase().includes(term) ||
         user.email.toLowerCase().includes(term)
     );
 });

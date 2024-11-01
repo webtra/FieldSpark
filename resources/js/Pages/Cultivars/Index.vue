@@ -48,7 +48,7 @@
 
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
-                    <button v-if="displayedItems < filteredCultivars.length" @click="loadMore" class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">
+                    <button v-if="displayedItems < filteredCultivars.length" @click="loadMore" class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
                        Load More
                     </button>
                 </div>

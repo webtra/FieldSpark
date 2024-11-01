@@ -8,8 +8,12 @@
             <nav class="lg:hidden py-4 px-4 bg-gray-900">
                 <div class="flex items-center justify-between">
                     <!-- Mobile Logo -->
-                    <a class="text-lg text-white font-medium" href="#">
-                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
+                    <a href="#">
+                        <p
+                            class="font-['Epilogue'] items-center text-[25px] text-white font-semibold tracking-wide">
+                            <span class="text-[#BCDA84]">field</span>spark
+                        </p>
+                        <p class="text-white -mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
                     </a>
                     <!-- Toggle Button -->
                     <button @click="toggleMobileNav" class="text-white focus:outline-none">
@@ -26,8 +30,12 @@
             <div v-show="mobileNavOpen" class="lg:hidden fixed inset-0 z-20">
                 <nav class="absolute inset-y-0 w-full bg-gray-900 text-white overflow-y-auto p-4">
                     <!-- Mobile Logo -->
-                    <a class="text-lg text-white font-medium" href="#">
-                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
+                    <a href="#">
+                        <p
+                            class="font-['Epilogue'] items-center text-[25px] text-white font-semibold tracking-wide">
+                            <span class="text-[#BCDA84]">field</span>spark
+                        </p>
+                        <p class="text-white -mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
                     </a>
 
                     <div class="py-8">
@@ -128,20 +136,29 @@
         </div>
 
         <!-- DESKTOP -->
-        <div class="hidden lg:block fixed top-0 left-0 w-80 h-full bg-gray-900 text-white overflow-y-auto">
+        <div class="hidden lg:block fixed top-0 left-0 w-64 h-full bg-[#00434b] text-white overflow-y-auto">
             <nav>
-                <div class="px-4 py-4">
+                <div class="px-4 pb-3 pt-3">
                     <!-- Desktop Logo -->
-                    <a class="hidden lg:flex items-center text-[25px] text-white font-semibold tracking-wide" href="#">
-                        <p>Field<span class="text-blue-400">Spark</span>. by Webtra</p>
+                    <a href="#">
+                        <p
+                            class="font-['Epilogue'] items-center text-[25px] text-white font-semibold tracking-wide">
+                            <span class="text-[#BCDA84]">field</span>spark
+                        </p>
+                        <p class="text-white -mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
                     </a>
                 </div>
-                <div class="px-4">
-                    <ul class="space-y-2">
+                <div>
+                    <ul>
+                        <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">GENERAL</span>
+                        </li>
+
                         <li>
                             <Link :href="route('dashboard.index')"
-                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
-                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/dashboard' }">
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/dashboard' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5">
                                 <path
@@ -155,10 +172,15 @@
                             </Link>
                         </li>
 
+                        <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">CULTIVATION</span>
+                        </li>
+
                         <li>
                             <Link :href="route('cultivar.index')"
-                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
-                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/cultivar' }">
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                  :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/cultivar' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="size-5">
                                 <path fill-rule="evenodd"
@@ -173,8 +195,8 @@
 
                         <li>
                             <Link :href="route('crop.index')"
-                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
-                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/crop' }">
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                  :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/crop' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="size-5">
                                 <path
@@ -186,10 +208,15 @@
                             </Link>
                         </li>
 
+                        <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">AGROCHEMICALS</span>
+                        </li>
+
                         <li>
                             <Link :href="route('agrochemical.index')"
-                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
-                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/agrochemical' }">
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                  :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/agrochemical' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="size-5">
                                 <path fill-rule="evenodd"
@@ -197,15 +224,20 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="tracking-wider text-xs">
-                                Agrochemical
+                                Agrochemicals
                             </span>
                             </Link>
                         </li>
 
+                        <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">USERS</span>
+                        </li>
+
                         <li>
                             <Link :href="route('user.index')"
-                                class="flex items-center px-4 py-2.5 rounded space-x-3 text-white hover:bg-gray-800/75"
-                                :class="{ 'bg-gray-800/75 text-white': $page.url === '/user' }">
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                  :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/user' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="size-5">
                                 <path fill-rule="evenodd"
@@ -225,10 +257,10 @@
         </div>
 
         <!-- Slot for page-specific content -->
-        <main class="flex-grow lg:ml-80  bg-gray-100 text-xs z-10">
+        <main class="flex-grow lg:ml-64  bg-gray-100 text-xs z-10">
             <div class="bg-white px-4 py-2 md:sticky top-0 shadow-sm">
                 <div class="flex items-center justify-between">
-                    <p class="font-medium text-lg text-black">{{ $page.props.page_name }}</p>
+                    <p class="font-medium text-lg text-black">{{ $page.props.pageTitle }}</p>
                     <div class="flex items-center -mr-1 md:-mr-0">
                         <!-- Settings Dropdown -->
                         <div class="relative">
@@ -293,6 +325,7 @@
 </template>
 
 <script setup>
+import { usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
@@ -301,8 +334,6 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 defineProps({
     title: String,
 });
-
-const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {

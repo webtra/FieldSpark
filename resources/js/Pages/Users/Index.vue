@@ -54,9 +54,8 @@
                     </div>
 
                     <div class="mt-6 flex justify-end space-x-4">
-                        <button class="px-4 py-2 bg-gray-300 rounded"
-                            @click="showCreateUserModal = false">Cancel</button>
-                        <button class="px-4 py-2 bg-blue-600 [#00434b] rounded" @click="createUser">Create</button>
+                        <CancelButton @click="showCreateUserModal = false">Cancel</CancelButton>
+                        <PrimaryButton @click="createUser">Create</PrimaryButton>
                     </div>
                 </div>
             </div>
@@ -67,14 +66,22 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="text-black bg-white">
                             <tr>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-24">ID</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">First Name</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">Last Name</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-64">Email Address</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Email Verified</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Created At</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Role</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28">Actions</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-24">ID
+                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">First
+                                    Name</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">Last
+                                    Name</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-64">Email
+                                    Address</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Email
+                                    Verified</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">
+                                    Created At</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Role
+                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28">
+                                    Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -133,10 +140,8 @@
                                                         }}</span>?</p>
 
                                                 <div class="mt-6 flex justify-end space-x-4">
-                                                    <button class="px-4 py-2 bg-gray-300 rounded"
-                                                        @click="showDeleteModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-red-600 [#00434b] rounded"
-                                                        @click="deleteUser(user)">Continue</button>
+                                                    <CancelButton @click="showDeleteModal = false">Cancel</CancelButton>
+                                                    <DangerButton @click="deleteUser(user)">Continue</DangerButton>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,10 +191,8 @@
                                                 </div>
 
                                                 <div class="mt-6 flex justify-end space-x-4">
-                                                    <button class="px-4 py-2 bg-gray-300 rounded"
-                                                        @click="showEditModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-blue-600 [#00434b] rounded"
-                                                        @click="editUser(user)">Update</button>
+                                                    <CancelButton @click="showEditModal = false">Cancel</CancelButton>
+                                                    <PrimaryButton @click="editUser(user)">Update</PrimaryButton>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +205,8 @@
 
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
-                    <button v-if="displayedItems < filteredUsers.length" @click="loadMore" class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
+                    <button v-if="displayedItems < filteredUsers.length" @click="loadMore"
+                        class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
                         Load More
                     </button>
                 </div>
@@ -224,7 +228,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';;
+import InputLabel from '@/Components/InputLabel.vue'; import CancelButton from '@/Components/CancelButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
 const { users, usersCount } = defineProps({
     users: Array,

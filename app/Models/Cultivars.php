@@ -10,12 +10,16 @@ class Cultivars extends Model
     use HasFactory;
 
     protected $fillable = [
-        'prime_name',
-        'variety_number',
-        'country',
-        'color_of_berry_skin',
-        'country_of_origin',
-        'species',
+        'code',
+        'name',
+        'growth_season',
+        'maturity_days',
+        'yield_potential',
+        'water_requirements',
+        'soil_type',
+        'plant_spacing',
+        'root_depth',
+        'notes'
     ];
 
     public function crops()

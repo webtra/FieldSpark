@@ -86,9 +86,9 @@
                     </div>
 
                     <div class="mt-6 text-gray-500 flex justify-end space-x-4">
-                        <button class="px-4 py-2 bg-gray-300 rounded"
-                            @click="showCreateCropModal = false">Cancel</button>
-                        <button class="px-4 py-2 bg-blue-600 [#00434b] rounded" @click="createCrop">Create</button>
+                        <CancelButton @click="showCreateCropModal = false">Cancel
+                        </CancelButton>
+                        <PrimaryButton @click="createCrop">Create</PrimaryButton>
                     </div>
                 </div>
             </div>
@@ -161,10 +161,9 @@
                                                 <p>Are you sure you want to delete this crop?</p>
 
                                                 <div class="mt-6 flex justify-end space-x-4">
-                                                    <button class="px-4 py-2 bg-gray-300 rounded"
-                                                        @click="showDeleteModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-red-600 [#00434b] rounded"
-                                                        @click="deleteCrop(selectedCrop)">Delete</button>
+                                                    <CancelButton @click="showDeleteModal = false">Cancel</CancelButton>
+                                                    <DangerButton @click="deleteCrop(selectedCrop)">Delete
+                                                    </DangerButton>
                                                 </div>
                                             </div>
                                         </div>
@@ -244,10 +243,9 @@
                                                 </div>
 
                                                 <div class="mt-6 flex justify-end space-x-4">
-                                                    <button class="px-4 py-2 bg-gray-300 rounded"
-                                                        @click="showEditModal = false">Cancel</button>
-                                                    <button class="px-4 py-2 bg-blue-600 [#00434b] rounded"
-                                                        @click="editCrop(selectedCrop)">Update</button>
+                                                    <CancelButton @click="showEditModal = false">Cancel</CancelButton>
+                                                    <PrimaryButton @click="editCrop(selectedCrop)">Update
+                                                    </PrimaryButton>
                                                 </div>
                                             </div>
                                         </div>
@@ -282,6 +280,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';;
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import CancelButton from "@/Components/CancelButton.vue";
+import DangerButton from '@/Components/DangerButton.vue';
 
 const { crops, cropCount } = defineProps({
     crops: Array,
@@ -345,13 +345,13 @@ const fetchCultivars = async () => {
         const response = await axios.get('/api/fetch-cultivars');
         cultivars.value = response.data;
     } catch (error) {
-        toast("Error loading cultivars!", {
-            "theme": "colored",
-            "type": "error",
-            "position": "top-center",
-            "hideProgressBar": true,
-            "transition": "zoom",
-        });
+        // toast("Error loading cultivars!", {
+        //     "theme": "colored",
+        //     "type": "error",
+        //     "position": "top-center",
+        //     "hideProgressBar": true,
+        //     "transition": "zoom",
+        // });
         console.error("Error fetching cultivars:", error);
     }
 };

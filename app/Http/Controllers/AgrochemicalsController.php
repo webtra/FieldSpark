@@ -14,7 +14,9 @@ class AgrochemicalsController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Agrochemical/Index');
+        return Inertia::render('Agrochemical/Index', [
+            'pageTitle' => 'Agrochemicals',
+        ]);
     }
 
     /**

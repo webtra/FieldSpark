@@ -22,6 +22,7 @@ class CropsController extends Controller
         return Inertia::render('Crops/Index', [
             'crops' => $crops,
             'cropCount' => $cropCount,
+            'pageTitle' => 'Crops',
         ]);
     }
 

@@ -25,8 +25,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('cultivar')->group(function () {
         Route::get('/', [CultivarsController::class, 'index'])->name('cultivar.index');
-        Route::delete('/{cultivar}', [CultivarsController::class, 'destroy'])->name('cultivar.destroy');
-        Route::put('/{cultivar}', [CultivarsController::class, 'update'])->name('cultivar.update');
+        Route::delete('/{id}', [CultivarsController::class, 'destroy'])->name('cultivar.destroy');
+        Route::put('/{id}', [CultivarsController::class, 'update'])->name('cultivar.update');
         Route::post('/store', [CultivarsController::class, 'store'])->name('cultivar.store');
     });
 

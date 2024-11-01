@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FieldSpark</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="font-['Inter']">
+    <div id="app">
+        <div class="min-h-screen flex flex-col">
+            <!-- MOBILE -->
+            <div>
+                <nav class="lg:hidden py-4 px-4 bg-[#00434b]">
+                    <div class="flex items-center justify-between">
+                        <!-- Mobile Logo -->
+                        <a href="#">
+                            <p
+                                class="font-['Epilogue'] items-center text-[25px] text-white font-semibold tracking-wide">
+                                <span class="text-[#BCDA84]">field</span>spark
+                            </p>
+                            <p class="text-white -mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
+                        </a>
+                        <!-- Toggle Button -->
+                        <button @click="toggleMobileNav" class="text-white focus:outline-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+
+                <!-- MOBILE DROPDOWN MENU -->
+                <div v-show="mobileNavOpen" class="lg:hidden fixed inset-0 z-20">
+                    <nav class="absolute inset-y-0 w-full bg-[#00434b] text-white overflow-y-auto p-4">
+                        <!-- Mobile Logo -->
+                        <a href="#">
+                            <p
+                                class="font-['Epilogue'] items-center text-[25px] text-white font-semibold tracking-wide">
+                                <span class="text-[#BCDA84]">field</span>spark
+                            </p>
+                            <p class="text-white -mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
+                        </a>
+
+                        <div class="py-8">
+                            <ul>
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M12 3.75a6.715 6.715 0 0 0-3.722 1.118.75.75 0 1 1-.828-1.25 8.25 8.25 0 0 1 12.8 6.883c0 3.014-.574 5.897-1.62 8.543a.75.75 0 0 1-1.395-.551A21.69 21.69 0 0 0 18.75 10.5 6.75 6.75 0 0 0 12 3.75ZM6.157 5.739a.75.75 0 0 1 .21 1.04A6.715 6.715 0 0 0 5.25 10.5c0 1.613-.463 3.12-1.265 4.393a.75.75 0 0 1-1.27-.8A6.715 6.715 0 0 0 3.75 10.5c0-1.68.503-3.246 1.367-4.55a.75.75 0 0 1 1.04-.211ZM12 7.5a3 3 0 0 0-3 3c0 3.1-1.176 5.927-3.105 8.056a.75.75 0 1 1-1.112-1.008A10.459 10.459 0 0 0 7.5 10.5a4.5 4.5 0 1 1 9 0c0 .547-.022 1.09-.067 1.626a.75.75 0 0 1-1.495-.123c.041-.495.062-.996.062-1.503a3 3 0 0 0-3-3Zm0 2.25a.75.75 0 0 1 .75.75c0 3.908-1.424 7.485-3.781 10.238a.75.75 0 0 1-1.14-.975A14.19 14.19 0 0 0 11.25 10.5a.75.75 0 0 1 .75-.75Zm3.239 5.183a.75.75 0 0 1 .515.927 19.417 19.417 0 0 1-2.585 5.544.75.75 0 0 1-1.243-.84 17.915 17.915 0 0 0 2.386-5.116.75.75 0 0 1 .927-.515Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Dashboard</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M12 3.75a6.715 6.715 0 0 0-3.722 1.118.75.75 0 1 1-.828-1.25 8.25 8.25 0 0 1 12.8 6.883c0 3.014-.574 5.897-1.62 8.543a.75.75 0 0 1-1.395-.551A21.69 21.69 0 0 0 18.75 10.5 6.75 6.75 0 0 0 12 3.75ZM6.157 5.739a.75.75 0 0 1 .21 1.04A6.715 6.715 0 0 0 5.25 10.5c0 1.613-.463 3.12-1.265 4.393a.75.75 0 0 1-1.27-.8A6.715 6.715 0 0 0 3.75 10.5c0-1.68.503-3.246 1.367-4.55a.75.75 0 0 1 1.04-.211ZM12 7.5a3 3 0 0 0-3 3c0 3.1-1.176 5.927-3.105 8.056a.75.75 0 1 1-1.112-1.008A10.459 10.459 0 0 0 7.5 10.5a4.5 4.5 0 1 1 9 0c0 .547-.022 1.09-.067 1.626a.75.75 0 0 1-1.495-.123c.041-.495.062-.996.062-1.503a3 3 0 0 0-3-3Zm0 2.25a.75.75 0 0 1 .75.75c0 3.908-1.424 7.485-3.781 10.238a.75.75 0 0 1-1.14-.975A14.19 14.19 0 0 0 11.25 10.5a.75.75 0 0 1 .75-.75Zm3.239 5.183a.75.75 0 0 1 .515.927 19.417 19.417 0 0 1-2.585 5.544.75.75 0 0 1-1.243-.84 17.915 17.915 0 0 0 2.386-5.116.75.75 0 0 1 .927-.515Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Cultivars</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path
+                                                d="M19.906 9c.382 0 .749.057 1.094.162V9a3 3 0 0 0-3-3h-3.879a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H6a3 3 0 0 0-3 3v3.162A3.756 3.756 0 0 1 4.094 9h15.812ZM4.094 10.5a2.25 2.25 0 0 0-2.227 2.568l.857 6A2.25 2.25 0 0 0 4.951 21H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-2.227-2.568H4.094Z" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Crops</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10.5 3.798v5.02a3 3 0 0 1-.879 2.121l-2.377 2.377a9.845 9.845 0 0 1 5.091 1.013 8.315 8.315 0 0 0 5.713.636l.285-.071-3.954-3.955a3 3 0 0 1-.879-2.121v-5.02a23.614 23.614 0 0 0-3 0Zm4.5.138a.75.75 0 0 0 .093-1.495A24.837 24.837 0 0 0 12 2.25a25.048 25.048 0 0 0-3.093.191A.75.75 0 0 0 9 3.936v4.882a1.5 1.5 0 0 1-.44 1.06l-6.293 6.294c-1.62 1.621-.903 4.475 1.471 4.88 2.686.46 5.447.698 8.262.698 2.816 0 5.576-.239 8.262-.697 2.373-.406 3.092-3.26 1.47-4.881L15.44 9.879A1.5 1.5 0 0 1 15 8.818V3.936Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Agrochemicals</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                                                clip-rule="evenodd" />
+                                            <path
+                                                d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Users</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/dashboard"
+                                        class="flex items-center px-4 py-2.5 space-x-3 text-white hover:bg-[#003C43]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="tracking-wider text-xs">Support</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button @click="toggleMobileNav" class="absolute top-6 z-30 right-4 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- DESKTOP -->
+            <div class="hidden lg:block fixed top-0 left-0 w-64 h-full bg-[#00434b] text-white overflow-y-auto">
+                <nav>
+                    <div class="px-4 pb-3 pt-3">
+                        <!-- Desktop Logo -->
+                        <a href="#">
+                            <p
+                                class="font-['Epilogue'] hidden lg:flex items-center text-[25px] text-white font-semibold tracking-wide">
+                                <span class="text-[#BCDA84]">field</span>spark
+                            </p>
+                            <p class="-mt-2 font-medium tracking-widest text-[9px]">by WEBTRA</p>
+                        </a>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 tracking-wide text-[10px]">GENERAL</span>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-5 h-5">
+                                        <path
+                                            d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+                                        <path
+                                            d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Dashboard</span>
+                                </a>
+                            </li>
+
+                            <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 tracking-wide text-[10px]">CULTIVATION</span>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M12 3.75a6.715 6.715 0 0 0-3.722 1.118.75.75 0 1 1-.828-1.25 8.25 8.25 0 0 1 12.8 6.883c0 3.014-.574 5.897-1.62 8.543a.75.75 0 0 1-1.395-.551A21.69 21.69 0 0 0 18.75 10.5 6.75 6.75 0 0 0 12 3.75ZM6.157 5.739a.75.75 0 0 1 .21 1.04A6.715 6.715 0 0 0 5.25 10.5c0 1.613-.463 3.12-1.265 4.393a.75.75 0 0 1-1.27-.8A6.715 6.715 0 0 0 3.75 10.5c0-1.68.503-3.246 1.367-4.55a.75.75 0 0 1 1.04-.211ZM12 7.5a3 3 0 0 0-3 3c0 3.1-1.176 5.927-3.105 8.056a.75.75 0 1 1-1.112-1.008A10.459 10.459 0 0 0 7.5 10.5a4.5 4.5 0 1 1 9 0c0 .547-.022 1.09-.067 1.626a.75.75 0 0 1-1.495-.123c.041-.495.062-.996.062-1.503a3 3 0 0 0-3-3Zm0 2.25a.75.75 0 0 1 .75.75c0 3.908-1.424 7.485-3.781 10.238a.75.75 0 0 1-1.14-.975A14.19 14.19 0 0 0 11.25 10.5a.75.75 0 0 1 .75-.75Zm3.239 5.183a.75.75 0 0 1 .515.927 19.417 19.417 0 0 1-2.585 5.544.75.75 0 0 1-1.243-.84 17.915 17.915 0 0 0 2.386-5.116.75.75 0 0 1 .927-.515Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Cultivars</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path
+                                            d="M19.906 9c.382 0 .749.057 1.094.162V9a3 3 0 0 0-3-3h-3.879a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H6a3 3 0 0 0-3 3v3.162A3.756 3.756 0 0 1 4.094 9h15.812ZM4.094 10.5a2.25 2.25 0 0 0-2.227 2.568l.857 6A2.25 2.25 0 0 0 4.951 21H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-2.227-2.568H4.094Z" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Crops</span>
+                                </a>
+                            </li>
+
+                            <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 tracking-wide text-[10px]">RESOURCES</span>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M10.5 3.798v5.02a3 3 0 0 1-.879 2.121l-2.377 2.377a9.845 9.845 0 0 1 5.091 1.013 8.315 8.315 0 0 0 5.713.636l.285-.071-3.954-3.955a3 3 0 0 1-.879-2.121v-5.02a23.614 23.614 0 0 0-3 0Zm4.5.138a.75.75 0 0 0 .093-1.495A24.837 24.837 0 0 0 12 2.25a25.048 25.048 0 0 0-3.093.191A.75.75 0 0 0 9 3.936v4.882a1.5 1.5 0 0 1-.44 1.06l-6.293 6.294c-1.62 1.621-.903 4.475 1.471 4.88 2.686.46 5.447.698 8.262.698 2.816 0 5.576-.239 8.262-.697 2.373-.406 3.092-3.26 1.47-4.881L15.44 9.879A1.5 1.5 0 0 1 15 8.818V3.936Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Agrochemicals</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z"
+                                            clip-rule="evenodd" />
+                                        <path fill-rule="evenodd"
+                                            d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Agrochemical Programs</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path
+                                            d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 1 1 6 0h3a.75.75 0 0 0 .75-.75V15Z" />
+                                        <path
+                                            d="M8.25 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM15.75 6.75a.75.75 0 0 0-.75.75v11.25c0 .087.015.17.042.248a3 3 0 0 1 5.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 0 0-3.732-10.104 1.837 1.837 0 0 0-1.47-.725H15.75Z" />
+                                        <path d="M19.5 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Equipment</span>
+                                </a>
+                            </li>
+
+                            <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 tracking-wide text-[10px]">USERS</span>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                                            clip-rule="evenodd" />
+                                        <path
+                                            d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Users</span>
+                                </a>
+                            </li>
+
+                            <li class="my-1">
+                                <span
+                                    class="ml-4 font-medium tracking-wider text-white/50 tracking-wide text-[10px]">OTHER</span>
+                            </li>
+
+                            <li>
+                                <a href="/dashboard"
+                                    class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">Feature Request</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Slot for page-specific content -->
+            <main class="flex-grow lg:ml-64 bg-gray-100 text-xs z-10">
+                <div class="bg-white px-4 py-2 md:sticky top-0 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="font-medium text-base text-black">{{ pageTitle }}</p>
+                        <div class="flex items-center -mr-1 md:-mr-0">
+                            <!-- Settings Dropdown -->
+                            <div class="relative">
+                                <button @click="toggleDropdown"
+                                    class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <img v-if="userProfilePhoto" :src="userProfilePhoto" :alt="userName"
+                                        class="h-10 w-10 rounded-full object-cover">
+                                    <span v-else class="inline-flex rounded-md">
+                                        <span
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-xs leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            {{ userName }}
+                                        </span>
+                                    </span>
+                                </button>
+                                <div v-if="dropdownOpen"
+                                    class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                                    <div class="block px-4 py-2 text-xs text-gray-400">Manage Account</div>
+                                    <a href="/profile"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <form @submit.prevent="logout">
+                                        <button type="submit"
+                                            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log
+                                            Out</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <!-- Insert page content here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const mobileNavOpen = ref(false);
+                const dropdownOpen = ref(false);
+                const userProfilePhoto = ref(''); // replace with your user's profile photo URL
+                const userName = ref('John Doe'); // replace with your user's name
+                const pageTitle = ref('Dashboard'); // replace with your page title
+
+                function toggleMobileNav() {
+                    mobileNavOpen.value = !mobileNavOpen.value;
+                }
+
+                function toggleDropdown() {
+                    dropdownOpen.value = !dropdownOpen.value;
+                }
+
+                function logout() {
+                    // Implement your logout logic here
+                    alert('Logging out...');
+                }
+
+                return {
+                    mobileNavOpen,
+                    toggleMobileNav,
+                    dropdownOpen,
+                    toggleDropdown,
+                    userProfilePhoto,
+                    userName,
+                    pageTitle,
+                    logout
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

@@ -13,19 +13,21 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    
+
     Route::prefix('agrochemical')->group(function () {
         Route::get('/', [AgrochemicalsController::class, 'index'])->name('agrochemical.index');
         Route::delete('/{agrochemical}', [AgrochemicalsController::class, 'destroy'])->name('agrochemical.destroy');
         Route::put('/{agrochemical}', [AgrochemicalsController::class, 'update'])->name('agrochemical.update');
         Route::post('/store', [AgrochemicalsController::class, 'store'])->name('agrochemical.store');
     });
-    
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::prefix('cultivar')->group(function () {
         Route::get('/', [CultivarsController::class, 'index'])->name('cultivar.index');
-        Route::get('/download', [CultivarsController::class, 'download'])->name('cultivar.download');
+        Route::delete('/{cultivar}', [CultivarsController::class, 'destroy'])->name('cultivar.destroy');
+        Route::put('/{cultivar}', [CultivarsController::class, 'update'])->name('cultivar.update');
+        Route::post('/store', [CultivarsController::class, 'store'])->name('cultivar.store');
     });
 
     Route::prefix('crop')->group(function () {

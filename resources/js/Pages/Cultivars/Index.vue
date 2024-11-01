@@ -12,8 +12,29 @@
                     <TextInput type="text" v-model="search" placeholder="Search Cultivar..." class="w-full md:w-96" />
 
                     <div class="w-full md:w-fit">
-                        <PrimaryButton @click="download">
-                            Export to PDF
+                        <PrimaryButton @click="showCreateCultivarModal = true">
+                           Create Cultivar
+                        </PrimaryButton>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Creating a Cultivar -->
+            <div v-if="showCreateCultivarModal" class="fixed z-50 inset-0 flex items-center justify-center">
+                <!-- Black overlay (backdrop) -->
+                <div class="fixed inset-0 bg-black opacity-50"></div>
+
+                <!-- Modal content -->
+                <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                    <h3 class="text-lg font-semibold mb-4">Create New Crop</h3>
+
+
+                    <div class="mt-6 text-gray-500 flex justify-end space-x-4">
+                        <CancelButton @click="showCreateCultivarModal = false">
+                            Cancel
+                        </CancelButton>
+                        <PrimaryButton @click="createCultivar">
+                            Create
                         </PrimaryButton>
                     </div>
                 </div>
@@ -67,11 +88,15 @@ import { ref, computed } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputLabel from "@/Components/InputLabel.vue";
+import CancelButton from "@/Components/CancelButton.vue";
 
 const { cultivars, cultivarCount } = defineProps({
     cultivars: Array,
     cultivarCount: Number,
 });
+
+const showCreateCultivarModal = ref(false);
 
 // Reactive properties
 const search = ref('');
@@ -101,28 +126,5 @@ const paginatedCultivars = computed(() => {
 // Load More function
 const loadMore = () => {
     displayedItems.value += 10; // Increase the number of items by 10
-};
-
-// PDF download function
-const download = () => {
-    axios.get('/cultivar/download', { responseType: 'blob' })
-        .then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'cultivars.pdf');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        })
-        .catch((error) => {
-            toast("Error downloading file!", {
-                "theme": "colored",
-                "type": "error",
-                "position": "top-center",
-                "hideProgressBar": true,
-                "transition": "zoom",
-            });
-        });
 };
 </script>

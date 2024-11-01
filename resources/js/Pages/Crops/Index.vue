@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <!-- Modal for Creating a New User -->
+            <!-- Modal for Creating a Crop -->
             <div v-if="showCreateCropModal" class="fixed z-50 inset-0 flex items-center justify-center">
                 <!-- Black overlay (backdrop) -->
                 <div class="fixed inset-0 bg-black opacity-50"></div>

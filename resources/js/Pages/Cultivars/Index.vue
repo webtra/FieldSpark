@@ -359,6 +359,8 @@ async function createCultivar() {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         // Capture validation errors if available
         if (error.response && error.response.status === 422) {
@@ -431,6 +433,8 @@ async function updateCultivar() {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         console.error("Error updating cultivar:", error);
         toast("Error updating cultivar!", {
@@ -461,7 +465,6 @@ async function deleteCultivar() {
             cultivars.value.splice(index, 1);
         }
 
-
         toast("Cultivar deleted successfully!", {
             theme: "colored",
             type: "success",
@@ -469,6 +472,8 @@ async function deleteCultivar() {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         console.error("Error deleting cultivar:", error);
         toast("Error deleting cultivar!", {

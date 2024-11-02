@@ -380,6 +380,8 @@ const deleteCrop = async (crop) => {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         toast("Error deleting crop!", {
             theme: "colored",
@@ -435,6 +437,8 @@ const editCrop = async (crop) => {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         toast("Error updating crop!", {
             theme: "colored",
@@ -480,6 +484,8 @@ const createCrop = async () => {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
         // Only display error message if there's an actual error response
         toast("Error creating crop!", {

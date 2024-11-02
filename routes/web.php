@@ -16,8 +16,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('agrochemical')->group(function () {
         Route::get('/', [AgrochemicalsController::class, 'index'])->name('agrochemical.index');
-        Route::delete('/{agrochemical}', [AgrochemicalsController::class, 'destroy'])->name('agrochemical.destroy');
-        Route::put('/{agrochemical}', [AgrochemicalsController::class, 'update'])->name('agrochemical.update');
+        Route::delete('/{id}', [AgrochemicalsController::class, 'destroy'])->name('agrochemical.destroy');
+        Route::put('/{id}', [AgrochemicalsController::class, 'update'])->name('agrochemical.update');
         Route::post('/store', [AgrochemicalsController::class, 'store'])->name('agrochemical.store');
     });
 
@@ -39,7 +39,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('api')->group(function () {
         Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
-        Route::get('/fetch-agrochemicals', [CultivarsController::class, 'fetchAgrochemicals']);
     });
 
     Route::prefix('user')->group(function () {

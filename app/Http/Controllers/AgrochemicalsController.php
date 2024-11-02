@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agrochemicals;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class AgrochemicalsController extends Controller
@@ -45,26 +46,40 @@ class AgrochemicalsController extends Controller
         return response()->json(['message' => 'Agrochemical created successfully', 'agrochemical' => $agrochemical], 201);
     }
 
-    public function destroy(Agrochemicals $agrochemicals)
-    {
-        $agrochemicals->delete();
-
-        return response()->json(['message' => 'Agrochemical deleted successfully'], 200);
-    }
-
-    public function fetchAgrochemicals()
+    public function destroy($id)
     {
         try {
-            // Fetch all agrochemicals
-            $agrochemicals = Agrochemicals::all();
+            // Find the user by ID
+            $agrochemical = Agrochemicals::findOrFail($id);
 
-            return response()->json($agrochemicals, 200);
+            // Soft delete the user
+            $agrochemical->delete();
+
+            // Return a JSON response to the axios call
+            return response()->json(['message' => 'User soft deleted successfully.'], 200);
         } catch (\Exception $e) {
-            // Return error response in case of failure
-            return response()->json([
-                'message' => 'Failed to fetch agrochemicals',
-                'error' => $e->getMessage()
-            ], 500);
+            // Log the error for debugging
+            Log::error("Error deleting user: " . $e->getMessage());
+
+            // Return an error response
+            return response()->json(['message' => 'Error deleting user.'], 500);
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Temporarily skip validation to test if the issue is with validation rules
+        $agrochemical = Agrochemicals::find($id);
+
+        if (!$agrochemical) {
+            return response()->json(['error' => 'Agrochemical not found'], 404);
+        }
+
+        $agrochemical->update($request->all());
+
+        return response()->json([
+            'message' => 'Record updated successfully',
+            'data' => $agrochemical
+        ], 200);
     }
 }

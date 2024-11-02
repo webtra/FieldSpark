@@ -277,7 +277,7 @@
                                                     <div class="w-full">
                                                         <InputLabel value="Category" />
                                                         <select v-model="editForm.category"
-                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            class="text-black w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
                                                             required>
                                                             <option value="Herbicide">Herbicide</option>
                                                             <option value="Pesticide">Pesticide</option>
@@ -418,23 +418,130 @@
 
                     <!-- Drawer Body - Scrollable Content -->
                     <div class="py-4 px-8 space-y-4 overflow-y-auto flex-1">
-                        <p><strong>Name:</strong> {{ selectedAgrochemical.name }}</p>
-                        <p><strong>Recommended Dosage:</strong> {{ selectedAgrochemical.recommended_dosage }}</p>
-                        <p><strong>Description:</strong> {{ selectedAgrochemical.description }}</p>
-                        <p><strong>Category:</strong> {{ selectedAgrochemical.category }}</p>
-                        <p><strong>Manufacturer:</strong> {{ selectedAgrochemical.manufacturer }}</p>
-                        <p><strong>Application Method:</strong> {{ selectedAgrochemical.application_method }}</p>
-                        <p><strong>Toxicity Level:</strong> {{ selectedAgrochemical.toxicity_level }}</p>
-                        <p><strong>Restricted Use:</strong> {{ selectedAgrochemical.restricted_use ? 'Yes' : 'No' }}
-                        </p>
-                        <p><strong>Recommended Application Frequency:</strong> {{
-                            selectedAgrochemical.recommended_application_frequency }}</p>
-                        <p><strong>Re-Entry Interval:</strong> {{ selectedAgrochemical.reentry_interval }}</p>
-                        <p><strong>Pre-Harvest Interval:</strong> {{ selectedAgrochemical.pre_harvest_interval }}
-                        </p>
-                        <p><strong>Safety Precautions:</strong> {{ selectedAgrochemical.safety_precautions }}</p>
-                        <p><strong>Mixing Compatibility:</strong> {{ selectedAgrochemical.mixing_compatibility }}
-                        </p>
+                        <!-- Agrochemical Name -->
+                        <div class="mb-4">
+                            <InputLabel value="Agrochemical Name" />
+                            <TextInput id="name" type="text" :value="selectedAgrochemical.name"
+                                class="mt-1 block w-full" placeholder="Agrochemical Name" disabled />
+                        </div>
+
+                        <!-- Recommended Dosage -->
+                        <div class="mb-4">
+                            <InputLabel value="Recommended Dosage" />
+                            <p class="text-gray-400 text-[11px]">Dosage per 1500 Litre</p>
+                            <TextInput id="recommended_dosage" type="text"
+                                :value="selectedAgrochemical.recommended_dosage" class="mt-1 block w-full"
+                                placeholder="Recommended Dosage" disabled />
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <InputLabel value="Description" />
+                            <TextInput id="description" type="text" :value="selectedAgrochemical.description"
+                                class="mt-1 block w-full" placeholder="Description" disabled />
+                        </div>
+
+                        <!-- Manufacturer and Category -->
+                        <div class="flex space-x-4 mb-4">
+                            <div class="w-full">
+                                <InputLabel value="Manufacturer" />
+                                <TextInput id="manufacturer" type="text" :value="selectedAgrochemical.manufacturer"
+                                    class="mt-1 block w-full" placeholder="Manufacturer" disabled />
+                            </div>
+
+                            <div class="w-full">
+                                <InputLabel value="Category" />
+                                <select :value="selectedAgrochemical.category"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    disabled>
+                                    <option value="Herbicide">Herbicide</option>
+                                    <option value="Pesticide">Pesticide</option>
+                                    <option value="Fungicide">Fungicide</option>
+                                    <option value="Fertilizer">Fertilizer</option>
+                                    <option value="Growth Regulator">Growth Regulator</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Application Method, Toxicity Level, Restricted Use -->
+                        <div class="flex space-x-4 mb-4">
+                            <div class="w-full">
+                                <InputLabel value="Application Method" />
+                                <select :value="selectedAgrochemical.application_method"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    disabled>
+                                    <option value="Spray">Spray</option>
+                                    <option value="Granular">Granular</option>
+                                    <option value="Drip">Drip</option>
+                                    <option value="Foliar">Foliar</option>
+                                </select>
+                            </div>
+
+                            <div class="w-full">
+                                <InputLabel value="Toxicity Level" />
+                                <select :value="selectedAgrochemical.toxicity_level"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    disabled>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+
+                            <div class="w-full">
+                                <InputLabel value="Restricted Use" />
+                                <select :value="selectedAgrochemical.restricted_use"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    disabled>
+                                    <option :value="true">Yes</option>
+                                    <option :value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Recommended Application Frequency -->
+                        <div class="mb-4">
+                            <InputLabel value="Recommended Application Frequency" />
+                            <p class="text-gray-400 text-[11px]">Weekly, Bi-Weekly or Monthly</p>
+                            <TextInput id="recommended_application_frequency" type="text"
+                                :value="selectedAgrochemical.recommended_application_frequency"
+                                class="mt-1 block w-full" placeholder="Recommended Application Frequency" disabled />
+                        </div>
+
+                        <!-- Re-Entry Interval and Pre-Harvest Interval -->
+                        <div class="flex space-x-4 mb-4">
+                            <div class="w-full">
+                                <InputLabel value="Re-Entry Interval" />
+                                <p class="text-gray-400 text-[11px]">Enter field only after safe time elapses</p>
+                                <TextInput id="reentry_interval" type="number"
+                                    :value="selectedAgrochemical.reentry_interval" class="mt-1 block w-full"
+                                    placeholder="Re-Entry Interval" disabled />
+                            </div>
+
+                            <div class="w-full">
+                                <InputLabel value="Pre-Harvest Interval" />
+                                <p class="text-gray-400 text-[11px]">Stop agrochemical use before harvest</p>
+                                <TextInput id="pre_harvest_interval" type="number"
+                                    :value="selectedAgrochemical.pre_harvest_interval" class="mt-1 block w-full"
+                                    placeholder="Pre-Harvest Interval" disabled />
+                            </div>
+                        </div>
+
+                        <!-- Safety Precautions -->
+                        <div class="mb-4">
+                            <InputLabel value="Safety Precautions" />
+                            <TextInput id="safety_precautions" type="text"
+                                :value="selectedAgrochemical.safety_precautions" class="mt-1 block w-full"
+                                placeholder="Safety Precautions" disabled />
+                        </div>
+
+                        <!-- Mixing Compatibility -->
+                        <div class="mb-4">
+                            <InputLabel value="Mixing Compatibility" />
+                            <TextInput id="mixing_compatibility" type="text"
+                                :value="selectedAgrochemical.mixing_compatibility" class="mt-1 block w-full"
+                                placeholder="Mixing Compatibility" disabled />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -498,6 +605,7 @@ const createAgrochemical = async () => {
     try {
         const response = await axios.post('/agrochemical/store', formData.value);
         showCreateAgrochemicalModal.value = false;
+
         toast("Agrochemical created successfully!", {
             theme: "colored",
             type: "success",
@@ -505,6 +613,8 @@ const createAgrochemical = async () => {
             hideProgressBar: true,
             transition: "zoom"
         });
+
+        window.location.reload();
     } catch (error) {
         toast("Error creating agrochemical!", { theme: "colored", type: "error", position: "top-center", hideProgressBar: true, transition: "zoom" });
         console.error("Error:", error);
@@ -548,19 +658,17 @@ const deleteAgrochemical = async (agrochemical) => {
         await axios.delete(`/agrochemical/${agrochemical.id}`); // Correct path
         showDeleteModal.value = false;
 
-        // Optionally remove the crop from the local data
-        const index = agrochemicals.findIndex((c) => c.id === agrochemical.id);
-        if (index !== -1) agrochemicals.splice(index, 1);
-
-        toast("Agrochemical deleted successfully!", {
+        toast("Deleted successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        window.location.reload();
     } catch (error) {
-        toast("Error deleting agrochemical!", {
+        toast("Error deleting record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -590,4 +698,47 @@ function openEditModal(agrochemical) {
     };
     showEditModal.value = true;
 }
+
+const editAgrochemical = async (agrochemical) => {
+    try {
+        const response = await axios.put(`/agrochemical/${agrochemical.id}`, {
+            name: editForm.value.name,
+            recommended_dosage: editForm.value.recommended_dosage,
+            description: editForm.value.description,
+            category: editForm.value.category,
+            manufacturer: editForm.value.manufacturer,
+            application_method: editForm.value.application_method,
+            toxicity_level: editForm.value.toxicity_level,
+            restricted_use: editForm.value.restricted_use,
+            recommended_application_frequency: editForm.value.recommended_application_frequency,
+            reentry_interval: editForm.value.reentry_interval,
+            pre_harvest_interval: editForm.value.pre_harvest_interval,
+            safety_precautions: editForm.value.safety_precautions,
+            mixing_compatibility: editForm.value.mixing_compatibility,
+        });
+
+        showEditModal.value = false;
+
+        toast("Record edited successfully!", {
+            "theme": "colored",
+            "type": "success",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+
+        window.location.reload();
+        // alert('User updated successfully');
+    } catch (error) {
+        toast("Error editing record!", {
+            "theme": "colored",
+            "type": "error",
+            "position": "top-center",
+            "hideProgressBar": true,
+            "transition": "zoom",
+        })
+
+        // alert('Error updating user');
+    }
+};
 </script>

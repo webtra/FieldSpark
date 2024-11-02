@@ -298,6 +298,7 @@ const deleteUser = async (user) => {
                 "transition": "zoom",
             })
 
+            window.location.reload();
             // alert('Deleted Successfully');
         } else {
             toast("Error deleting user!", {
@@ -353,6 +354,8 @@ const editUser = async (user) => {
             "hideProgressBar": true,
             "transition": "zoom",
         })
+
+        window.location.reload();
         // alert('User updated successfully');
     } catch (error) {
         toast("Error editing user!", {
@@ -400,6 +403,7 @@ const createUser = async () => {
         // Clear the form
         newUser.value = { first_name: '', last_name: '', email: '' };
 
+        window.location.reload();
     } catch (error) {
         if (error.response && error.response.data.errors) {
             errors.value = error.response.data.errors;

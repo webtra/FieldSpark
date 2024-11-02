@@ -88,19 +88,17 @@ const clearPhotoFileInput = () => {
 
         <template #form>
             <!-- Profile Photo -->
+            <!-- 
             <div v-if="$page.props.jetstream.managesProfilePhotos"
                 class="col-span-6 flex flex-col items-center justify-center">
-                <!-- Profile Photo File Input -->
                 <input id="photo" ref="photoInput" type="file" class="hidden" @change="updatePhotoPreview">
 
                 <InputLabel for="photo" value="Profile Photo" />
 
-                <!-- Current Profile Photo -->
                 <div v-show="!photoPreview" class="mt-2">
                     <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
-                <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
                     <span class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
                         :style="'background-image: url(\'' + photoPreview + '\');'" />
@@ -116,6 +114,7 @@ const clearPhotoFileInput = () => {
 
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
+        -->
 
             <div class="flex space-x-4 col-span-6">
                 <!-- Name -->

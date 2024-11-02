@@ -4,17 +4,437 @@
             <div class="block md:flex items-center justify-between mb-4">
                 <div>
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Agrochemical Management</h1>
-                    <p class="mt-1 text-gray-500">Total Agrochemical: x (Filtered from x)</p>
+                    <p class="mt-1 text-gray-500">Total Agrochemicals: {{ filteredAgrochemicals.length }} (Filtered from
+                        {{ agrochemicalsCount }})</p>
                 </div>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="search" placeholder="Search Agrochemical..." class="w-96" />
+                    <TextInput type="text" v-model="searchTerm" placeholder="Search Agrochemical..." class="w-96" />
 
                     <div class="w-full md:w-fit">
-                        <PrimaryButton>
-                            Create xxx
+                        <PrimaryButton @click="showCreateAgrochemicalModal = true">
+                            Create Agrochemical
                         </PrimaryButton>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Creating a Cultivar -->
+            <div v-if="showCreateAgrochemicalModal" class="fixed z-50 inset-0 flex items-center justify-center">
+                <!-- Black overlay (backdrop) -->
+                <div class="fixed inset-0 bg-black opacity-50"></div>
+
+                <!-- Modal content -->
+                <div class="relative bg-white rounded p-6 w-full max-w-lg z-50">
+                    <h3 class="text-lg font-semibold mb-4">Create New Agrochemical</h3>
+
+                    <div class="mb-4">
+                        <InputLabel value="Agrochemical Name" />
+                        <TextInput id="name" type="text" v-model="formData.name" class="mt-1 block w-full"
+                            placeholder="Agrochemical Name" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Recommended Dosage" />
+                        <p class="text-gray-400 text-[11px]">Dosage per 1500 Litre</p>
+                        <TextInput id="name" type="text" v-model="formData.recommended_dosage" class="mt-1 block w-full"
+                            placeholder="Recommended Dosage" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Description" />
+                        <TextInput id="name" type="text" v-model="formData.description" class="mt-1 block w-full"
+                            placeholder="Description" required />
+                    </div>
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="w-full">
+                            <InputLabel value="Manufacturer" />
+                            <TextInput id="name" type="text" v-model="formData.manufacturer" class="mt-1 block w-full"
+                                placeholder="Manufacturer" required />
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel value="Category" />
+                            <select v-model="formData.category"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                required>
+                                <option value="Herbicide">Herbicide</option>
+                                <option value="Pesticide">Pesticide</option>
+                                <option value="Fungicide">Fungicide</option>
+                                <option value="Fertilizer">Fertilizer</option>
+                                <option value="Growth Regulator">Growth Regulator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="w-full">
+                            <InputLabel value="Application Method" />
+                            <select v-model="formData.application_method"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                required>
+                                <option value="Spray">Spray</option>
+                                <option value="Granular">Granular</option>
+                                <option value="Drip">Drip</option>
+                                <option value="Foliar">Foliar</option>
+                            </select>
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel value="Toxicity Level" />
+                            <select v-model="formData.toxicity_level"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                required>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel value="Restricted Use" />
+                            <select v-model="formData.restricted_use"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                required>
+                                <option :value="true">Yes</option>
+                                <option :value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Recommended Application Frequency" />
+                        <p class="text-gray-400 text-[11px]">Weekly, Bi-Weekly or Monthly</p>
+                        <TextInput id="name" type="text" v-model="formData.recommended_application_frequency"
+                            class="mt-1 block w-full" placeholder="Recommended Application Frequency" required />
+                    </div>
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="w-full">
+                            <InputLabel value="Re-Entry Internal" />
+                            <p class="text-gray-400 text-[11px]">Enter field only after safe time elapses</p>
+                            <TextInput id="name" type="number" v-model="formData.reentry_interval"
+                                class="mt-1 block w-full" placeholder="Re-Entry Internal" required />
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel value="Pre Harvest Interval" />
+                            <p class="text-gray-400 text-[11px]">Stop agrochemical use before harvest</p>
+                            <TextInput id="name" type="number" v-model="formData.pre_harvest_interval"
+                                class="mt-1 block w-full" placeholder="Pre Harvest Interval" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Satety Precautions" />
+                        <TextInput id="name" type="text" v-model="formData.safety_precautions" class="mt-1 block w-full"
+                            placeholder="Satety Precautions" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Mixing Compatibility" />
+                        <TextInput id="name" type="text" v-model="formData.mixing_compatibility"
+                            class="mt-1 block w-full" placeholder="Mixing Compatibility" required />
+                    </div>
+
+                    <div class="mt-6 text-gray-500 flex justify-end space-x-4">
+                        <CancelButton @click="showCreateAgrochemicalModal = false">
+                            Cancel
+                        </CancelButton>
+                        <PrimaryButton @click="createAgrochemical">
+                            Create
+                        </PrimaryButton>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table of Agrochemicals -->
+            <div class="mt-4" v-if="paginatedAgrochemicals && paginatedAgrochemicals.length > 0">
+                <div class="border border-gray-300 rounded-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="text-black bg-white">
+                            <tr>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">ID</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Name
+                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Dosage
+                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Category
+                                </th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Application
+                                    Method</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Toxicity
+                                    Level</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Application
+                                    Frequency</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                    Re-Entry
+                                    Interval</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Pre
+                                    Harvest
+                                    Interval</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="agrochemical in paginatedAgrochemicals" :key="agrochemical.id"
+                                class="cursor-pointer odd:bg-white even:bg-gray-50">
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.id }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.name }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.recommended_dosage }}
+                                </td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.category }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.application_method }}
+                                </td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.toxicity_level }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.recommended_application_frequency }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.reentry_interval }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                    agrochemical.pre_harvest_interval }}
+                                </td>
+                                <td class="px-4 py-2 text-xs text-gray-500 space-x-4 flex items-center">
+                                    <!-- Delete button and modal -->
+                                    <div>
+                                        <button class="underline" @click="openDeleteModal(agrochemical)">Delete</button>
+
+                                        <div v-if="showDeleteModal"
+                                            class="fixed z-50 inset-0 flex items-center justify-center">
+                                            <!-- Black overlay (backdrop) -->
+                                            <div class="fixed inset-0 bg-black/10"></div>
+
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                                <h3 class="text-black text-lg font-semibold mb-4">Confirm Delete</h3>
+                                                <p>Are you sure you want to delete this agrochemical?</p>
+
+                                                <div class="mt-6 flex justify-end space-x-4">
+                                                    <CancelButton @click="showDeleteModal = false">Cancel</CancelButton>
+                                                    <DangerButton @click="deleteAgrochemical(selectedAgrochemical)">
+                                                        Delete
+                                                    </DangerButton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit button and modal -->
+                                    <div>
+                                        <button class="underline" @click="openEditModal(agrochemical)">Edit</button>
+
+                                        <div v-if="showEditModal"
+                                            class="fixed z-50 inset-0 flex items-center justify-center">
+                                            <!-- Black overlay (backdrop) -->
+                                            <div class="fixed inset-0 bg-black/10"></div>
+
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded p-6 w-full max-w-lg z-50">
+                                                <h3 class="text-black text-lg font-semibold mb-4">Edit Agrochemical</h3>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Agrochemical Name" />
+                                                    <TextInput id="name" type="text" v-model="editForm.name"
+                                                        class="mt-1 block w-full" placeholder="Agrochemical Name"
+                                                        required />
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Recommended Dosage" />
+                                                    <p class="text-gray-400 text-[11px]">Dosage per 1500 Litre</p>
+                                                    <TextInput id="name" type="text"
+                                                        v-model="editForm.recommended_dosage" class="mt-1 block w-full"
+                                                        placeholder="Recommended Dosage" required />
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Description" />
+                                                    <TextInput id="name" type="text" v-model="editForm.description"
+                                                        class="mt-1 block w-full" placeholder="Description" required />
+                                                </div>
+
+                                                <div class="flex space-x-4 mb-4">
+                                                    <div class="w-full">
+                                                        <InputLabel value="Manufacturer" />
+                                                        <TextInput id="name" type="text" v-model="editForm.manufacturer"
+                                                            class="mt-1 block w-full" placeholder="Manufacturer"
+                                                            required />
+                                                    </div>
+
+                                                    <div class="w-full">
+                                                        <InputLabel value="Category" />
+                                                        <select v-model="editForm.category"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            required>
+                                                            <option value="Herbicide">Herbicide</option>
+                                                            <option value="Pesticide">Pesticide</option>
+                                                            <option value="Fungicide">Fungicide</option>
+                                                            <option value="Fertilizer">Fertilizer</option>
+                                                            <option value="Growth Regulator">Growth Regulator</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex space-x-4 mb-4">
+                                                    <div class="w-full">
+                                                        <InputLabel value="Application Method" />
+                                                        <select v-model="editForm.application_method"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            required>
+                                                            <option value="Spray">Spray</option>
+                                                            <option value="Granular">Granular</option>
+                                                            <option value="Drip">Drip</option>
+                                                            <option value="Foliar">Foliar</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="w-full">
+                                                        <InputLabel value="Toxicity Level" />
+                                                        <select v-model="editForm.toxicity_level"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            required>
+                                                            <option value="Low">Low</option>
+                                                            <option value="Medium">Medium</option>
+                                                            <option value="High">High</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="w-full">
+                                                        <InputLabel value="Restricted Use" />
+                                                        <select v-model="editForm.restricted_use"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            required>
+                                                            <option :value="true">Yes</option>
+                                                            <option :value="false">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Recommended Application Frequency" />
+                                                    <p class="text-gray-400 text-[11px]">Weekly, Bi-Weekly or Monthly
+                                                    </p>
+                                                    <TextInput id="name" type="text"
+                                                        v-model="editForm.recommended_application_frequency"
+                                                        class="mt-1 block w-full"
+                                                        placeholder="Recommended Application Frequency" required />
+                                                </div>
+
+                                                <div class="flex space-x-4 mb-4">
+                                                    <div class="w-full">
+                                                        <InputLabel value="Re-Entry Internal" />
+                                                        <p class="text-gray-400 text-[11px]">Enter field only after safe
+                                                            time elapses</p>
+                                                        <TextInput id="name" type="number"
+                                                            v-model="editForm.reentry_interval"
+                                                            class="mt-1 block w-full" placeholder="Re-Entry Internal"
+                                                            required />
+                                                    </div>
+
+                                                    <div class="w-full">
+                                                        <InputLabel value="Pre Harvest Interval" />
+                                                        <p class="text-gray-400 text-[11px]">Stop agrochemical use
+                                                            before harvest</p>
+                                                        <TextInput id="name" type="number"
+                                                            v-model="editForm.pre_harvest_interval"
+                                                            class="mt-1 block w-full" placeholder="Pre Harvest Interval"
+                                                            required />
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Satety Precautions" />
+                                                    <TextInput id="name" type="text"
+                                                        v-model="editForm.safety_precautions" class="mt-1 block w-full"
+                                                        placeholder="Satety Precautions" required />
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <InputLabel value="Mixing Compatibility" />
+                                                    <TextInput id="name" type="text"
+                                                        v-model="editForm.mixing_compatibility"
+                                                        class="mt-1 block w-full" placeholder="Mixing Compatibility"
+                                                        required />
+                                                </div>
+
+                                                <div class="mt-6 flex justify-end space-x-4">
+                                                    <CancelButton @click="showEditModal = false">Cancel</CancelButton>
+                                                    <PrimaryButton @click="editAgrochemical(selectedAgrochemical)">
+                                                        Update
+                                                    </PrimaryButton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="flex justify-center mt-4">
+                    <button v-if="displayedItems < filteredAgrochemicals.length" @click="loadMore"
+                        class="px-4 py-2 rounded bg-[#BCDA84] hover:bg-green-600">
+                        Load More
+                    </button>
+                </div>
+            </div>
+
+            <!-- If no agrochemicals found -->
+            <div v-else>
+                <p>No agrochemicals found</p>
+            </div>
+
+            <div v-if="showDrawer">
+                <!-- Black overlay (backdrop) -->
+                <div class="fixed inset-0 bg-black/50 z-40" @click="showDrawer = false"></div>
+
+                <!-- Drawer Content -->
+                <div class="fixed inset-y-0 right-0 w-[35%] bg-white shadow-lg z-50 flex flex-col h-full">
+                    <!-- Header with Close Button -->
+                    <div class="py-4 px-8 border-b border-gray-200 flex items-center justify-between">
+                        <h3 class="text-lg font-medium">Agrochemical Details</h3>
+                        <button @click="showDrawer = false" class="text-gray-600 hover:text-gray-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="square" stroke-linejoin="square" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Drawer Body - Scrollable Content -->
+                    <div class="py-4 px-8 space-y-4 overflow-y-auto flex-1">
+                        <p><strong>Name:</strong> {{ selectedAgrochemical.name }}</p>
+                        <p><strong>Recommended Dosage:</strong> {{ selectedAgrochemical.recommended_dosage }}</p>
+                        <p><strong>Description:</strong> {{ selectedAgrochemical.description }}</p>
+                        <p><strong>Category:</strong> {{ selectedAgrochemical.category }}</p>
+                        <p><strong>Manufacturer:</strong> {{ selectedAgrochemical.manufacturer }}</p>
+                        <p><strong>Application Method:</strong> {{ selectedAgrochemical.application_method }}</p>
+                        <p><strong>Toxicity Level:</strong> {{ selectedAgrochemical.toxicity_level }}</p>
+                        <p><strong>Restricted Use:</strong> {{ selectedAgrochemical.restricted_use ? 'Yes' : 'No' }}
+                        </p>
+                        <p><strong>Recommended Application Frequency:</strong> {{
+                            selectedAgrochemical.recommended_application_frequency }}</p>
+                        <p><strong>Re-Entry Interval:</strong> {{ selectedAgrochemical.reentry_interval }}</p>
+                        <p><strong>Pre-Harvest Interval:</strong> {{ selectedAgrochemical.pre_harvest_interval }}
+                        </p>
+                        <p><strong>Safety Precautions:</strong> {{ selectedAgrochemical.safety_precautions }}</p>
+                        <p><strong>Mixing Compatibility:</strong> {{ selectedAgrochemical.mixing_compatibility }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -23,10 +443,151 @@
 </template>
 
 <script setup>
-import { toast } from 'vue3-toastify'
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
+import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';;
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import CancelButton from '@/Components/CancelButton.vue';
+import { toast } from 'vue3-toastify';
+import DangerButton from '@/Components/DangerButton.vue';
+
+const { agrochemicals, agrochemicalsCount } = defineProps({
+    agrochemicals: Array,
+    agrochemicalsCount: Number,
+});
+
+const searchTerm = ref('');
+const displayedItems = ref(10);
+const showCreateAgrochemicalModal = ref(false);
+const showDrawer = ref(false);
+const selectedAgrochemical = ref(null);
+
+const formData = ref({
+    name: '',
+    recommended_dosage: '',
+    description: '',
+    category: '',
+    manufacturer: '',
+    application_method: '',
+    toxicity_level: '',
+    restricted_use: '',
+    recommended_application_frequency: '',
+    reentry_interval: '',
+    pre_harvest_interval: '',
+    safety_precautions: '',
+    mixing_compatibility: '',
+});
+
+const filteredAgrochemicals = computed(() => {
+    if (!searchTerm.value) return agrochemicals;
+    const term = searchTerm.value.toLowerCase();
+    return agrochemicals.filter(agrochemical =>
+        agrochemical.name.toLowerCase().includes(term) ||
+        agrochemical.category.toLowerCase().includes(term) ||
+        agrochemical.manufacturer.toLowerCase().includes(term)
+    );
+});
+
+const paginatedAgrochemicals = computed(() => filteredAgrochemicals.value.slice(0, displayedItems.value));
+
+const loadMore = () => { displayedItems.value += 10; };
+
+const createAgrochemical = async () => {
+    try {
+        const response = await axios.post('/agrochemical/store', formData.value);
+        showCreateAgrochemicalModal.value = false;
+        toast("Agrochemical created successfully!", {
+            theme: "colored",
+            type: "success",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom"
+        });
+    } catch (error) {
+        toast("Error creating agrochemical!", { theme: "colored", type: "error", position: "top-center", hideProgressBar: true, transition: "zoom" });
+        console.error("Error:", error);
+    }
+};
+
+const openDrawer = (agrochemical) => {
+    selectedAgrochemical.value = agrochemical;
+    showDrawer.value = true;
+};
+
+const showDeleteModal = ref(false);
+const showEditModal = ref(false);
+
+// The editable fields in a crop record
+const editForm = ref({
+    name: '',
+    recommended_dosage: '',
+    description: '',
+    category: '',
+    manufacturer: '',
+    application_method: '',
+    toxicity_level: '',
+    restricted_use: '',
+    recommended_application_frequency: '',
+    reentry_interval: '',
+    pre_harvest_interval: '',
+    safety_precautions: '',
+    mixing_compatibility: '',
+});
+
+// Open the delete modal for the selected crop
+function openDeleteModal(agrochemical) {
+    selectedAgrochemical.value = agrochemical;
+    showDeleteModal.value = true;
+}
+
+// Delete the crop
+const deleteAgrochemical = async (agrochemical) => {
+    try {
+        await axios.delete(`/agrochemical/${agrochemical.id}`); // Correct path
+        showDeleteModal.value = false;
+
+        // Optionally remove the crop from the local data
+        const index = agrochemicals.findIndex((c) => c.id === agrochemical.id);
+        if (index !== -1) agrochemicals.splice(index, 1);
+
+        toast("Agrochemical deleted successfully!", {
+            theme: "colored",
+            type: "success",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+    } catch (error) {
+        toast("Error deleting agrochemical!", {
+            theme: "colored",
+            type: "error",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+        console.error("Error deleting agrochemical:", error);
+    }
+};
+
+// Open the edit modal for the selected crop and pre-fill form data
+function openEditModal(agrochemical) {
+    selectedAgrochemical.value = agrochemical;
+    editForm.value = {
+        name: agrochemical.name,
+        recommended_dosage: agrochemical.recommended_dosage,
+        category: agrochemical.category,
+        manufacturer: agrochemical.manufacturer,
+        application_method: agrochemical.application_method,
+        toxicity_level: agrochemical.toxicity_level,
+        restricted_use: agrochemical.restricted_use,
+        recommended_application_frequency: agrochemical.recommended_application_frequency,
+        reentry_interval: agrochemical.reentry_interval,
+        pre_harvest_interval: agrochemical.pre_harvest_interval,
+        safety_precautions: agrochemical.safety_precautions,
+        mixing_compatibility: agrochemical.mixing_compatibility,
+    };
+    showEditModal.value = true;
+}
 </script>

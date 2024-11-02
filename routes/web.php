@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('api')->group(function () {
         Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
+        Route::get('/fetch-agrochemicals', [CultivarsController::class, 'fetchAgrochemicals']);
     });
 
     Route::prefix('user')->group(function () {

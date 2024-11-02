@@ -3,67 +3,68 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agrochemicals;
-use App\Http\Requests\StoreAgrochemicalsRequest;
-use App\Http\Requests\UpdateAgrochemicalsRequest;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AgrochemicalsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        // Eager load `cultivar` relationship to access cultivar names
+        $agrochemicals = Agrochemicals::all();
+        $agrochemicalsCount = Agrochemicals::count();
+
         return Inertia::render('Agrochemical/Index', [
+            'agrochemicals' => $agrochemicals,
+            'agrochemicalsCount' => $agrochemicalsCount,
             'pageTitle' => 'Agrochemicals',
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'recommended_dosage' => 'nullable|numeric',
+            'description' => 'nullable|string',
+            'category' => 'required|in:Herbicide,Pesticide,Fungicide,Fertilizer,Growth Regulator',
+            'manufacturer' => 'nullable|string',
+            'application_method' => 'nullable|in:Spray,Granular,Drip,Foliar',
+            'toxicity_level' => 'nullable|in:Low,Medium,High',
+            'restricted_use' => 'nullable|boolean',
+            'recommended_application_frequency' => 'nullable|string',
+            'reentry_interval' => 'nullable|integer',
+            'pre_harvest_interval' => 'nullable|integer',
+            'safety_precautions' => 'nullable|string',
+            'mixing_compatibility' => 'nullable|string',
+        ]);
+
+        // Create the new crop entry
+        $agrochemical = Agrochemicals::create($validatedData);
+
+        return response()->json(['message' => 'Agrochemical created successfully', 'agrochemical' => $agrochemical], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAgrochemicalsRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Agrochemicals $agrochemicals)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Agrochemicals $agrochemicals)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAgrochemicalsRequest $request, Agrochemicals $agrochemicals)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Agrochemicals $agrochemicals)
     {
-        //
+        $agrochemicals->delete();
+
+        return response()->json(['message' => 'Agrochemical deleted successfully'], 200);
+    }
+
+    public function fetchAgrochemicals()
+    {
+        try {
+            // Fetch all agrochemicals
+            $agrochemicals = Agrochemicals::all();
+
+            return response()->json($agrochemicals, 200);
+        } catch (\Exception $e) {
+            // Return error response in case of failure
+            return response()->json([
+                'message' => 'Failed to fetch agrochemicals',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

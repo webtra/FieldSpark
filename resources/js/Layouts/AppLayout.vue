@@ -119,7 +119,7 @@
                                 </Link>
                             </li>
 
-                            <li class="my-1">
+                            <!--<li class="my-1">
                                 <span class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">USERS</span>
                             </li>
 
@@ -140,6 +140,7 @@
                                 </span>
                                 </Link>
                             </li>
+                            -->
                         </ul>
                     </div>
 
@@ -243,7 +244,7 @@
                             </Link>
                         </li>
 
-                        <li class="my-1">
+                        <!--<li class="my-1">
                             <span class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">USERS</span>
                         </li>
 
@@ -264,6 +265,7 @@
                             </span>
                             </Link>
                         </li>
+                        -->
                     </ul>
                 </div>
             </nav>
@@ -280,10 +282,14 @@
                             <Dropdown align="right" width="48">
                                 <template #trigger>
                                     <button v-if="$page.props.jetstream.managesProfilePhotos"
-                                        class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                        <img class="h-10 w-10 rounded-full object-cover"
+                                        class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-[#BCDA84] transition">
+                                        <!-- <img class="h-10 w-10 rounded-full object-cover"
                                             :src="$page.props.auth.user.profile_photo_url"
                                             :alt="$page.props.auth.user.first_name">
+                                            -->
+                                        <div class="h-10 w-10 bg-[#00434b] rounded-full">
+
+                                        </div>
                                     </button>
 
                                     <span v-else class="inline-flex rounded-md">
@@ -302,13 +308,18 @@
                                 </template>
 
                                 <template #content>
-                                    <!-- Account Management -->
+                                    <!-- Account Management
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         Manage Account
                                     </div>
+                                     -->
 
                                     <DropdownLink :href="route('profile.show')">
                                         Profile
+                                    </DropdownLink>
+
+                                    <DropdownLink :href="route('user.index')">
+                                        Users
                                     </DropdownLink>
 
                                     <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"

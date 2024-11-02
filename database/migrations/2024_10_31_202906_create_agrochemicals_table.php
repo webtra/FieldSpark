@@ -13,6 +13,25 @@ return new class extends Migration
     {
         Schema::create('agrochemicals', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->decimal('recommended_dosage', 8, 2)->nullable();
+            $table->text('description');
+            $table->enum('category', [
+                'Herbicide',
+                'Pesticide',
+                'Fungicide',
+                'Fertilizer',
+                'Growth Regulator'
+            ]);
+            $table->string('manufacturer')->nullable();
+            $table->enum('application_method', ['Spray', 'Granular', 'Drip', 'Foliar'])->default('Spray');
+            $table->enum('toxicity_level', ['Low', 'Medium', 'High'])->default('Medium');
+            $table->boolean('restricted_use')->default(false);
+            $table->string('recommended_application_frequency')->nullable();
+            $table->integer('reentry_interval')->nullable();
+            $table->integer('pre_harvest_interval')->nullable();
+            $table->text('safety_precautions')->nullable();
+            $table->string('mixing_compatibility')->nullable();
             $table->timestamps();
         });
     }

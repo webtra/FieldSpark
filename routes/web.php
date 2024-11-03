@@ -5,8 +5,10 @@ use App\Http\Controllers\AgrochemicalsController;
 use App\Http\Controllers\CropsController;
 use App\Http\Controllers\CultivarsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SupportTicketsController;
 use App\Http\Controllers\UsersController;
 use App\Models\AgrochemicalPrograms;
+use App\Models\SupportTickets;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,6 +17,11 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::prefix('api')->group(function () {
+        Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
+        Route::get('/fetch-crops', [CropsController::class, 'fetchCrops']);
+        Route::get('/fetch-agrochemicals', [AgrochemicalsController::class, 'fetchAgrochemicals']);
+    });
 
     Route::prefix('agrochemical')->group(function () {
         Route::get('/', [AgrochemicalsController::class, 'index'])->name('agrochemical.index');
@@ -30,7 +37,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/store', [AgrochemicalProgramsController::class, 'store'])->name('agrochemical.program.store');
     });
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('/stats', [DashboardController::class, 'stats']);
+        Route::get('/activities', [DashboardController::class, 'activities']);
+    });
 
     Route::prefix('cultivar')->group(function () {
         Route::get('/', [CultivarsController::class, 'index'])->name('cultivar.index');
@@ -46,10 +57,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/store', [CropsController::class, 'store'])->name('crop.store');
     });
 
-    Route::prefix('api')->group(function () {
-        Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
-        Route::get('/fetch-crops', [CropsController::class, 'fetchCrops']);
-        Route::get('/fetch-agrochemicals', [AgrochemicalsController::class, 'fetchAgrochemicals']);
+    Route::prefix('support-tickets')->group(function () {
+        Route::get('/', [SupportTicketsController::class, 'index'])->name('support.tickets.index');
+        Route::post('/store', [SupportTicketsController::class, 'store'])->name('support.tickets.store');
     });
 
     Route::prefix('user')->group(function () {

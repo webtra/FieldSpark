@@ -66,4 +66,9 @@ class Agrochemicals extends Model
         'Medium',
         'High'
     ];
+
+    public function agrochemicalPrograms()
+    {
+        return $this->hasMany(AgrochemicalPrograms::class);
+    }
 }

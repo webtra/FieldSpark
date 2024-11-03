@@ -35,7 +35,7 @@
                         <select id="cultivar" v-model="createForm.cultivar_id"
                             class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                             <option v-for="cultivar in cultivars" :key="cultivar.id" :value="cultivar.id">
-                                {{ cultivar.prime_name }}
+                                {{ cultivar.name }}
                             </option>
                         </select>
                     </div>
@@ -128,7 +128,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="crop in paginatedCrops" :key="crop.id" class="odd:bg-white even:bg-gray-50">
-                                <td class="px-4 py-4 text-xs text-gray-500 w-48">{{ crop.cultivar.prime_name || 'N/A' }}
+                                <td class="px-4 py-4 text-xs text-gray-500 w-48">{{ crop.cultivar.name || 'N/A' }}
                                 </td>
                                 <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.block_number }}</td>
                                 <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.planting_date }}</td>
@@ -189,7 +189,7 @@
                                                         class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                                                         <option v-for="cultivar in cultivars" :key="cultivar.id"
                                                             :value="cultivar.id">
-                                                            {{ cultivar.prime_name }}
+                                                            {{ cultivar.name }}
                                                         </option>
                                                     </select>
                                                 </div>
@@ -300,7 +300,7 @@ const filteredCrops = computed(() => {
     const searchValue = search.value.toLowerCase();
     return crops.filter((crop) => {
         return (
-            (crop.cultivar && crop.cultivar.prime_name.toLowerCase().includes(searchValue)) ||
+            (crop.cultivar && crop.cultivar.name.toLowerCase().includes(searchValue)) ||
             crop.block_number.toLowerCase().includes(searchValue) ||
             crop.planting_date.toLowerCase().includes(searchValue) ||
             (crop.harvest_date && crop.harvest_date.toLowerCase().includes(searchValue)) ||
@@ -342,16 +342,53 @@ const editForm = ref({
 
 const fetchCultivars = async () => {
     try {
+        // Send request to fetch cultivars
         const response = await axios.get('/api/fetch-cultivars');
-        cultivars.value = response.data;
+
+        // Check if data is in expected format
+        if (response.data && Array.isArray(response.data)) {
+            cultivars.value = response.data;
+        } else {
+            console.warn("Unexpected response format:", response);
+            toast("Unexpected data format received!", {
+                theme: "colored",
+                type: "warning",
+                position: "top-center",
+                hideProgressBar: true,
+                transition: "zoom",
+            });
+        }
     } catch (error) {
-        // toast("Error loading cultivars!", {
-        //     "theme": "colored",
-        //     "type": "error",
-        //     "position": "top-center",
-        //     "hideProgressBar": true,
-        //     "transition": "zoom",
-        // });
+        // Detailed error handling based on error type
+        if (error.response) {
+            // Server errors
+            const status = error.response.status;
+            let message = "Failed to load cultivars";
+
+            if (status === 404) {
+                message = "Cultivars data not found!";
+            } else if (status >= 500) {
+                message = "Server error! Please try again later.";
+            }
+
+            toast(message, {
+                theme: "colored",
+                type: "error",
+                position: "top-center",
+                hideProgressBar: true,
+                transition: "zoom",
+            });
+        } else {
+            // Network or other errors
+            toast("Network error! Please check your connection.", {
+                theme: "colored",
+                type: "error",
+                position: "top-center",
+                hideProgressBar: true,
+                transition: "zoom",
+            });
+        }
+
         console.error("Error fetching cultivars:", error);
     }
 };

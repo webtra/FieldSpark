@@ -88,4 +88,11 @@ class CropsController extends Controller
 
         return response()->json(['message' => 'Crop created successfully', 'crop' => $crop], 201);
     }
+
+    public function fetchCrops()
+    {
+        $crops = Crops::select('id', 'block_number')->get();
+
+        return response()->json($crops, 200);
+    }
 }

@@ -82,4 +82,11 @@ class AgrochemicalsController extends Controller
             'data' => $agrochemical
         ], 200);
     }
+
+    public function fetchAgrochemicals()
+    {
+        $agrochemicals = Agrochemicals::select('id', 'name')->get();
+
+        return response()->json($agrochemicals, 200);
+    }
 }

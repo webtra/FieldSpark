@@ -114,8 +114,8 @@
                                     <select v-model="user.role_id" @change="updateUserRole(user)"
                                         class="px-4 py-2 border border-gray-300 rounded text-xs w-full">
                                         <option value="1">Admin</option>
-                                        <option value="2">Staff</option>
-                                        <option value="3">Viewer</option>
+                                        <option value="2">Manager</option>
+                                        <option value="3">Staff</option>
                                     </select>
                                 </td>
                                 <td

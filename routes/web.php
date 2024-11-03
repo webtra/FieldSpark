@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AgrochemicalProgramsController;
 use App\Http\Controllers\AgrochemicalsController;
 use App\Http\Controllers\CropsController;
 use App\Http\Controllers\CultivarsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
+use App\Models\AgrochemicalPrograms;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,6 +21,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::delete('/{id}', [AgrochemicalsController::class, 'destroy'])->name('agrochemical.destroy');
         Route::put('/{id}', [AgrochemicalsController::class, 'update'])->name('agrochemical.update');
         Route::post('/store', [AgrochemicalsController::class, 'store'])->name('agrochemical.store');
+    });
+
+    Route::prefix('agrochemical-program')->group(function () {
+        Route::get('/', [AgrochemicalProgramsController::class, 'index'])->name('agrochemical.program.index');
+        Route::delete('/{id}', [AgrochemicalProgramsController::class, 'destroy'])->name('agrochemical.program.destroy');
+        Route::put('/{id}', [AgrochemicalProgramsController::class, 'update'])->name('agrochemical.program.update');
+        Route::post('/store', [AgrochemicalProgramsController::class, 'store'])->name('agrochemical.program.store');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -39,6 +48,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('api')->group(function () {
         Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
+        Route::get('/fetch-crops', [CropsController::class, 'fetchCrops']);
+        Route::get('/fetch-agrochemicals', [AgrochemicalsController::class, 'fetchAgrochemicals']);
     });
 
     Route::prefix('user')->group(function () {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cultivar_id')->constrained('cultivars');
+            $table->foreignId('cultivar_id');
             $table->string('block_number');
             $table->date('planting_date');
             $table->date('harvest_date')->nullable();

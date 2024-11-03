@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agrochemicals;
 use App\Models\Cultivars;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -31,10 +32,17 @@ class CultivarsController extends Controller
      */
     public function fetchCultivars()
     {
-        $cultivars = Cultivars::select('id', 'prime_name')->get();
+        // Retrieve only necessary fields; consider adding pagination if the dataset is large
+        $cultivars = Cultivars::select('id', 'name')->get();
+
+        // Handle case where no cultivars are found
+        if ($cultivars->isEmpty()) {
+            return response()->json(['message' => 'No cultivars found.'], 404);
+        }
 
         return response()->json($cultivars, 200);
     }
+
 
     public function store(Request $request)
     {

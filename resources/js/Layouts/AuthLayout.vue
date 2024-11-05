@@ -1,8 +1,6 @@
 <template>
-    <div
-    class="min-h-screen flex items-center justify-center bg-cover bg-center"
-    :style="{ backgroundImage: 'url(/storage/login-register.jpg)' }"
-    >
+    <div class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        :style="{ backgroundImage: 'url(/storage/login-register.jpg)', backgroundSize: 'cover' }">
         <slot></slot>
     </div>
 </template>

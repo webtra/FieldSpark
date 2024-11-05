@@ -431,7 +431,6 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';

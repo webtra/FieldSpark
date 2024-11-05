@@ -42,12 +42,6 @@
                             placeholder="Recommended Dosage" required />
                     </div>
 
-                    <div class="mb-4">
-                        <InputLabel value="Description" />
-                        <TextInput id="name" type="text" v-model="formData.description" class="mt-1 block w-full"
-                            placeholder="Description" required />
-                    </div>
-
                     <div class="flex space-x-4 mb-4">
                         <div class="w-full">
                             <InputLabel value="Manufacturer" />
@@ -67,6 +61,23 @@
                                 <option value="Growth Regulator">Growth Regulator</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="w-full mb-4">
+                        <InputLabel value="Mixing Category" />
+                        <select v-model="formData.mixing_category"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                            required>
+                            <option value="Water">Water</option>
+                            <option value="Water Quality Regulators">Water Quality Regulators</option>
+                            <option value="Water-Soluble Packets">Water-Soluble Packets</option>
+                            <option value="Dry Formulations">Dry Formulations</option>
+                            <option value="Suspension Concentrates">Suspension Concentrates</option>
+                            <option value="Emulsifiable Concentrates">Emulsifiable Concentrates</option>
+                            <option value="Adhesives">Adhesives</option>
+                            <option value="Water-Soluble Liquids">Water-Soluble Liquids</option>
+                            <option value="Foliar Feedings">Foliar Feedings</option>
+                        </select>
                     </div>
 
                     <div class="flex space-x-4 mb-4">
@@ -113,14 +124,14 @@
 
                     <div class="flex space-x-4 mb-4">
                         <div class="w-full">
-                            <InputLabel value="Re-Entry Internal" />
+                            <InputLabel value="Re-Entry Internal (Hours)" />
                             <p class="text-gray-400 text-[11px]">Enter field only after safe time elapses</p>
                             <TextInput id="name" type="number" v-model="formData.reentry_interval"
                                 class="mt-1 block w-full" placeholder="Re-Entry Internal" required />
                         </div>
 
                         <div class="w-full">
-                            <InputLabel value="Pre Harvest Interval" />
+                            <InputLabel value="Pre Harvest Interval (Days)" />
                             <p class="text-gray-400 text-[11px]">Stop agrochemical use before harvest</p>
                             <TextInput id="name" type="number" v-model="formData.pre_harvest_interval"
                                 class="mt-1 block w-full" placeholder="Pre Harvest Interval" required />
@@ -258,12 +269,6 @@
                                                     <TextInput id="name" type="text"
                                                         v-model="editForm.recommended_dosage" class="mt-1 block w-full"
                                                         placeholder="Recommended Dosage" required />
-                                                </div>
-
-                                                <div class="mb-4">
-                                                    <InputLabel value="Description" />
-                                                    <TextInput id="name" type="text" v-model="editForm.description"
-                                                        class="mt-1 block w-full" placeholder="Description" required />
                                                 </div>
 
                                                 <div class="flex space-x-4 mb-4">
@@ -434,13 +439,6 @@
                                 placeholder="Recommended Dosage" disabled />
                         </div>
 
-                        <!-- Description -->
-                        <div class="mb-4">
-                            <InputLabel value="Description" />
-                            <TextInput id="description" type="text" :value="selectedAgrochemical.description"
-                                class="mt-1 block w-full" placeholder="Description" disabled />
-                        </div>
-
                         <!-- Manufacturer and Category -->
                         <div class="flex space-x-4 mb-4">
                             <div class="w-full">
@@ -574,8 +572,8 @@ const selectedAgrochemical = ref(null);
 const formData = ref({
     name: '',
     recommended_dosage: '',
-    description: '',
     category: '',
+    mixing_category: '',
     manufacturer: '',
     application_method: '',
     toxicity_level: '',
@@ -606,7 +604,7 @@ const createAgrochemical = async () => {
         const response = await axios.post('/agrochemical/store', formData.value);
         showCreateAgrochemicalModal.value = false;
 
-        toast("Agrochemical created successfully!", {
+        toast("Record created successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -633,8 +631,8 @@ const showEditModal = ref(false);
 const editForm = ref({
     name: '',
     recommended_dosage: '',
-    description: '',
     category: '',
+    mixing_category: '',
     manufacturer: '',
     application_method: '',
     toxicity_level: '',
@@ -686,6 +684,7 @@ function openEditModal(agrochemical) {
         name: agrochemical.name,
         recommended_dosage: agrochemical.recommended_dosage,
         category: agrochemical.category,
+        mixing_category: agrochemical.mixing_category,
         manufacturer: agrochemical.manufacturer,
         application_method: agrochemical.application_method,
         toxicity_level: agrochemical.toxicity_level,
@@ -704,8 +703,8 @@ const editAgrochemical = async (agrochemical) => {
         const response = await axios.put(`/agrochemical/${agrochemical.id}`, {
             name: editForm.value.name,
             recommended_dosage: editForm.value.recommended_dosage,
-            description: editForm.value.description,
             category: editForm.value.category,
+            mixing_category: editForm.value.mixing_category,
             manufacturer: editForm.value.manufacturer,
             application_method: editForm.value.application_method,
             toxicity_level: editForm.value.toxicity_level,

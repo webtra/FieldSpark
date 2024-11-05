@@ -54,7 +54,7 @@
                                         class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
                                         <option v-for="agrochemical in agrochemicals" :key="agrochemical.id"
                                             :value="agrochemical.id">
-                                            {{ agrochemical.name }}
+                                            {{ agrochemical.mixing_order }} - {{ agrochemical.name }}
                                         </option>
                                     </select>
                                 </div>
@@ -70,7 +70,7 @@
 
                                 <!-- Remove Row Button, shown only if there are more than one row -->
                                 <button v-if="rows.length > 1" @click="removeRow(index)"
-                                    class="text-red-500 hover:text-red-700 mt-4">
+                                    class="text-red-500 hover:text-red-700 pt-5">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="sqaure" stroke-linejoin="round"
@@ -99,8 +99,8 @@
                             Cancel
                         </CancelButton>
 
-                        <PrimaryButton @click="generatApplicationSheet">
-                            Generate Sheet
+                        <PrimaryButton @click="createAgrochemicalProgram">
+                            Create Program
                         </PrimaryButton>
                     </div>
                 </div>
@@ -226,15 +226,6 @@ const formData = ref({
     crop_id: '',
     agrochemical_id: '',
     planned_application_date: '',
-    recommendations: '',
-    application_date: '',
-    block: '',
-    application_time: '',
-    tractor_hours_start: '',
-    tractor_hours_end: '',
-    tank_number: '',
-    liters_sprayed: '',
-    operator_name: '',
 });
 
 const editForm = ref({ ...formData.value });
@@ -252,18 +243,6 @@ const filteredAgrochemicalPrograms = computed(() => {
 const paginatedAgrochemicalPrograms = computed(() => filteredAgrochemicalPrograms.value.slice(0, displayedItems.value));
 
 const loadMore = () => { displayedItems.value += 10; };
-
-const createAgrochemicalProgram = async () => {
-    try {
-        await axios.post('/agrochemical-programs', formData.value);
-        showCreateAgrochemicalModal.value = false;
-        toast("Agrochemical program created successfully!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
-        window.location.reload();
-    } catch (error) {
-        toast("Error creating agrochemical program!", { theme: "colored", type: "error", position: "top-center" });
-        console.error("Error:", error);
-    }
-};
 
 // Open the drawer to display program details
 const openDrawer = (program) => {
@@ -315,13 +294,6 @@ const deleteAgrochemicalProgram = async () => {
     }
 };
 
-// Reactive arrays to hold data
-const crops = ref([]);
-const agrochemicals = ref([]);
-const rows = ref([
-    { crop_id: null, agrochemical_id: null, planned_application_date: null }
-]);
-
 const fetchCrops = async () => {
     try {
         const response = await axios.get('/api/fetch-crops');
@@ -336,8 +308,7 @@ const fetchCrops = async () => {
 const fetchAgrichemicals = async () => {
     try {
         const response = await axios.get('/api/fetch-agrochemicals');
-        agrochemicals.value = response.data;
-
+        agrochemicals.value = response.data.sort((a, b) => a.mixing_order - b.mixing_order);
         // console.log("Fetched Agrochemicals:", response.data);
     } catch (error) {
         console.error("Error fetching agrochemicals:", error);
@@ -349,6 +320,13 @@ onMounted(() => {
     fetchAgrichemicals();
 });
 
+// Reactive arrays to hold data
+const crops = ref([]);
+const agrochemicals = ref([]);
+const rows = ref([
+    { crop_id: null, agrochemical_id: null, planned_application_date: null }
+]);
+
 // Add a new row with empty fields
 const addRow = () => {
     rows.value.push({ crop_id: null, agrochemical_id: null, planned_application_date: null });
@@ -358,6 +336,18 @@ const addRow = () => {
 const removeRow = (index) => {
     if (rows.value.length > 1) {
         rows.value.splice(index, 1);
+    }
+};
+
+const createAgrochemicalProgram = async () => {
+    try {
+        await axios.post('/agrochemical-program/store', { rows: rows.value });
+        showCreateAgrochemicalModal.value = false;
+        toast("Agrochemical program created successfully!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
+        window.location.reload();
+    } catch (error) {
+        toast("Error creating agrochemical program!", { theme: "colored", type: "error", position: "top-center" });
+        console.error("Error:", error);
     }
 };
 </script>

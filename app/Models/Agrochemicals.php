@@ -17,7 +17,6 @@ class Agrochemicals extends Model
     protected $fillable = [
         'name',
         'recommended_dosage',
-        'description',
         'category',
         'manufacturer',
         'application_method',
@@ -29,6 +28,8 @@ class Agrochemicals extends Model
         'storage_instructions',
         'safety_precautions',
         'mixing_compatibility',
+        'mixing_order',
+        'mixing_category',
     ];
 
     /**
@@ -66,6 +67,30 @@ class Agrochemicals extends Model
         'Medium',
         'High'
     ];
+
+    protected static $mixingOrderMapping = [
+        'Water' => 1,
+        'Water Quality Regulators' => 2,
+        'Water-Soluble Packets' => 3,
+        'Dry Formulations' => 4,
+        'Suspension Concentrates' => 5,
+        'Emulsifiable Concentrates' => 6,
+        'Adhesives' => 7,
+        'Water-Soluble Liquids' => 8,
+        'Foliar Feedings' => 9,
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Assign `mixing_order` automatically before saving
+        static::saving(function ($agrochemical) {
+            if (isset($agrochemical->mixing_category)) {
+                $agrochemical->mixing_order = self::$mixingOrderMapping[$agrochemical->mixing_category] ?? null;
+            }
+        });
+    }
 
     public function agrochemicalPrograms()
     {

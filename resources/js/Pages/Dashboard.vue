@@ -28,11 +28,14 @@
                     <div>
                         <p class="text-gray-600 md:mt-2">Created At: {{ formattedCreatedAt }}</p>
                         <div class="h-fit mt-4 flex space-x-4">
-                            <PrimaryButton @click="logout">
+                            <!-- Update button to navigate to the profile page -->
+                            <PrimaryButton @click="goToProfile" class="w-full">
                                 Update
                             </PrimaryButton>
+
+                            <!-- Logout button with Inertia POST request -->
                             <form @submit.prevent="logout" class="w-full">
-                                <SecondaryButton as="button">
+                                <SecondaryButton>
                                     Log Out
                                 </SecondaryButton>
                             </form>
@@ -90,15 +93,22 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { Head, Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
 
 // Define props
 const props = defineProps({
     user: Object,
 });
+
+// Navigate to the profile page
+const goToProfile = () => {
+    router.visit(route('profile.show')); // Adjust to the actual route for profile editing
+};
 
 const logout = () => {
     router.post(route('logout'));

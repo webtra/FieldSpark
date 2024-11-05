@@ -178,8 +178,7 @@ const createTicket = async () => {
     try {
         const response = await axios.post('/support-tickets/store', formData.value);
 
-        // Display success message
-        toast.success('Support ticket created successfully');
+        toast("Record sucessfully crated!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
 
         // Close the modal
         showCreateTicketModal.value = false;

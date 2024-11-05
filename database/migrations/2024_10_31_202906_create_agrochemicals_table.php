@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('recommended_dosage', 8, 2)->nullable();
-            $table->text('description');
             $table->enum('category', [
                 'Herbicide',
                 'Pesticide',
@@ -32,6 +31,18 @@ return new class extends Migration
             $table->integer('pre_harvest_interval')->nullable();
             $table->text('safety_precautions')->nullable();
             $table->string('mixing_compatibility')->nullable();
+            $table->integer('mixing_order');
+            $table->enum('mixing_category', [
+                'Water',
+                'Water Quality Regulators',
+                'Water-Soluble Packets',
+                'Dry Formulations',
+                'Suspension Concentrates',
+                'Emulsifiable Concentrates',
+                'Adhesives',
+                'Water-Soluble Liquids',
+                'Foliar Feedings'
+            ])->nullable();
             $table->timestamps();
         });
     }

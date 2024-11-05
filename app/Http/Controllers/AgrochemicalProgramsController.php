@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AgrochemicalPrograms;
 use App\Http\Requests\StoreAgrochemicalProgramsRequest;
 use App\Http\Requests\UpdateAgrochemicalProgramsRequest;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AgrochemicalProgramsController extends Controller
@@ -24,51 +25,24 @@ class AgrochemicalProgramsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
-    }
+        $data = $request->validate([
+            'rows' => 'required|array',
+            'rows.*.crop_id' => 'required|integer|exists:crops,id',
+            'rows.*.agrochemical_id' => 'required|integer|exists:agrochemicals,id',
+            'rows.*.planned_application_date' => 'required|date',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAgrochemicalProgramsRequest $request)
-    {
-        //
-    }
+        // Loop through each row and create a new record in the database
+        foreach ($data['rows'] as $row) {
+            AgrochemicalPrograms::create([
+                'crop_id' => $row['crop_id'],
+                'agrochemical_id' => $row['agrochemical_id'],
+                'planned_application_date' => $row['planned_application_date'],
+            ]);
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AgrochemicalPrograms $agrochemicalPrograms)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AgrochemicalPrograms $agrochemicalPrograms)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAgrochemicalProgramsRequest $request, AgrochemicalPrograms $agrochemicalPrograms)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(AgrochemicalPrograms $agrochemicalPrograms)
-    {
-        //
+        return response()->json(['message' => 'Agrochemical program applications saved successfully.']);
     }
 }

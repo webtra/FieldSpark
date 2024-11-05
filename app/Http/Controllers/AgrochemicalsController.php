@@ -38,6 +38,8 @@ class AgrochemicalsController extends Controller
             'pre_harvest_interval' => 'nullable|integer',
             'safety_precautions' => 'nullable|string',
             'mixing_compatibility' => 'nullable|string',
+            'mixing_order' => 'nullable|integer',
+            'mixing_category' => 'nullable|in:Water,Water Quality Regulators,Water-Soluble Packets,Dry Formulations,Suspension Concentrates,Emulsifiable Concentrates,Adhesives,Water-Soluble Liquids,Foliar Feedings'
         ]);
 
         // Create the new crop entry
@@ -85,7 +87,7 @@ class AgrochemicalsController extends Controller
 
     public function fetchAgrochemicals()
     {
-        $agrochemicals = Agrochemicals::select('id', 'name')->get();
+        $agrochemicals = Agrochemicals::select('id', 'name', 'mixing_order')->get();
 
         return response()->json($agrochemicals, 200);
     }

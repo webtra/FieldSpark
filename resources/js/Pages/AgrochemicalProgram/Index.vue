@@ -35,13 +35,12 @@
                     <div class="space-y-4">
                         <div>
                             <!-- Loop through each row in rows array -->
-                            <div v-for="(row, index) in rows" :key="index" class="flex items-center space-x-4 mb-4">
+                            <div v-for="(row, index) in rows" :key="index" class="block md:flex items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
                                 <!-- Crop Dropdown -->
                                 <div class="w-full">
                                     <InputLabel :for="'crop' + index" value="Crop" />
                                     <select :id="'crop' + index" v-model="row.crop_id"
                                         class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
-                                        <option value="" disabled>Select a crop</option>
                                         <option v-for="crop in crops" :key="crop.id" :value="crop.id">
                                             {{ crop.block_number }}
                                         </option>
@@ -53,7 +52,6 @@
                                     <InputLabel :for="'agrochemical' + index" value="Agrochemical" />
                                     <select :id="'agrochemical' + index" v-model="row.agrochemical_id"
                                         class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
-                                        <option value="" disabled>Select an agrochemical</option>
                                         <option v-for="agrochemical in agrochemicals" :key="agrochemical.id"
                                             :value="agrochemical.id">
                                             {{ agrochemical.name }}

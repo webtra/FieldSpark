@@ -31,9 +31,11 @@
                             <PrimaryButton @click="logout">
                                 Update
                             </PrimaryButton>
-                            <SecondaryButton @click="logout">
-                                Logout
-                            </SecondaryButton>
+                            <form @submit.prevent="logout" class="w-full">
+                                <SecondaryButton as="button">
+                                    Log Out
+                                </SecondaryButton>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -98,6 +100,10 @@ const props = defineProps({
     user: Object,
 });
 
+const logout = () => {
+    router.post(route('logout'));
+};
+
 // Format the `created_at` date to a readable format
 const formattedCreatedAt = computed(() => {
     if (!props.user.created_at) return '';
@@ -156,11 +162,6 @@ const goToAddCultivar = () => {
 const goToAddProgram = () => {
     // Navigate to add program page
     window.location.href = '/programs/create';
-};
-
-const logout = () => {
-    // Perform logout action
-    window.location.href = '/logout';
 };
 
 // Role ID to Role Name Mapping

@@ -12,16 +12,8 @@ class AgrochemicalPrograms extends Model
     protected $fillable = [
         'crop_id',
         'agrochemical_id',
+        'name',
         'planned_application_date',
-        'application_date',
-        'application_time',
-        'tractor_hours_start',
-        'tractor_hours_end',
-        'tank_number',
-        'liters_sprayed',
-        'operator_name',
-        'application_sheet_generated',
-        'application_sheet_link',
     ];
 
     public function crop()

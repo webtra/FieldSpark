@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('crop_id');
             $table->foreignId('agrochemical_id');
+            $table->string('name');
             $table->date('planned_application_date');
             $table->timestamps();
         });

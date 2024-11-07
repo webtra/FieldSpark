@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('agrochemical-program')->group(function () {
         Route::get('/', [AgrochemicalProgramsController::class, 'index'])->name('agrochemical.program.index');
-        Route::delete('/{id}', [AgrochemicalProgramsController::class, 'destroy'])->name('agrochemical.program.destroy');
+        Route::delete('/{id}', [AgrochemicalProgramsController::class, 'delete'])->name('agrochemical.program.delete');
         Route::put('/{id}', [AgrochemicalProgramsController::class, 'update'])->name('agrochemical.program.update');
         Route::post('/store', [AgrochemicalProgramsController::class, 'store'])->name('agrochemical.program.store');
     });

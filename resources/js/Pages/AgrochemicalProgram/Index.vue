@@ -131,7 +131,7 @@
                                                     </PrimaryButton>
                                                     <SecondaryButton class="whitespace-nowrap font-normal"
                                                         @click.prevent="openEditModal(group)">
-                                                        Edit Program
+                                                        Edit
                                                     </SecondaryButton>
 
                                                     <!-- Edit Modal -->

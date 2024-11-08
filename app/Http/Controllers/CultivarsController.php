@@ -23,7 +23,7 @@ class CultivarsController extends Controller
         return Inertia::render('Cultivars/Index', [
             'cultivars' => $cultivars,
             'cultivarCount' => $cultivarCount,
-            'pageTitle' => 'Cultivars',
+            'pageTitle' => 'Cultivar Management',
         ]);
     }
 

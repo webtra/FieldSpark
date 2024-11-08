@@ -2,16 +2,12 @@
     <AppLayout title="Support Tickets">
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
-                <div>
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Support Ticket Management</h1>
-                    <p class="mt-1 text-gray-500">
-                        Total Tickets: {{ filteredTickets.length }} (Filtered from {{ supportTicketsCount }})
+                <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Tickets:</span> {{ filteredTickets.length }} (Filtered from {{ supportTicketsCount }})
                     </p>
-                </div>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="search" placeholder="Search Tickets..." class="w-full md:w-96" />
+                    <TextInput type="text" v-model="search" placeholder="Search" class="w-full md:w-96" />
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateTicketModal = true">
@@ -72,30 +68,30 @@
 
             <!-- Table of Support Tickets -->
             <div class="mt-4" v-if="paginatedTickets && paginatedTickets.length > 0">
-                <div class="border border-gray-300 rounded-md overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="text-black bg-white">
+                <div class="rounded-lg overflow-x-auto">
+                    <table class="min-w-full text-sm text-black">
+                        <thead class="bg-white border-b-2 border-gray-200">
                             <tr>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">ID</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Ticket Number</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Category</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Urgency</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Subject</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Message</th>
-                                <th class="px-8 py-4 text-left text-xs font-medium uppercase tracking-wider">Updated</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium w-28 whitespace-nowrap">ID</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Ticket Number</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Category</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Urgency</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Status</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Subject</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Message</th>
+                                <th class="px-6 py-4 text-right text-xs font-medium w-28 whitespace-nowrap">Updated</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="ticket in paginatedTickets" :key="ticket.id" class="cursor-pointer odd:bg-white even:bg-gray-50">
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.id }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.ticket_number }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.category }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.urgency }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.status }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ ticket.subject }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500 line-clamp-1">{{ ticket.message }}</td>
-                                <td class="px-8 py-2 text-xs text-gray-500">{{ formattedUpdatedAt(ticket.updated_at) }}</td>
+                                <td class="px-6 py-2 w-28 text-xs text-gray-600">{{ ticket.id }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.ticket_number }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.category }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.urgency }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.status }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.subject }}</td>
+                                <td class="px-4 py-2 w-40 text-xs text-gray-600 line-clamp-1">{{ ticket.message }}</td>
+                                <td class="px-6 py-2 w-28 text-right text-xs text-gray-500">{{ formattedUpdatedAt(ticket.updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>

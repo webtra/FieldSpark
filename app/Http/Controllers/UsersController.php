@@ -23,7 +23,7 @@ class UsersController extends Controller
         return Inertia::render('Users/Index', [
             'users' => $users,
             'usersCount' => $usersCount,
-            'pageTitle' => 'Users',
+            'pageTitle' => 'User Management',
         ]);
     }
 

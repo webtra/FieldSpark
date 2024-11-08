@@ -2,15 +2,12 @@
     <AppLayout title="Crop">
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
-                <div>
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Crop Management</h1>
-                    <p class="mt-1 text-gray-500">Total Crops: {{ filteredCrops.length }} (Filtered from {{ cropCount
-                        }})</p>
-                </div>
+                <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Crops:</span> {{ filteredCrops.length }} (Filtered from {{ cropCount
+                    }})</p>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="search" placeholder="Search Crop..." class="w-96" />
+                    <TextInput type="text" v-model="search" placeholder="Search" class="w-96" />
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateCropModal = true">
@@ -96,45 +93,38 @@
 
             <!-- Table of Crops -->
             <div class="mt-4" v-if="paginatedCrops && paginatedCrops.length > 0">
-                <div class="border border-gray-300 rounded-md overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-300 table-fixed">
-                        <thead class="text-black bg-white">
+                <div class="rounded-lg overflow-x-auto">
+                    <table class="min-w-full text-sm text-black">
+                        <thead class="bg-white border-b-2 border-gray-200">
                             <tr>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48 whitespace-nowrap">
+                                <th class="px-6 py-4 text-left text-xs font-medium w-32 whitespace-nowrap">
+                                    ID</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Cultivar</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36 whitespace-nowrap">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Block Number</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36 whitespace-nowrap">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Planting Date</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36 whitespace-nowrap">
-                                    Harvest Date</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36 whitespace-nowrap">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Location</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28 whitespace-nowrap">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Status</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-32 whitespace-nowrap">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Size</th>
-                                <th
-                                    class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28 whitespace-nowrap">
+                                <th class="px-6 py-4 text-right text-xs font-medium w-32 whitespace-nowrap">
                                     Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="crop in paginatedCrops" :key="crop.id" class="odd:bg-white even:bg-gray-50">
-                                <td class="px-4 py-4 text-xs text-gray-500 w-48">{{ crop.cultivar.name || 'N/A' }}
+                            <tr v-for="crop in paginatedCrops">
+                                <td class="px-6 py-2 text-xs text-gray-500 w-32">{{ crop.id }}
                                 </td>
-                                <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.block_number }}</td>
-                                <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.planting_date }}</td>
-                                <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.harvest_date }}</td>
-                                <td class="px-4 py-4 text-xs text-gray-500 w-36">{{ crop.location }}</td>
-                                <td class="px-4 py-4 text-xs text-gray-500 w-28 uppercase tracking-wide">
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48">{{ crop.cultivar.name || 'N/A' }}
+                                </td>
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48">{{ crop.block_number }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48">{{ crop.planting_date }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48">{{ crop.location }}</td>
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48 uppercase tracking-wide">
                                     <span :class="{
                                         'bg-status-planted-bg text-status-planted-text': crop.status === 'planted',
                                         'bg-status-growing-bg text-status-growing-text': crop.status === 'growing',
@@ -144,11 +134,14 @@
                                         {{ crop.status }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-2 text-xs text-gray-500 w-32">{{ crop.size }} hectare</td>
-                                <td class="px-4 py-2 text-xs text-gray-500 w-28 space-x-4 flex items-center">
+                                <td class="px-4 py-2 text-xs text-gray-500 w-48">{{ crop.size }} hectare</td>
+                                <td class="py-2 text-xs text-gray-500 w-32 space-x-4 flex items-center !justify-end">
                                     <!-- Delete button and modal -->
-                                    <div class="mt-2">
-                                        <button class="underline" @click="openDeleteModal(crop)">Delete</button>
+                                    <div>
+                                        <PrimaryButton @click="openDeleteModal(crop)" :disabled="true"
+                                            class="cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">
+                                            Delete
+                                        </PrimaryButton>
 
                                         <div v-if="showDeleteModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
@@ -170,8 +163,8 @@
                                     </div>
 
                                     <!-- Edit button and modal -->
-                                    <div class="mt-2">
-                                        <button class="underline" @click="openEditModal(crop)">Edit</button>
+                                    <div>
+                                        <SecondaryButton @click="openEditModal(crop)">Edit</SecondaryButton>
 
                                         <div v-if="showEditModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
@@ -282,6 +275,7 @@ import InputLabel from '@/Components/InputLabel.vue';;
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import CancelButton from "@/Components/CancelButton.vue";
 import DangerButton from '@/Components/DangerButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const { crops, cropCount } = defineProps({
     crops: Array,

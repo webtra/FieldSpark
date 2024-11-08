@@ -2,17 +2,14 @@
     <AppLayout title="Agrochemical Program">
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
-                <div>
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Agrochemical Program Management</h1>
-                    <p class="mt-1 text-gray-500">Total Agrochemical Programs: {{ filteredAgrochemicalPrograms.length }}
-                        (Filtered from
-                        {{ agrochemicalProgramCount }})</p>
-                </div>
+                <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Agrochemical
+                        Programs:</span> {{ filteredAgrochemicalPrograms.length }}
+                    (Filtered from
+                    {{ agrochemicalProgramCount }})</p>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="searchTerm" placeholder="Search Agrochemical Programs..."
-                        class="w-96" />
+                    <TextInput type="text" v-model="searchTerm" placeholder="Search" class="w-96" />
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="openCreateModal">
@@ -107,21 +104,23 @@
 
             <!-- Table of Agrochemical Programs -->
             <div class="mt-4" v-if="groupedProgramsByDateAndOrder.length > 0">
-                <div class="border border-gray-300 rounded-md overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="text-black bg-white">
+                <div class="rounded-lg overflow-x-auto">
+                    <table class="min-w-full text-sm text-black">
+                        <thead class="bg-white border-b-2 border-gray-200">
                             <tr>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Planned Application Date</th>
-                                <th class="px-4 py-4 text-right text-xs font-medium uppercase tracking-wider">Actions</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium w-28 whitespace-nowrap">Planned
+                                    Application Date</th>
+                                <th class="px-6 py-4 text-right text-xs font-medium w-28 whitespace-nowrap">Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <template v-for="(group, index) in groupedProgramsByDateAndOrder" :key="group.date">
                                 <!-- Main grouped date row as an accordion header -->
                                 <tr @click="toggleAccordion(index)" class="cursor-pointer text-xs font-bold">
-                                    <td colspan="2" class="px-4 py-2">
+                                    <td colspan="2" class="px-6 py-2">
                                         <div class="flex justify-between items-center space-x-4">
-                                            <span>{{ group.date }}</span>
+                                            <span class="font-medium text-gray-600">{{ group.date }}</span>
                                             <div class="flex items-center space-x-4">
                                                 <!-- Button next to the accordion icon -->
                                                 <div class="flex items-center space-x-4">
@@ -182,8 +181,7 @@
                                                                                 v-model="row.planned_application_date"
                                                                                 class="mt-1 block w-full text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded" />
                                                                         </div>
-                                                                        <button v-if="rows.length > 1"
-                                                                            @click.stop="removeRow(index)"
+                                                                        <button @click.stop="removeRow(index)"
                                                                             class="text-red-500 hover:text-red-700 pt-5">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 fill="none" viewBox="0 0 24 24"
@@ -244,29 +242,30 @@
                                         <table class="min-w-full bg-white">
                                             <thead>
                                                 <tr class="bg-gray-200">
-                                                    <th class="px-4 py-2 text-left text-xs font-medium">Planned
+                                                    <th class="px-6 py-2 text-left text-xs font-medium">Planned
                                                         Application Date</th>
                                                     <th class="px-10 py-2 text-left text-xs font-medium">Mixing Order
                                                     </th>
                                                     <th class="px-10 py-2 text-left text-xs font-medium">Agrochemical
                                                         Name</th>
-                                                    <th class="px-10 py-2 text-left text-xs font-medium">Crop/Block Number</th>
-                                                    <th class="px-4 py-2 text-right text-xs font-medium">Actions</th>
+                                                    <th class="px-10 py-2 text-left text-xs font-medium">Crop/Block
+                                                        Number</th>
+                                                    <th class="px-6 py-2 text-right text-xs font-medium">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="program in (group.programs || [])" :key="program.id"
                                                     class="bg-white">
-                                                    <td class="px-4 py-2 text-xs text-gray-500">{{
+                                                    <td class="px-6 py-2 text-xs text-gray-600">{{
                                                         program.planned_application_date }}</td>
-                                                    <td class="px-10 py-2 text-xs text-gray-500">{{
-                                                        program.agrochemical?.mixing_order }}</td>
-                                                    <td class="px-10 py-2 text-xs text-gray-500">{{
-                                                        program.agrochemical?.name }}</td>
-                                                    <td class="px-10 py-2 text-xs text-gray-500">{{
+                                                    <td class="px-10 py-2 text-xs text-gray-600">{{
+                                                        program.agrochemical.mixing_order }}</td>
+                                                    <td class="px-10 py-2 text-xs text-gray-600">{{
+                                                        program.agrochemical.name }}</td>
+                                                    <td class="px-10 py-2 text-xs text-gray-600">{{
                                                         program.crop?.block_number }}
                                                     </td>
-                                                    <td class="text-right px-4 py-2 text-xs text-gray-500">
+                                                    <td class="text-right px-6 py-2 text-xs text-gray-600">
                                                         <button @click="openDrawer([program])" class="underline">View
                                                             Details</button>
                                                     </td>
@@ -301,7 +300,7 @@
                     </div>
                     <div class="py-4 px-8 space-y-4 overflow-y-auto flex-1">
                         <div v-for="program in selectedProgramDetails" :key="program.id" class="mb-4">
-                            
+
                             <p><strong>Mixing Order:</strong> {{ program.agrochemical?.mixing_order }}</p>
                             <p><strong>Crop/Block Number:</strong> {{ program.crop?.block_number }}</p>
                             <p><strong>Agrochemical Name:</strong> {{ program.agrochemical?.name }}</p>
@@ -479,7 +478,7 @@ const updateAgrochemicalProgram = async () => {
         }
 
         showEditAgrochemicalModal.value = false;
-        toast("Agrochemical program updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -489,7 +488,7 @@ const updateAgrochemicalProgram = async () => {
         // Refresh the data to reflect changes
         window.location.reload();
     } catch (error) {
-        toast("Error updating agrochemical program!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -515,10 +514,10 @@ const createAgrochemicalProgram = async () => {
     try {
         await axios.post('/agrochemical-program/store', { rows: rows.value });
         showCreateAgrochemicalModal.value = false;
-        toast("Agrochemical program created successfully!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
+        toast("Record created successfully!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
         window.location.reload();
     } catch (error) {
-        toast("Error creating agrochemical program!", { theme: "colored", type: "error", position: "top-center" });
+        toast("Error creating record!", { theme: "colored", type: "error", position: "top-center" });
         console.error("Error:", error);
     }
 };

@@ -2,16 +2,14 @@
     <AppLayout title="User">
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
-                <div>
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">User Management</h1>
-                    <p class="mt-1 text-gray-500">Total Users: {{ filteredUsers.length }} (Filtered from {{
+                <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Users:</span> {{
+                    filteredUsers.length }} (Filtered from {{
                         usersCount }})
-                    </p>
-                </div>
+                </p>
 
                 <div class="text-gray-500 mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="searchTerm" placeholder="Search User..." class="w-96" />
+                    <TextInput type="text" v-model="searchTerm" placeholder="Search" class="w-96" />
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateUserModal = true">
@@ -62,39 +60,39 @@
 
             <!-- Table of Users -->
             <div class="mt-4" v-if="paginatedUsers && paginatedUsers.length > 0">
-                <div class="border border-gray-300 rounded-md overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="text-black bg-white">
+                <div class="rounded-lg overflow-x-auto">
+                    <table class="min-w-full text-sm text-black">
+                        <thead class="bg-white border-b-2 border-gray-200">
                             <tr>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-24">ID
+                                <th class="px-6 py-4 text-left text-xs font-medium w-28 whitespace-nowrap">ID
                                 </th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">First
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">First
                                     Name</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-48">Last
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">Last
                                     Name</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-64">Email
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">Email
                                     Address</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Email
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">Email
                                     Verified</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">
                                     Created At</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-36">Role
+                                <th class="px-4 py-4 text-left text-xs font-medium w-48 whitespace-nowrap">Role
                                 </th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider w-28">
+                                <th class="px-6 py-4 text-right text-xs font-medium w-40 whitespace-nowrap">
                                     Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="user in filteredUsers" :key="user.id" class="odd:bg-white even:bg-gray-50">
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.id
+                            <tr v-for="user in filteredUsers" :key="user.id">
+                                <td class="px-6 py-2 w-28 text-xs text-gray-600 whitespace-nowrap">{{ user.id
                                     }}</td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.first_name
+                                <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">{{ user.first_name
                                     }}</td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.last_name }}
+                                <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">{{ user.last_name }}
                                 </td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">{{ user.email }}
+                                <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">{{ user.email }}
                                 </td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">
                                     <span v-if="user.email_verified_at">
                                         {{ new Date(user.email_verified_at).toLocaleDateString('en-GB', {
                                             day:
@@ -102,7 +100,7 @@
                                         }) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 w-48 whitespace-nowrap text-xs text-gray-500">
                                     <span v-if="user.created_at">
                                         {{ new Date(user.created_at).toLocaleDateString('en-GB', {
                                             day:
@@ -110,7 +108,7 @@
                                         }) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-500">
+                                <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">
                                     <select v-model="user.role_id" @change="updateUserRole(user)"
                                         class="px-4 py-2 border border-gray-300 rounded text-xs w-full">
                                         <option value="1">Super Admin</option>
@@ -120,11 +118,13 @@
                                     </select>
                                 </td>
                                 <td
-                                    class="px-4 py-2 whitespace-nowrap text-xs text-gray-500 space-x-4 flex items-center">
+                                    class="py-2 w-40 text-xs text-gray-600 whitespace-nowrap flex space-x-4 justify-end">
                                     <!-- delete button -->
-                                    <div class="mt-2">
-                                        <!-- Delete Button -->
-                                        <button class="underline" @click="showDeleteModal = true">Delete</button>
+                                    <div>
+                                        <PrimaryButton @click="showDeleteModal = true" :disabled="true"
+                                            class="cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">
+                                            Delete
+                                        </PrimaryButton>
 
                                         <!-- Confirmation Modal -->
                                         <div v-if="showDeleteModal"
@@ -149,9 +149,9 @@
                                     </div>
 
                                     <!-- edit button -->
-                                    <div class="mt-2">
+                                    <div>
                                         <!-- Delete Button -->
-                                        <button class="underline" @click="openEditModal(user)">Edit</button>
+                                        <SecondaryButton @click="openEditModal(user)">Edit</SecondaryButton>
 
                                         <!-- Confirmation Modal -->
                                         <div v-if="showEditModal"
@@ -231,6 +231,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue'; import CancelButton from '@/Components/CancelButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const { users, usersCount } = defineProps({
     users: Array,

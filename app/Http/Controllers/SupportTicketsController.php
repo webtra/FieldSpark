@@ -27,7 +27,7 @@ class SupportTicketsController extends Controller
         return Inertia::render('SupportTickets/Index', [
             'supportTickets' => $supportTickets,
             'supportTicketsCount' => $supportTicketsCount,
-            'pageTitle' => 'Support Tickets'
+            'pageTitle' => 'Support Ticket Management'
         ]);
     }
 

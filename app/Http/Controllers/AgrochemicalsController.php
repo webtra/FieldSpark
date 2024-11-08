@@ -18,7 +18,7 @@ class AgrochemicalsController extends Controller
         return Inertia::render('Agrochemical/Index', [
             'agrochemicals' => $agrochemicals,
             'agrochemicalsCount' => $agrochemicalsCount,
-            'pageTitle' => 'Agrochemicals',
+            'pageTitle' => 'Agrochemical Management',
         ]);
     }
 

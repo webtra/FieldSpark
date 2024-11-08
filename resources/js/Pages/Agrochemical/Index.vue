@@ -2,15 +2,13 @@
     <AppLayout title="Agrochemical">
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
-                <div>
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Agrochemical Management</h1>
-                    <p class="mt-1 text-gray-500">Total Agrochemicals: {{ filteredAgrochemicals.length }} (Filtered from
-                        {{ agrochemicalsCount }})</p>
-                </div>
+                <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Agrochemicals:</span> {{
+                    filteredAgrochemicals.length }} (Filtered from
+                    {{ agrochemicalsCount }})</p>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
-                    <TextInput type="text" v-model="searchTerm" placeholder="Search Agrochemical..." class="w-96" />
+                    <TextInput type="text" v-model="searchTerm" placeholder="Search" class="w-96" />
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateAgrochemicalModal = true">
@@ -163,65 +161,62 @@
 
             <!-- Table of Agrochemicals -->
             <div class="mt-4" v-if="paginatedAgrochemicals && paginatedAgrochemicals.length > 0">
-                <div class="border border-gray-300 rounded-md overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="text-black bg-white">
+                <div class="rounded-lg overflow-x-auto">
+                    <table class="min-w-full text-sm text-black">
+                        <thead class="bg-white border-b-2 border-gray-200">
                             <tr>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">ID</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Name
+                                <th class="px-6 py-4 text-left text-xs font-medium w-28 whitespace-nowrap">ID</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Name
                                 </th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Dosage
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Dosage
                                 </th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">
                                     Category
                                 </th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">
                                     Application
                                     Method</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">
                                     Toxicity
                                     Level</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
-                                    Application
-                                    Frequency</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">
                                     Re-Entry
                                     Interval</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Pre
-                                    Harvest
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Pre-Harvest
                                     Interval</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider">Actions
+                                <th class="px-6 py-4 text-right text-xs font-medium w-28 whitespace-nowrap">Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="agrochemical in paginatedAgrochemicals" :key="agrochemical.id"
-                                class="cursor-pointer odd:bg-white even:bg-gray-50">
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                class="cursor-pointer">
+                                <td class="px-6 py-2 text-xs text-gray-500 w-28" @click="openDrawer(agrochemical)">{{
                                     agrochemical.id }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.name }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.recommended_dosage }}
                                 </td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.category }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.application_method }}
                                 </td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.toxicity_level }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
-                                    agrochemical.recommended_application_frequency }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.reentry_interval }}</td>
-                                <td class="px-4 py-2 text-xs text-gray-500" @click="openDrawer(agrochemical)">{{
+                                <td class="px-4 py-2 text-xs text-gray-500 w-40" @click="openDrawer(agrochemical)">{{
                                     agrochemical.pre_harvest_interval }}
                                 </td>
-                                <td class="px-4 py-2 text-xs text-gray-500 space-x-4 flex items-center">
+                                <td class="pr-6 py-2 text-xs text-gray-500 space-x-4 flex items-center justify-end">
                                     <!-- Delete button and modal -->
                                     <div>
-                                        <button class="underline" @click="openDeleteModal(agrochemical)">Delete</button>
+                                        <PrimaryButton @click="openDeleteModal(agrochemical)" :disabled="true"
+                                            class="cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">
+                                            Delete
+                                        </PrimaryButton>
 
                                         <div v-if="showDeleteModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
@@ -245,7 +240,7 @@
 
                                     <!-- Edit button and modal -->
                                     <div>
-                                        <button class="underline" @click="openEditModal(agrochemical)">Edit</button>
+                                        <SecondaryButton @click="openEditModal(agrochemical)">Edit</SecondaryButton>
 
                                         <div v-if="showEditModal"
                                             class="fixed z-50 inset-0 flex items-center justify-center">
@@ -557,6 +552,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import CancelButton from '@/Components/CancelButton.vue';
 import { toast } from 'vue3-toastify';
 import DangerButton from '@/Components/DangerButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const { agrochemicals, agrochemicalsCount } = defineProps({
     agrochemicals: Array,

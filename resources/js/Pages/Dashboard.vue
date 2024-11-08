@@ -1,23 +1,9 @@
 <template>
     <AppLayout title="Dashboard">
-        <div>
-            <div class="border border-red-100 bg-red-50 rounded px-4 py-4 text-red-600 ">
-                <div class="flex items-center space-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
-                        <path fill-rule="evenodd"
-                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <p class="font-bold text-sm">Under Development</p>
-                </div>
-                <p class="font-medium ml-8">You are welcome to navigate through the pages and explore the available
-                    features.</p>
-            </div>
-        </div>
 
-        <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- User Information Panel -->
-            <div class="bg-white border border-gray-200 p-4 rounded">
+            <div class="bg-white p-4 rounded-lg">
                 <h2 class="text-base font-semibold mb-4">User Information</h2>
                 <div class="grid grid-cols1 md:grid-cols-2 items-end">
                     <div>
@@ -47,7 +33,7 @@
             <!-- Statistics Panel -->
             <div class="text-center md:col-span-2 grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div v-for="(stat, index) in statCards" :key="index"
-                    class="bg-white border border-gray-200 rounded flex flex-col items-center justify-center p-6">
+                    class="bg-white rounded-lg flex flex-col items-center justify-center p-6">
                     <h3 class="text-gray-500 mb-2">{{ stat.title }}</h3>
                     <p class="text-4xl font-semibold">{{ stat.total }}</p>
                     <div class="mt-2">

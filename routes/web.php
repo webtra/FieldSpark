@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgrochemicalProgramApplicationsController;
 use App\Http\Controllers\AgrochemicalProgramsController;
 use App\Http\Controllers\AgrochemicalsController;
 use App\Http\Controllers\CropsController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\CultivarsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SupportTicketsController;
 use App\Http\Controllers\UsersController;
+use App\Models\AgrochemicalProgramApplications;
 use App\Models\AgrochemicalPrograms;
 use App\Models\SupportTickets;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/fetch-cultivars', [CultivarsController::class, 'fetchCultivars']);
         Route::get('/fetch-crops', [CropsController::class, 'fetchCrops']);
         Route::get('/fetch-agrochemicals', [AgrochemicalsController::class, 'fetchAgrochemicals']);
+        Route::post('/generate-application-sheet', [AgrochemicalProgramApplicationsController::class, 'generateApplicationSheet']);
+        Route::get('/application-sheet/fill/{programId}', [AgrochemicalProgramApplicationsController::class, 'showApplicationForm'])->name('application.sheet.fill');
+        Route::post('/application-sheet/save', [AgrochemicalProgramApplicationsController::class, 'saveApplicationForm'])->name('application.sheet.save');
     });
 
     Route::prefix('agrochemical')->group(function () {
@@ -36,6 +41,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::put('/{id}', [AgrochemicalProgramsController::class, 'update'])->name('agrochemical.program.update');
         Route::post('/store', [AgrochemicalProgramsController::class, 'store'])->name('agrochemical.program.store');
     });
+
+    Route::prefix('agrochemical-program/application')->group(function () {
+        Route::get('/', [AgrochemicalProgramApplicationsController::class, 'index'])->name('agrochemical.program.application.index');
+        Route::put('/{id}', [AgrochemicalProgramApplicationsController::class, 'update'])->name('agrochemical.program.application.update');
+        Route::post('/save', [AgrochemicalProgramApplicationsController::class, 'save']);
+    });
+
+    Route::get('/fill-in/{date}', [AgrochemicalProgramApplicationsController::class, 'fillInPage'])->name('fill-in-page');
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');

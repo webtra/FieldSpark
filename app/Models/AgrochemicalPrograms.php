@@ -21,9 +21,15 @@ class AgrochemicalPrograms extends Model
         return $this->belongsTo(Crops::class);
     }
 
-    // Relationship to the Agrochemical model
+    // Original relationship for the agrochemical
     public function agrochemical()
     {
         return $this->belongsTo(Agrochemicals::class);
+    }
+
+    // Original relationship name preserved
+    public function agrochemicalProgramApplications()
+    {
+        return $this->hasMany(AgrochemicalProgramApplications::class, 'program_id');
     }
 }

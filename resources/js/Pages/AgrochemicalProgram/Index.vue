@@ -3,9 +3,8 @@
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
                 <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Agrochemical
-                        Programs:</span> {{ filteredAgrochemicalPrograms.length }}
-                    (Filtered from
-                    {{ agrochemicalProgramCount }})</p>
+                        Programs:</span> {{ filteredAgrochemicalPrograms.length }} (Filtered from {{
+                    groupedProgramsByDateAndOrder.length }}) </p>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
@@ -124,12 +123,12 @@
                                             <div class="flex items-center space-x-4">
                                                 <!-- Button next to the accordion icon -->
                                                 <div class="flex items-center space-x-4">
-                                                    <PrimaryButton @click.prevent="handleButtonClick(group.date)"
+                                                    <PrimaryButton @click.stop="generateApplicationSheet(group.date)"
                                                         class="whitespace-nowrap">
                                                         Generate Application Sheet
                                                     </PrimaryButton>
                                                     <SecondaryButton class="whitespace-nowrap font-normal"
-                                                        @click.prevent="openEditModal(group)">
+                                                        @click.stop="openEditModal(group)">
                                                         Edit
                                                     </SecondaryButton>
 
@@ -360,13 +359,19 @@ const formData = ref({
 const editForm = ref({ ...formData.value });
 
 const filteredAgrochemicalPrograms = computed(() => {
-    if (!searchTerm.value) return agrochemicalPrograms;
-    const term = searchTerm.value.toLowerCase();
-    return agrochemicalPrograms.filter(program =>
-        program.crop_id.toString().includes(term) ||
-        program.agrochemical_id.toString().includes(term) ||
-        program.block.toLowerCase().includes(term)
-    );
+    if (!searchTerm.value) return groupedProgramsByDateAndOrder.value;
+
+    // Trim and ensure the search term matches the format (e.g., 'YYYY-MM-DD')
+    const term = searchTerm.value.trim();
+
+    console.log('Filtered Data:', groupedProgramsByDateAndOrder.value.map(group => group.date));
+    console.log('Term for Search:', term);
+
+    // Filter for exact match
+    return groupedProgramsByDateAndOrder.value.filter(group => {
+        console.log('Comparing:', group.date, 'with', term);
+        return group.date === term;
+    });
 });
 
 const paginatedAgrochemicalPrograms = computed(() => filteredAgrochemicalPrograms.value.slice(0, displayedItems.value));
@@ -509,7 +514,6 @@ const removeRow = (index) => {
     }
 };
 
-
 const createAgrochemicalProgram = async () => {
     try {
         await axios.post('/agrochemical-program/store', { rows: rows.value });
@@ -547,11 +551,94 @@ const groupedProgramsByDateAndOrder = computed(() => {
         }));
 });
 
+// Function to handle "Generate Application Sheet" click
+// const generateApplicationSheet = async (date) => {
+//     const programs = groupedProgramsByDateAndOrder.value.find(group => group.date === date)?.programs;
+
+//     if (!programs || programs.length === 0) {
+//         toast.error('No programs found for this date.');
+//         return;
+//     }
+
+//     try {
+//         const response = await axios.post('/api/generate-application-sheet', {
+//             programs: programs.map(program => ({
+//                 program_id: program.id,
+//                 application_date: null,
+//                 time: null,
+//                 tractor_start_hours: null,
+//                 tractor_end_hours: null,
+//                 tank_number: null,
+//                 liters_applied: null,
+//                 notes: null,
+//             })),
+//         });
+
+//         if (response.status === 200) {
+//             toast("Record created successfully!", { theme: "colored", type: "success", position: "top-center", hideProgressBar: true });
+//         } else {
+//             toast("Error creating record!", { theme: "colored", type: "error", position: "top-center", hideProgressBar: true });
+//         }
+//     } catch (error) {
+//         console.error('Error generating application sheet:', error);
+//         toast.error('Error generating application records.');
+//     }
+// };
+
+const generateApplicationSheet = async (date) => {
+    const programs = groupedProgramsByDateAndOrder.value.find(group => group.date === date)?.programs;
+
+    if (!programs || programs.length === 0) {
+        toast.error('No programs found for this date.');
+        return;
+    }
+
+    try {
+        // Send the request to generate a PDF
+        const response = await axios.post('/api/generate-application-sheet', {
+            programs: programs.map(program => ({
+                program_id: program.id,
+                application_date: null,
+                time: null,
+                tractor_start_hours: null,
+                tractor_end_hours: null,
+                tank_number: null,
+                liters_applied: null,
+                notes: null,
+            })),
+        }, {
+            responseType: 'blob' // Ensure the response is treated as a binary file
+        });
+
+        if (response.status === 200) {
+            // Create a blob URL and trigger the download
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Application_Sheet_${date}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            toast("PDF generated and downloaded successfully!", {
+                theme: "colored",
+                type: "success",
+                position: "top-center",
+                hideProgressBar: true
+            });
+        } else {
+            toast.error("Error generating PDF.");
+        }
+    } catch (error) {
+        console.error('Error generating application sheet:', error);
+        toast.error('Error generating application records.');
+    }
+};
 
 onMounted(() => {
     fetchCrops();
     fetchAgrichemicals();
-    console.log('Component mounted');
-    console.log('Grouped Programs by Date and Order:', groupedProgramsByDateAndOrder.value);
+    // console.log('Component mounted');
+    // console.log('Grouped Programs by Date and Order:', groupedProgramsByDateAndOrder.value);
 });
 </script>

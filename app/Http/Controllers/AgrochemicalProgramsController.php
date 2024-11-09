@@ -95,24 +95,4 @@ class AgrochemicalProgramsController extends Controller
             return response()->json(['message' => 'Error updating agrochemical program.'], 500);
         }
     }
-    
-
-    public function delete($id)
-    {
-        // Log the ID that is being received
-        Log::info('Attempting to delete program with ID: ' . $id);
-
-        // Find the program by ID and delete it
-        $program = AgrochemicalPrograms::find($id);
-        if ($program) {
-            Log::info('Program found: ' . $program->id);
-            $program->delete();
-            Log::info('Program with ID ' . $id . ' has been deleted.');
-
-            return response()->json(['message' => 'Program deleted successfully.'], 200);
-        } else {
-            Log::warning('Program not found with ID: ' . $id);
-            return response()->json(['message' => 'Program not found.'], 404);
-        }
-    }
 }

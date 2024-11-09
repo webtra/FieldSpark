@@ -620,18 +620,28 @@ const generateApplicationSheet = async (date) => {
             link.click();
             document.body.removeChild(link);
 
-            toast("PDF generated and downloaded successfully!", {
+            toast("PDF generated successfully!", {
                 theme: "colored",
                 type: "success",
                 position: "top-center",
                 hideProgressBar: true
             });
         } else {
-            toast.error("Error generating PDF.");
+            toast("Error generating PDF!", {
+                theme: "colored",
+                type: "error",
+                position: "top-center",
+                hideProgressBar: true
+            });
         }
     } catch (error) {
         console.error('Error generating application sheet:', error);
-        toast.error('Error generating application records.');
+        toast("Error generating records!", {
+            theme: "colored",
+            type: "error",
+            position: "top-center",
+            hideProgressBar: true
+        });
     }
 };
 

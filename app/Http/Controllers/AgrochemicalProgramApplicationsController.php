@@ -143,10 +143,17 @@ class AgrochemicalProgramApplicationsController extends Controller
             Log::info('PDF generated successfully. Preparing to send response');
 
             $users = User::where('role_id', 3)->get();
-            $link = route('application.sheet.fill'); // Replace with your route name or URL
 
-            foreach ($users as $user) {
-                Mail::to($user->email)->send(new ApplicationSheetNotification($link, $user->first_name, $user->last_name));
+            foreach ($programs as $program) {
+                foreach ($users as $user) {
+                    $plannedDate = $program->planned_application_date instanceof \Illuminate\Support\Carbon
+                        ? $program->planned_application_date
+                        : \Carbon\Carbon::parse($program->planned_application_date);
+
+                    $link = route('application.sheet.fill', ['plannedDate' => $plannedDate->format('Y-m-d')]);
+
+                    Mail::to($user->email)->send(new ApplicationSheetNotification($link, $user->first_name, $user->last_name, $program));
+                }
             }
 
             Log::info('Emails sent to all users with role_id 3');
@@ -160,5 +167,37 @@ class AgrochemicalProgramApplicationsController extends Controller
             ]);
             return response()->json(['message' => 'An error occurred while processing application records.'], 500);
         }
+    }
+
+    // Display the application sheet form using the planned application date as an identifier
+    public function showApplicationForm($plannedDate)
+    {
+        $program = AgrochemicalPrograms::with(['agrochemicalProgramApplications', 'crop'])
+            ->whereDate('planned_application_date', $plannedDate)
+            ->firstOrFail();
+
+        return view('application_sheet_form', compact('program'));
+    }
+
+    // Save or update the filled application sheet
+    public function saveApplicationForm(Request $request)
+    {
+        $validatedData = $request->validate([
+            'program_id' => 'required|exists:agrochemical_programs,id',
+            'application_date' => 'required|date',
+            'time' => 'required|string',
+            'tractor_start_hours' => 'required|numeric',
+            'tractor_end_hours' => 'required|numeric',
+            'tank_number' => 'required|string',
+            'liters_applied' => 'required|numeric',
+        ]);
+
+        // Check if an application record already exists for this program
+        $application = AgrochemicalProgramApplications::updateOrCreate(
+            ['program_id' => $validatedData['program_id']],
+            $validatedData
+        );
+
+        return redirect()->back()->with('success', 'Application data saved successfully.');
     }
 }

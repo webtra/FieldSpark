@@ -24,11 +24,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/fetch-crops', [CropsController::class, 'fetchCrops']);
         Route::get('/fetch-agrochemicals', [AgrochemicalsController::class, 'fetchAgrochemicals']);
         Route::post('/generate-application-sheet', [AgrochemicalProgramApplicationsController::class, 'generateApplicationSheet']);
-        Route::get('/application-sheet/fill/{plannedDate}', [AgrochemicalProgramApplicationsController::class, 'showApplicationForm'])
-            ->name('application.sheet.fill');
-
-        Route::post('/application-sheet/save', [AgrochemicalProgramApplicationsController::class, 'saveApplicationForm'])
-            ->name('application.sheet.save');
     });
 
     Route::prefix('agrochemical')->group(function () {
@@ -49,6 +44,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/', [AgrochemicalProgramApplicationsController::class, 'index'])->name('agrochemical.program.application.index');
         Route::put('/{id}', [AgrochemicalProgramApplicationsController::class, 'update'])->name('agrochemical.program.application.update');
         Route::post('/save', [AgrochemicalProgramApplicationsController::class, 'save']);
+        Route::get('/fill/{plannedDate}', [AgrochemicalProgramApplicationsController::class, 'showApplicationForm'])
+            ->name('application.sheet.fill');
+
+        Route::post('/save', [AgrochemicalProgramApplicationsController::class, 'saveApplicationForm'])
+            ->name('application.sheet.save');
     });
 
     Route::get('/fill-in/{date}', [AgrochemicalProgramApplicationsController::class, 'fillInPage'])->name('fill-in-page');

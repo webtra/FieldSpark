@@ -172,11 +172,15 @@ class AgrochemicalProgramApplicationsController extends Controller
     // Display the application sheet form using the planned application date as an identifier
     public function showApplicationForm($plannedDate)
     {
-        $program = AgrochemicalPrograms::with(['agrochemicalProgramApplications', 'crop'])
-            ->whereDate('planned_application_date', $plannedDate)
-            ->firstOrFail();
+        $programs = AgrochemicalPrograms::with(['agrochemicalProgramApplications', 'crop', 'agrochemical'])
+            ->whereHas('agrochemicalProgramApplications', function ($query) use ($plannedDate) {
+                $query->whereDate('planned_application_date', $plannedDate);
+            })
+            ->get(); // Fetch all programs with applications matching the date
 
-        return view('application_sheet_form', compact('program'));
+        return Inertia::render('AgrochemicalProgramApplication/Fill', [
+            'programs' => $programs, // Return multiple programs
+        ]);
     }
 
     // Save or update the filled application sheet

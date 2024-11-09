@@ -10,10 +10,13 @@ class AgrochemicalPrograms extends Model
     use HasFactory;
 
     protected $fillable = [
-        'planned_application_date',
         'crop_id',
         'agrochemical_id',
         'name',
+    ];
+
+    protected $casts = [
+        'planned_application_date' => 'date',
     ];
 
     public function crop()

@@ -27,10 +27,10 @@
                                 <tr @click="toggleAccordion(index)" class="cursor-pointer text-xs font-bold">
                                     <td colspan="2" class="px-6 py-2">
                                         <div class="flex justify-between items-center space-x-4">
-                                            <span class="font-medium text-gray-600">{{ group.date }}</span>
+                                            <span class="font-medium text-gray-600">{{ formatDate(group.date) }}</span>
                                             <div class="flex items-center space-x-4">
                                                 <div class="flex items-center space-x-4 font-normal">
-                                                    <SecondaryButton @click.stop="redirectToFillInPage(group.date, group.applications)">
+                                                    <SecondaryButton @click.stop="redirectToFillInPage(group.date)">
                                                         Fill In
                                                     </SecondaryButton>
                                                 </div>
@@ -76,8 +76,7 @@
                                                 <tr v-for="application in (group.applications || [])"
                                                     :key="application.id" class="bg-white">
                                                     <td class="px-6 py-2 text-xs text-gray-600">
-                                                        {{ application.agrochemical_program?.planned_application_date ||
-                                                            'N/A' }}
+                                                        {{ formatDate(application.application_date) }}
                                                     </td>
                                                     <td class="px-10 py-2 text-xs text-gray-600">{{
                                                         application.application_date || 'N/A' }}</td>
@@ -210,8 +209,6 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextArea from '@/Components/TextArea.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import CancelButton from '@/Components/CancelButton.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const { agrochemicalProgramApplications, agrochemicalProgramApplicationCount } = defineProps({
     agrochemicalProgramApplications: Array,
@@ -270,6 +267,30 @@ const toggleAccordion = (index) => {
 const openDrawer = (applications) => {
     selectedApplicationDetails.value = applications;
     showDrawer.value = true;
+};
+
+function formatDate(date) {
+    if (!date) return 'N/A';
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) return 'Invalid Date';
+
+    const year = parsedDate.getFullYear();
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+// Method to handle redirection with the formatted date
+const redirectToFillInPage = (date) => {
+    const formattedDate = formatDate(date);
+    if (formattedDate === 'Invalid Date' || formattedDate === 'N/A') {
+        alert('Invalid date. Cannot redirect.');
+        return;
+    }
+    const url = `/agrochemical-program/application/fill/${formattedDate}`;
+    window.location.href = url; // Redirects to the URL
+    console.log('Redirecting to:', url);
 };
 
 onMounted(() => {

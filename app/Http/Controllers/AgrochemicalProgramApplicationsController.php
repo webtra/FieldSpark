@@ -110,6 +110,20 @@ class AgrochemicalProgramApplicationsController extends Controller
                 $existingApplication = $existingApplications->firstWhere('program_id', $applicationData['program_id']);
 
                 if ($existingApplication) {
+                    // Check if any critical columns already have data
+                    $hasExistingData = $existingApplication->application_date ||
+                        $existingApplication->time ||
+                        $existingApplication->tractor_start_hours ||
+                        $existingApplication->tractor_end_hours ||
+                        $existingApplication->tank_number ||
+                        $existingApplication->liters_applied ||
+                        $existingApplication->notes;
+
+                    if ($hasExistingData) {
+                        Log::info('Skipping update for existing application record due to existing data', ['application_id' => $existingApplication->id]);
+                        continue; // Skip updating this record
+                    }
+
                     Log::info('Updating existing application record', ['application_id' => $existingApplication->id]);
                     $existingApplication->update($applicationData);
                 } else {
@@ -137,25 +151,39 @@ class AgrochemicalProgramApplicationsController extends Controller
             // Generate the PDF using Spatie's Laravel PDF package
             $pdf = Pdf::view('pdf.application_sheet', ['programs' => $programs])
                 ->format('a4')
-                //->landscape()
                 ->name('application_sheet.pdf');
 
             Log::info('PDF generated successfully. Preparing to send response');
 
+            // Send emails to users with role_id 3
             $users = User::where('role_id', 3)->get();
 
-            foreach ($programs as $program) {
-                foreach ($users as $user) {
-                    $plannedDate = $program->planned_application_date instanceof \Illuminate\Support\Carbon
-                        ? $program->planned_application_date
-                        : \Carbon\Carbon::parse($program->planned_application_date);
+            // Prepare a list of unique planned application dates and generate links
+            $plannedDates = $programs->pluck('planned_application_date')
+                ->filter() // Remove null values
+                ->map(fn($date) => $date instanceof \Carbon\Carbon ? $date->format('Y-m-d') : \Carbon\Carbon::parse($date)->format('Y-m-d'))
+                ->unique();
 
-                    $link = route('application.sheet.fill', ['plannedDate' => $plannedDate->format('Y-m-d')]);
+            // Generate links for each planned date
+            $links = $plannedDates->map(fn($date) => route('application.sheet.fill', ['plannedDate' => $date]));
 
-                    Mail::to($user->email)->send(new ApplicationSheetNotification($link, $user->first_name, $user->last_name, $program));
-                }
+            // Create a message that includes all links
+            $linkMessage = 'You can access the application sheets for the following dates:';
+            foreach ($links as $link) {
+                $linkMessage .= '<br><a href="' . $link . '">' . $link . '</a>';
             }
 
+            foreach ($users as $user) {
+                try {
+                    Mail::to($user->email)->send(new ApplicationSheetNotification($linkMessage, $user->first_name, $user->last_name));
+                    Log::info('Single email sent to user', ['user_id' => $user->id, 'email' => $user->email]);
+                } catch (\Exception $e) {
+                    Log::error('Error while sending email to user', [
+                        'user_id' => $user->id,
+                        'error' => $e->getMessage()
+                    ]);
+                }
+            }
             Log::info('Emails sent to all users with role_id 3');
 
             return $pdf->download();
@@ -169,6 +197,7 @@ class AgrochemicalProgramApplicationsController extends Controller
         }
     }
 
+
     // Display the application sheet form using the planned application date as an identifier
     public function showApplicationForm($plannedDate)
     {
@@ -179,29 +208,44 @@ class AgrochemicalProgramApplicationsController extends Controller
             ->get(); // Fetch all programs with applications matching the date
 
         return Inertia::render('AgrochemicalProgramApplication/Fill', [
-            'programs' => $programs, // Return multiple programs
+            'programs' => $programs,
+            'pageTitle' => 'Program Applications',
         ]);
     }
 
-    // Save or update the filled application sheet
     public function saveApplicationForm(Request $request)
     {
-        $validatedData = $request->validate([
-            'program_id' => 'required|exists:agrochemical_programs,id',
-            'application_date' => 'required|date',
-            'time' => 'required|string',
-            'tractor_start_hours' => 'required|numeric',
-            'tractor_end_hours' => 'required|numeric',
-            'tank_number' => 'required|string',
-            'liters_applied' => 'required|numeric',
-        ]);
+        try {
+            $applications = $request->input('applications');
+            Log::info('Received data for saving:', ['applications' => $applications]);
 
-        // Check if an application record already exists for this program
-        $application = AgrochemicalProgramApplications::updateOrCreate(
-            ['program_id' => $validatedData['program_id']],
-            $validatedData
-        );
+            foreach ($applications as $appData) {
+                $validatedData = $request->validate([
+                    'applications.*.id' => 'required|integer|exists:agrochemical_program_applications,id',
+                    'applications.*.application_date' => 'nullable|date',
+                    'applications.*.time' => 'nullable|string',
+                    'applications.*.tractor_start_hours' => 'nullable|numeric',
+                    'applications.*.tractor_end_hours' => 'nullable|numeric',
+                    'applications.*.tank_number' => 'nullable|integer',
+                    'applications.*.liters_applied' => 'nullable|numeric',
+                ]);
 
-        return redirect()->back()->with('success', 'Application data saved successfully.');
+                AgrochemicalProgramApplications::where('id', $appData['id'])->update([
+                    'application_date' => $appData['application_date'],
+                    'time' => $appData['time'],
+                    'tractor_start_hours' => $appData['tractor_start_hours'],
+                    'tractor_end_hours' => $appData['tractor_end_hours'],
+                    'tank_number' => $appData['tank_number'],
+                    'liters_applied' => $appData['liters_applied'],
+                ]);
+
+                Log::info('Application updated successfully:', ['id' => $appData['id']]);
+            }
+
+            return response()->json(['message' => 'Applications saved successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error during application save:', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Error saving applications', 'error' => $e->getMessage()], 500);
+        }
     }
 }

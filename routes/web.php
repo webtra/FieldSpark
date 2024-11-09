@@ -51,8 +51,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             ->name('application.sheet.save');
     });
 
-    Route::get('/fill-in/{date}', [AgrochemicalProgramApplicationsController::class, 'fillInPage'])->name('fill-in-page');
-
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/stats', [DashboardController::class, 'stats']);

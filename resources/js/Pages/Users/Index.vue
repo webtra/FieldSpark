@@ -260,7 +260,7 @@ const updateUserRole = (user) => {
         role_id: user.role_id
     })
         .then(response => {
-            toast("Role updated successfully!", {
+            toast("Record updated successfully!", {
                 "theme": "colored",
                 "type": "success",
                 "position": "top-center",
@@ -272,7 +272,7 @@ const updateUserRole = (user) => {
         })
 
         .catch(error => {
-            toast("Error updating role!", {
+            toast("Error updating record!", {
                 "theme": "colored",
                 "type": "error",
                 "position": "top-center",
@@ -292,7 +292,7 @@ const deleteUser = async (user) => {
 
         if (response.status === 200) {
             showDeleteModal.value = false;
-            toast("User deleted successfully!", {
+            toast("Record deleted successfully!", {
                 "theme": "colored",
                 "type": "success",
                 "position": "top-center",
@@ -303,7 +303,7 @@ const deleteUser = async (user) => {
             window.location.reload();
             // alert('Deleted Successfully');
         } else {
-            toast("Error deleting user!", {
+            toast("Error deleting record!", {
                 "theme": "colored",
                 "type": "error",
                 "position": "top-center",
@@ -349,7 +349,7 @@ const editUser = async (user) => {
         errors.value = {};
         showEditModal.value = false;
 
-        toast("User edited successfully!", {
+        toast("Record edited successfully!", {
             "theme": "colored",
             "type": "success",
             "position": "top-center",
@@ -360,7 +360,7 @@ const editUser = async (user) => {
         window.location.reload();
         // alert('User updated successfully');
     } catch (error) {
-        toast("Error editing user!", {
+        toast("Error editing record!", {
             "theme": "colored",
             "type": "error",
             "position": "top-center",
@@ -390,7 +390,7 @@ const createUser = async () => {
 
         showCreateUserModal.value = false;
 
-        toast("User created successfully!", {
+        toast("Record created successfully!", {
             "theme": "colored",
             "type": "success",
             "position": "top-center",
@@ -410,7 +410,7 @@ const createUser = async () => {
         if (error.response && error.response.data.errors) {
             errors.value = error.response.data.errors;
         }
-        toast("Error creating user!", {
+        toast("Error creating record!", {
             "theme": "colored",
             "type": "error",
             "position": "top-center",

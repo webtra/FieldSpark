@@ -4,7 +4,7 @@
             <div class="block md:flex items-center justify-between mb-4">
                 <p class="text-sm mt-1 text-black font-medium"><span class="font-bold">Total Agrochemical
                         Programs:</span> {{ filteredAgrochemicalPrograms.length }} (Filtered from {{
-                    groupedProgramsByDateAndOrder.length }}) </p>
+                            groupedProgramsByDateAndOrder.length }}) </p>
 
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <!-- Search Bar -->
@@ -119,7 +119,7 @@
                                 <tr @click="toggleAccordion(index)" class="cursor-pointer text-xs font-bold">
                                     <td colspan="2" class="px-6 py-2">
                                         <div class="flex justify-between items-center space-x-4">
-                                            <span class="font-medium text-gray-600">{{ group.date }}</span>
+                                            <span class="font-medium text-gray-600">{{ formatDate(group.date) }}</span>
                                             <div class="flex items-center space-x-4">
                                                 <!-- Button next to the accordion icon -->
                                                 <div class="flex items-center space-x-4">
@@ -255,8 +255,9 @@
                                             <tbody>
                                                 <tr v-for="program in (group.programs || [])" :key="program.id"
                                                     class="bg-white">
-                                                    <td class="px-6 py-2 text-xs text-gray-600">{{
-                                                        program.planned_application_date }}</td>
+                                                    <td class="px-6 py-2 text-xs text-gray-600">
+                                                        {{ formatDate(program.planned_application_date) }}
+                                                    </td>
                                                     <td class="px-10 py-2 text-xs text-gray-600">{{
                                                         program.agrochemical.mixing_order }}</td>
                                                     <td class="px-10 py-2 text-xs text-gray-600">{{
@@ -644,6 +645,18 @@ const generateApplicationSheet = async (date) => {
         });
     }
 };
+
+function formatDate(date) {
+    if (!date) return 'N/A';
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) return 'Invalid Date';
+
+    const year = parsedDate.getFullYear();
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
 
 onMounted(() => {
     fetchCrops();

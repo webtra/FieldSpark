@@ -404,7 +404,7 @@ const deleteCrop = async (crop) => {
         const index = crops.findIndex((c) => c.id === crop.id);
         if (index !== -1) crops.splice(index, 1);
 
-        toast("Crop deleted successfully!", {
+        toast("Record deleted successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -414,7 +414,7 @@ const deleteCrop = async (crop) => {
 
         window.location.reload();
     } catch (error) {
-        toast("Error deleting crop!", {
+        toast("Error deleting record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -461,7 +461,7 @@ const editCrop = async (crop) => {
             crops[index] = { ...crops[index], ...editForm.value };
         }
 
-        toast("Crop updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -471,7 +471,7 @@ const editCrop = async (crop) => {
 
         window.location.reload();
     } catch (error) {
-        toast("Error updating crop!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -508,7 +508,7 @@ const createCrop = async () => {
         showCreateCropModal.value = false;
 
         // Display success notification
-        toast("Crop created successfully!", {
+        toast("Record created successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -519,7 +519,7 @@ const createCrop = async () => {
         window.location.reload();
     } catch (error) {
         // Only display error message if there's an actual error response
-        toast("Error creating crop!", {
+        toast("Error creating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",

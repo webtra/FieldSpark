@@ -13,28 +13,24 @@ class ApplicationSheetNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $link;
+    public $linkMessage;
     public $firstName;
     public $lastName;
-    public $program;
 
-    public function __construct($link, $firstName, $lastName, $program)
+    public function __construct($linkMessage, $firstName, $lastName)
     {
-        $this->link = $link;
+        $this->linkMessage = $linkMessage;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->program = $program;
     }
 
     public function build()
     {
-        return $this->subject('Fill in the Application Sheet')
-            ->view('emails.application_sheet_notification')
+        return $this->view('emails.application_sheet_notification')
             ->with([
-                'link' => $this->link,
+                'linkMessage' => $this->linkMessage,
                 'firstName' => $this->firstName,
                 'lastName' => $this->lastName,
-                'program' => $this->program,
             ]);
     }
 }

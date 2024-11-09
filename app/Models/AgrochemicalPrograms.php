@@ -13,6 +13,7 @@ class AgrochemicalPrograms extends Model
         'crop_id',
         'agrochemical_id',
         'name',
+        'planned_application_date',
     ];
 
     protected $casts = [

@@ -418,22 +418,30 @@ const agrochemicals = ref([]);
 const rows = ref([
     { crop_id: null, agrochemical_id: null, planned_application_date: null }
 ]);
+
+console.log(rows.value);
+
 const originalRows = ref([]);
 
-// Function to open the edit modal
+// Function to format date for input[type="date"]
+function formatDateForInput(date) {
+    if (!date) return '';
+    const parsedDate = new Date(date);
+    return !isNaN(parsedDate) ? parsedDate.toISOString().split('T')[0] : '';
+}
+
+// Function to open the edit modal with formatted date
 const openEditModal = (group) => {
     showEditAgrochemicalModal.value = true;
     rows.value = group.programs.map(program => ({
-        id: program.id, // Ensure the ID is included for proper comparison
+        id: program.id,
         crop_id: program.crop_id,
         agrochemical_id: program.agrochemical_id,
-        planned_application_date: program.planned_application_date
+        planned_application_date: formatDateForInput(program.planned_application_date) // Format date
     }));
 
-    // Save the original rows for comparison
-    originalRows.value = JSON.parse(JSON.stringify(rows.value)); // Deep copy to avoid reference issues
+    originalRows.value = JSON.parse(JSON.stringify(rows.value));
 };
-
 
 const updateAgrochemicalProgram = async () => {
     try {
@@ -505,7 +513,7 @@ const updateAgrochemicalProgram = async () => {
 
 // Add a new row with empty fields
 const addRow = () => {
-    rows.value.push({ crop_id: null, agrochemical_id: null, planned_application_date: null });
+    rows.value.push({ crop_id: null, agrochemical_id: null, planned_application_date: '' });
 };
 
 // Remove a row by index

@@ -8,11 +8,11 @@ use App\Http\Requests\UpdateAgrochemicalProgramApplicationsRequest;
 use App\Mail\ApplicationSheetNotification;
 use App\Models\AgrochemicalPrograms;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
-use Spatie\LaravelPdf\Facades\Pdf;
 
 class AgrochemicalProgramApplicationsController extends Controller
 {
@@ -148,10 +148,12 @@ class AgrochemicalProgramApplicationsController extends Controller
 
             Log::info('Fetched programs with related applications for PDF generation', ['programs_count' => $programs->count()]);
 
-            // Generate the PDF using Spatie's Laravel PDF package
-            $pdf = Pdf::view('pdf.application_sheet', ['programs' => $programs])
-                ->format('a4')
-                ->name('application_sheet.pdf');
+            // Generate the PDF using DOMPDF
+            $pdf = Pdf::loadView('pdf.application_sheet', ['programs' => $programs])
+                ->setPaper('a4'); // Optional: You can set the paper size and orientation here
+
+            // Save the generated PDF to the storage path
+            $pdf->save(storage_path('app/public/application_sheet.pdf'));
 
             Log::info('PDF generated successfully. Preparing to send response');
 

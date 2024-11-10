@@ -110,7 +110,8 @@
                                 </td>
                                 <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">
                                     <select v-model="user.role_id" @change="updateUserRole(user)"
-                                        class="px-4 py-2 border border-gray-300 rounded text-xs w-full">
+                                        class="px-4 py-2 border border-gray-300 rounded text-xs w-full cursor-not-allowed"
+                                        :disabled="user.role_id !== 1">
                                         <option value="1">Super Admin</option>
                                         <option value="2">Admin</option>
                                         <option value="3">Manager</option>

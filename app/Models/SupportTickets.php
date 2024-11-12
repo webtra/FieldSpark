@@ -97,4 +97,9 @@ class SupportTickets extends Model
     {
         return $query->where('urgency', $urgency);
     }
+
+    public function replies()
+    {
+        return $this->hasMany(TicketReplies::class, 'ticket_id');
+    }
 }

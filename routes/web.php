@@ -71,9 +71,26 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/store', [CropsController::class, 'store'])->name('crop.store');
     });
 
+    // Define API routes for support tickets within the 'support-tickets' prefix
     Route::prefix('support-tickets')->group(function () {
-        Route::get('/', [SupportTicketsController::class, 'index'])->name('support.tickets.index');
-        Route::post('/store', [SupportTicketsController::class, 'store'])->name('support.tickets.store');
+
+        // Route to retrieve a list of all support tickets
+        Route::get('/', [SupportTicketsController::class, 'index'])
+            ->name('support.tickets.index');
+
+        // Route to create a new support ticket
+        Route::post('/store', [SupportTicketsController::class, 'store'])
+            ->name('support.tickets.store');
+
+        // Route to retrieve a specific support ticket by ID
+        Route::get('/{id}', [SupportTicketsController::class, 'show'])
+            ->name('support.tickets.show');
+
+        // Route to add a reply to a specific support ticket
+        Route::post('/{id}/reply', [SupportTicketsController::class, 'reply'])
+            ->name('support.tickets.reply');
+
+        Route::post('/{id}/close', [SupportTicketsController::class, 'close'])->name('support.tickets.close');
     });
 
     Route::prefix('user')->group(function () {

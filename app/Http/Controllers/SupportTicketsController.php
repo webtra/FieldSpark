@@ -8,15 +8,13 @@ use App\Http\Requests\UpdateSupportTicketsRequest;
 use App\Mail\SupportTicketNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
 class SupportTicketsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         // Ensure only authenticated user's tickets are fetched
@@ -31,17 +29,6 @@ class SupportTicketsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validate the request data
@@ -54,7 +41,7 @@ class SupportTicketsController extends Controller
 
         // Generate a unique ticket number
         do {
-            $ticketNumber = 'FS-' . strtoupper(Str::random(4));
+            $ticketNumber = 'FS-' . mt_rand(1000, 9999);
         } while (SupportTickets::where('ticket_number', $ticketNumber)->exists());
 
         // Create the support ticket
@@ -78,36 +65,45 @@ class SupportTicketsController extends Controller
         ], 201);
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SupportTickets $supportTickets)
+    public function show($id)
     {
-        //
+        // Retrieve the ticket with the user who created it and replies with their users
+        $ticket = SupportTickets::with(['user', 'replies.user'])->findOrFail($id);
+
+        // Log::info($ticket->toArray());
+
+        // Return a view for displaying the ticket details
+        return Inertia::render('SupportTickets/Show', [
+            'ticket' => $ticket,
+            'pageTitle' => 'Support Ticket Details'
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SupportTickets $supportTickets)
+    public function reply($id, Request $request)
     {
-        //
+        // Find the ticket by ID
+        $ticket = SupportTickets::findOrFail($id);
+
+        // Validate the request, using 'reply' as the key from the frontend
+        $validated = $request->validate([
+            'reply_message' => 'required|string',
+        ]);
+
+        // Create a new reply, ensuring `ticket_id`, `reply_message`, and `user_id` are saved correctly
+        $reply = $ticket->replies()->create([
+            'ticket_id' => $ticket->id,                  // Save the associated ticket ID
+            'reply_message' => $validated['reply_message'],      // Use `reply_message` as per database column
+            'user_id' => auth()->id(),                   // Save the authenticated user's ID
+        ]);
+
+        return response()->json(['message' => 'Reply added successfully', 'reply' => $reply], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSupportTicketsRequest $request, SupportTickets $supportTickets)
+    public function close($id)
     {
-        //
-    }
+        $ticket = SupportTickets::findOrFail($id);
+        $ticket->update(['status' => 'Closed', 'is_closed' => true]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SupportTickets $supportTickets)
-    {
-        //
+        return response()->json(['message' => 'Ticket closed successfully']);
     }
 }

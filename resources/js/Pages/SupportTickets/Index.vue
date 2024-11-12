@@ -78,20 +78,20 @@
                                 <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Urgency</th>
                                 <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Status</th>
                                 <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Subject</th>
-                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Message</th>
+                                <th class="px-4 py-4 text-left text-xs font-medium w-40 whitespace-nowrap">Created</th>
                                 <th class="px-6 py-4 text-right text-xs font-medium w-28 whitespace-nowrap">Updated</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="ticket in paginatedTickets" :key="ticket.id" class="cursor-pointer odd:bg-white even:bg-gray-50">
-                                <td class="px-6 py-2 w-28 text-xs text-gray-600">{{ ticket.id }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.ticket_number }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.category }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.urgency }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.status }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600">{{ ticket.subject }}</td>
-                                <td class="px-4 py-2 w-40 text-xs text-gray-600 line-clamp-1">{{ ticket.message }}</td>
-                                <td class="px-6 py-2 w-28 text-right text-xs text-gray-500">{{ formattedUpdatedAt(ticket.updated_at) }}</td>
+                            <tr v-for="ticket in paginatedTickets" :key="ticket.id" class="cursor-pointer" @click="viewTicket(ticket.id)">
+                                <td class="px-6 py-4 w-28 text-xs text-gray-600">{{ ticket.id }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600">{{ ticket.ticket_number }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600">{{ ticket.category }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600">{{ ticket.urgency }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600">{{ ticket.status }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600">{{ ticket.subject }}</td>
+                                <td class="px-4 py-4 w-40 text-xs text-gray-600 line-clamp-1">{{ formattedUpdatedAt(ticket.created_at) }}</td>
+                                <td class="px-6 py-4 w-28 text-right text-xs text-gray-500">{{ formattedUpdatedAt(ticket.updated_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -195,5 +195,10 @@ const createTicket = async () => {
         console.error('Error creating ticket:', error);
         toast.error('Failed to create support ticket');
     }
+};
+
+const viewTicket = (ticketId) => {
+    // Navigate to the show page of the selected ticket
+    window.location.href = `/support-tickets/${ticketId}`;
 };
 </script>

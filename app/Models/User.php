@@ -66,4 +66,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTickets::class);
+    }
 }

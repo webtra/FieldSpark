@@ -28,9 +28,9 @@
                             <td class="px-4 py-4 w-20 text-right text-xs text-gray-500">{{
                                 formattedUpdatedAt(ticket.updated_at) }}</td>
 
-                            <td class="px-6 py-4 w-40 text-right text-xs text-gray-500">
+                            <td class="px-6 py-2 w-40 text-right text-xs text-gray-500">
                                 <div v-if="!ticket.is_closed">
-                                    <DangerButton @click="closeTicket" :disabled="ticket.status === 'Closed'"
+                                    <DangerButton @click="closeTicket" :disabled="ticket.status === 'Closed'" class="!w-fit"
                                         :class="{ 'opacity-50 cursor-not-allowed': ticket.status === 'Closed' }">
                                         Close Ticket
                                     </DangerButton>

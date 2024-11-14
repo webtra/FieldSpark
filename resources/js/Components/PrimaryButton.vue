@@ -1,6 +1,6 @@
 <template>
     <button :type="type" @click="handleClick"
-        class="text-[#00434b] w-fit inline-flex justify-center items-center px-4 py-2 bg-[#BCDA84] border border-transparent rounded-lg font-medium text-xs tracking-wide hover:bg-[#BCDA84]/80 transition ease-in-out duration-150"
+        class="text-[#00434b] w-full inline-flex justify-center items-center px-4 py-2 bg-[#BCDA84] border border-transparent rounded-lg font-medium text-xs tracking-wide hover:bg-[#BCDA84]/80 transition ease-in-out duration-150"
         :disabled="loading">
         <!-- Show loader if loading, otherwise show slot content -->
         <div v-if="loading" class="flex items-center space-x-2">

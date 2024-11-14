@@ -24,7 +24,7 @@
                 <div class="fixed inset-0 bg-black opacity-50"></div>
 
                 <!-- Modal content -->
-                <div class="relative bg-white rounded p-6 w-full max-w-lg z-50">
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-lg z-50">
                     <h3 class="text-lg font-semibold mb-4">Create New Agrochemical</h3>
 
                     <div class="mb-4">
@@ -50,7 +50,7 @@
                         <div class="w-full">
                             <InputLabel value="Category" />
                             <select v-model="formData.category"
-                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                 required>
                                 <option value="Herbicide">Herbicide</option>
                                 <option value="Pesticide">Pesticide</option>
@@ -64,7 +64,7 @@
                     <div class="w-full mb-4">
                         <InputLabel value="Mixing Category" />
                         <select v-model="formData.mixing_category"
-                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                             required>
                             <option value="Water">Water</option>
                             <option value="Water Quality Regulators">Water Quality Regulators</option>
@@ -82,7 +82,7 @@
                         <div class="w-full">
                             <InputLabel value="Application Method" />
                             <select v-model="formData.application_method"
-                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                 required>
                                 <option value="Spray">Spray</option>
                                 <option value="Granular">Granular</option>
@@ -94,7 +94,7 @@
                         <div class="w-full">
                             <InputLabel value="Toxicity Level" />
                             <select v-model="formData.toxicity_level"
-                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                 required>
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
@@ -105,7 +105,7 @@
                         <div class="w-full">
                             <InputLabel value="Restricted Use" />
                             <select v-model="formData.restricted_use"
-                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                 required>
                                 <option :value="true">Yes</option>
                                 <option :value="false">No</option>
@@ -224,7 +224,7 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Confirm Delete</h3>
                                                 <p>Are you sure you want to delete this agrochemical?</p>
 
@@ -248,7 +248,7 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-lg z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-lg z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Edit Agrochemical</h3>
 
                                                 <div class="mb-4">
@@ -277,7 +277,7 @@
                                                     <div class="w-full">
                                                         <InputLabel value="Category" />
                                                         <select v-model="editForm.category"
-                                                            class="text-black w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            class="text-black w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                                             required>
                                                             <option value="Herbicide">Herbicide</option>
                                                             <option value="Pesticide">Pesticide</option>
@@ -292,7 +292,7 @@
                                                     <div class="w-full">
                                                         <InputLabel value="Application Method" />
                                                         <select v-model="editForm.application_method"
-                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                                             required>
                                                             <option value="Spray">Spray</option>
                                                             <option value="Granular">Granular</option>
@@ -304,7 +304,7 @@
                                                     <div class="w-full">
                                                         <InputLabel value="Toxicity Level" />
                                                         <select v-model="editForm.toxicity_level"
-                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                                             required>
                                                             <option value="Low">Low</option>
                                                             <option value="Medium">Medium</option>
@@ -315,7 +315,7 @@
                                                     <div class="w-full">
                                                         <InputLabel value="Restricted Use" />
                                                         <select v-model="editForm.restricted_use"
-                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                                             required>
                                                             <option :value="true">Yes</option>
                                                             <option :value="false">No</option>
@@ -445,7 +445,7 @@
                             <div class="w-full">
                                 <InputLabel value="Category" />
                                 <select :value="selectedAgrochemical.category"
-                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                     disabled>
                                     <option value="Herbicide">Herbicide</option>
                                     <option value="Pesticide">Pesticide</option>
@@ -461,7 +461,7 @@
                             <div class="w-full">
                                 <InputLabel value="Application Method" />
                                 <select :value="selectedAgrochemical.application_method"
-                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                     disabled>
                                     <option value="Spray">Spray</option>
                                     <option value="Granular">Granular</option>
@@ -473,7 +473,7 @@
                             <div class="w-full">
                                 <InputLabel value="Toxicity Level" />
                                 <select :value="selectedAgrochemical.toxicity_level"
-                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                     disabled>
                                     <option value="Low">Low</option>
                                     <option value="Medium">Medium</option>
@@ -484,7 +484,7 @@
                             <div class="w-full">
                                 <InputLabel value="Restricted Use" />
                                 <select :value="selectedAgrochemical.restricted_use"
-                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded"
+                                    class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg"
                                     disabled>
                                     <option :value="true">Yes</option>
                                     <option :value="false">No</option>

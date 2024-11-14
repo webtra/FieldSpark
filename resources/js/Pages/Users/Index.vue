@@ -25,7 +25,7 @@
                 <div class="fixed inset-0 bg-black opacity-50"></div>
 
                 <!-- Modal content -->
-                <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                     <h3 class="text-lg font-semibold mb-4">Create New User</h3>
 
                     <div class="flex space-x-2">
@@ -110,7 +110,7 @@
                                 </td>
                                 <td class="px-4 py-2 w-48 text-xs text-gray-600 whitespace-nowrap">
                                     <select v-model="user.role_id" @change="updateUserRole(user)"
-                                        class="px-4 py-2 border border-gray-300 rounded text-xs w-full cursor-not-allowed"
+                                        class="px-4 py-2 border border-gray-300 rounded-lg text-xs w-full cursor-not-allowed"
                                         :disabled="user.role_id !== 1">
                                         <option value="1">Super Admin</option>
                                         <option value="2">Admin</option>
@@ -134,7 +134,7 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Confirm Delete</h3>
                                                 <p>Are you sure you want to delete <span class="font-semibold">{{
                                                     user.first_name
@@ -161,7 +161,7 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Edit User</h3>
 
                                                 <div class="flex space-x-2">
@@ -208,7 +208,7 @@
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
                     <button v-if="displayedItems < filteredUsers.length" @click="loadMore"
-                        class="px-4 py-2 rounded bg-[#BCDA84] [#00434b] hover:bg-blue-600">
+                        class="px-4 py-2 rounded-lg bg-[#BCDA84] [#00434b] hover:bg-blue-600">
                         Load More
                     </button>
                 </div>

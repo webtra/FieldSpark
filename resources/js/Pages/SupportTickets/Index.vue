@@ -25,7 +25,7 @@
 
                     <div class="w-full">
                         <InputLabel value="Category" />
-                        <select v-model="formData.category" class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded" required>
+                        <select v-model="formData.category" class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg" required>
                             <option value="Feature Request">Feature Request</option>
                             <option value="Technical Issue">Technical Issue</option>
                             <option value="Billing/Payment">Billing/Payment</option>
@@ -41,7 +41,7 @@
 
                     <div class="w-full">
                         <InputLabel value="Urgency" />
-                        <select v-model="formData.urgency" class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded" required>
+                        <select v-model="formData.urgency" class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg" required>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
@@ -99,7 +99,7 @@
 
                 <!-- Load More Button -->
                 <div class="flex justify-center mt-4">
-                    <button v-if="displayedItems < filteredTickets.length" @click="loadMore" class="px-4 py-2 rounded bg-[#BCDA84] hover:bg-green-600">Load More</button>
+                    <button v-if="displayedItems < filteredTickets.length" @click="loadMore" class="px-4 py-2 rounded-lg bg-[#BCDA84] hover:bg-green-600">Load More</button>
                 </div>
             </div>
 

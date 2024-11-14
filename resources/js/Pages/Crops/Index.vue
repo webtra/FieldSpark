@@ -23,14 +23,14 @@
                 <div class="fixed inset-0 bg-black opacity-50"></div>
 
                 <!-- Modal content -->
-                <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                     <h3 class="text-lg font-semibold mb-4">Create New Crop</h3>
 
                     <!-- Cultivar Dropdown -->
                     <div class="mb-4">
                         <InputLabel for="cultivar" value="Cultivar" />
                         <select id="cultivar" v-model="createForm.cultivar_id"
-                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                             <option v-for="cultivar in cultivars" :key="cultivar.id" :value="cultivar.id">
                                 {{ cultivar.name }}
                             </option>
@@ -68,7 +68,7 @@
                     <div class="mb-4">
                         <InputLabel for="status" value="Status" />
                         <select id="status" v-model="createForm.status"
-                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                             <option value="planted">Planted</option>
                             <option value="growing">Growing</option>
                             <option value="harvested">Harvested</option>
@@ -149,7 +149,7 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Confirm Delete</h3>
                                                 <p>Are you sure you want to delete this crop?</p>
 
@@ -172,14 +172,14 @@
                                             <div class="fixed inset-0 bg-black/10"></div>
 
                                             <!-- Modal content -->
-                                            <div class="relative bg-white rounded p-6 w-full max-w-sm z-50">
+                                            <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                                                 <h3 class="text-black text-lg font-semibold mb-4">Edit Crop</h3>
 
                                                 <!-- Cultivar Dropdown -->
                                                 <div class="mb-4">
                                                     <InputLabel for="cultivar" value="Cultivar" />
                                                     <select id="cultivar" v-model="editForm.cultivar_id"
-                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                                         <option v-for="cultivar in cultivars" :key="cultivar.id"
                                                             :value="cultivar.id">
                                                             {{ cultivar.name }}
@@ -221,7 +221,7 @@
                                                 <div class="mb-4">
                                                     <InputLabel for="status" value="Status" />
                                                     <select id="status" v-model="editForm.status"
-                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                                         <option value="planted">Planted</option>
                                                         <option value="growing">Growing</option>
                                                         <option value="harvested">Harvested</option>

@@ -14,13 +14,13 @@
             <form @submit.prevent="submit">
                 <div>
                     <InputLabel class="text-white font-light" for="email" value="Email Address" />
-                    <TextInput id="email" v-model="form.email" type="email" placeholder="Email Address" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
+                    <TextInput id="email" v-model="form.email" type="email" placeholder="Email Address" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
 
                 <div class="mt-4">
                     <InputLabel class="text-white font-light" for="password" value="Password" />
-                    <TextInput id="password" v-model="form.password" type="password" placeholder="Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
+                    <TextInput id="password" v-model="form.password" type="password" placeholder="Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
                     <InputError class="mt-2" :message="form.errors.password" />
                 </div>
 

@@ -24,7 +24,7 @@
                 <div class="fixed inset-0 bg-black opacity-50"></div>
 
                 <!-- Modal content -->
-                <div class="relative bg-white rounded p-6 w-full max-w-2xl z-50">
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-2xl z-50">
                     <h3 class="text-lg font-semibold mb-4">Create New Program</h3>
 
                     <!-- Program Creation Form -->
@@ -37,7 +37,7 @@
                                 <div class="w-full">
                                     <InputLabel :for="'crop' + index" value="Crop" />
                                     <select :id="'crop' + index" v-model="row.crop_id"
-                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                         <option v-for="crop in crops" :key="crop.id" :value="crop.id">
                                             {{ crop.block_number }}
                                         </option>
@@ -48,7 +48,7 @@
                                 <div class="w-full">
                                     <InputLabel :for="'agrochemical' + index" value="Agrochemical" />
                                     <select :id="'agrochemical' + index" v-model="row.agrochemical_id"
-                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                        class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                         <option v-for="agrochemical in agrochemicals" :key="agrochemical.id"
                                             :value="agrochemical.id">
                                             {{ agrochemical.mixing_order }} - {{ agrochemical.name }}
@@ -62,7 +62,7 @@
                                         value="Planned Application Date" />
                                     <input type="date" :id="'plannedApplicationDate' + index"
                                         v-model="row.planned_application_date"
-                                        class="mt-1 block w-full text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded" />
+                                        class="mt-1 block w-full text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg" />
                                 </div>
 
                                 <!-- Remove Row Button, shown only if there are more than one row -->
@@ -137,7 +137,7 @@
                                                         class="fixed z-50 inset-0 flex items-center justify-center">
                                                         <div class="fixed inset-0 bg-black opacity-20"></div>
                                                         <div
-                                                            class="relative bg-white rounded p-6 w-full max-w-2xl z-50">
+                                                            class="relative bg-white rounded-lg p-6 w-full max-w-2xl z-50">
                                                             <h3 class="text-lg font-semibold mb-4">Edit Program</h3>
                                                             <div class="space-y-4 font-normal">
                                                                 <div>
@@ -149,7 +149,7 @@
                                                                                 value="Crop" />
                                                                             <select :id="'crop' + index"
                                                                                 v-model="row.crop_id"
-                                                                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                                                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                                                                 <option v-for="crop in crops"
                                                                                     :key="crop.id" :value="crop.id">
                                                                                     {{ crop.block_number }}
@@ -161,7 +161,7 @@
                                                                                 value="Agrochemical" />
                                                                             <select :id="'agrochemical' + index"
                                                                                 v-model="row.agrochemical_id"
-                                                                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded">
+                                                                                class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg">
                                                                                 <option
                                                                                     v-for="agrochemical in agrochemicals"
                                                                                     :key="agrochemical.id"
@@ -178,7 +178,7 @@
                                                                             <input type="date"
                                                                                 :id="'plannedApplicationDate' + index"
                                                                                 v-model="row.planned_application_date"
-                                                                                class="mt-1 block w-full text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded" />
+                                                                                class="mt-1 block w-full text-xs border-gray-300 focus:border-[#BCDA84] focus:ring-[#BCDA84] rounded-lg" />
                                                                         </div>
                                                                         <button @click.stop="removeRow(index)"
                                                                             class="text-red-500 hover:text-red-700 pt-5">

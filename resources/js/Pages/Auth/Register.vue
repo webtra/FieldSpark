@@ -11,32 +11,32 @@
                 <div class="flex items-center space-x-4">
                     <div>
                         <InputLabel class="text-white font-light" for="first_name" value="First Name" />
-                        <TextInput id="first_name" v-model="form.first_name" type="text" placeholder="First Name" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
+                        <TextInput id="first_name" v-model="form.first_name" type="text" placeholder="First Name" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
                         <InputError class="mt-2" :message="form.errors.first_name" />
                     </div>
 
                     <div>
                         <InputLabel class="text-white font-light" for="last_name" value="Last Name" />
-                        <TextInput id="last_name" v-model="form.last_name" type="text" placeholder="Last Name" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
+                        <TextInput id="last_name" v-model="form.last_name" type="text" placeholder="Last Name" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required />
                         <InputError class="mt-2" :message="form.errors.last_name" />
                     </div>
                 </div>
 
                 <div class="mt-4">
                     <InputLabel class="text-white font-light" for="email" value="Email Address" />
-                    <TextInput id="email" v-model="form.email" type="email" placeholder="Email Address" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
+                    <TextInput id="email" v-model="form.email" type="email" placeholder="Email Address" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
 
                 <div class="mt-4">
                     <InputLabel class="text-white font-light" for="password" value="Password" />
-                    <TextInput id="password" v-model="form.password" type="password" placeholder="Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
+                    <TextInput id="password" v-model="form.password" type="password" placeholder="Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
                     <InputError class="mt-2" :message="form.errors.password" />
                 </div>
 
                 <div class="mt-4">
                     <InputLabel class="text-white font-light" for="password_confirmation" value="Confirm Password" />
-                    <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password" placeholder="Confirm Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
+                    <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password" placeholder="Confirm Password" class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]" required autocomplete="off" />
                     <InputError class="mt-2" :message="form.errors.password_confirmation" />
                 </div>
 

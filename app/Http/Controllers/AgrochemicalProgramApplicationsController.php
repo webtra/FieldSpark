@@ -199,7 +199,6 @@ class AgrochemicalProgramApplicationsController extends Controller
         }
     }
 
-
     // Display the application sheet form using the planned application date as an identifier
     public function showApplicationForm($plannedDate)
     {

@@ -69,30 +69,50 @@ class AgrochemicalProgramsController extends Controller
     public function update(Request $request, $id)
     {
         Log::info('Incoming request data for update:', $request->all());
-    
+
         $data = $request->validate([
             'id' => 'required|integer|exists:agrochemical_programs,id',
             'crop_id' => 'required|integer|exists:crops,id',
             'agrochemical_id' => 'required|integer|exists:agrochemicals,id',
             'planned_application_date' => 'required|date',
         ]);
-    
+
         try {
             Log::info('Processing update for row ID:', ['id' => $id]);
-    
+
             $program = AgrochemicalPrograms::findOrFail($id);
             $program->update([
                 'crop_id' => $data['crop_id'],
                 'agrochemical_id' => $data['agrochemical_id'],
                 'planned_application_date' => $data['planned_application_date'],
             ]);
-    
+
             Log::info('Row successfully updated:', $data);
-    
+
             return response()->json(['message' => 'Agrochemical program application updated successfully.']);
         } catch (\Exception $e) {
             Log::error('Error occurred while updating agrochemical program:', ['error' => $e->getMessage()]);
             return response()->json(['message' => 'Error updating agrochemical program.'], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            Log::info('Attempting to delete agrochemical program with ID:', ['id' => $id]);
+
+            $agrochemicalProgram = AgrochemicalPrograms::findOrFail($id);
+
+            // Perform the deletion
+            $agrochemicalProgram->delete();
+
+            Log::info('Agrochemical program deleted successfully.', ['id' => $id]);
+
+            return response()->json(['message' => 'Agrochemical Program deleted successfully.'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error occurred while deleting agrochemical program:', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Error deleting agrochemical program.'], 500);
         }
     }
 }

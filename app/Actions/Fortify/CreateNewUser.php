@@ -28,8 +28,8 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        // Retrieve the 'Worker' role
-        $userRole = Roles::where('role', 'Worker')->firstOrFail();
+        // Retrieve the 'Staff' role
+        $userRole = Roles::where('role', 'Staff')->firstOrFail();
 
         $user = User::create([
             'role_id' => $userRole->id,

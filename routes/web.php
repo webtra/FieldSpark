@@ -54,7 +54,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/stats', [DashboardController::class, 'stats']);
-        Route::get('/activities', [DashboardController::class, 'activities']);
     });
 
     Route::prefix('cultivar')->group(function () {

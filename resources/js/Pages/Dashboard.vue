@@ -79,7 +79,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -122,15 +122,7 @@ const stats = ref({
     changeCrops: 0,
     changeAgrochemicals: 0,
     changePrograms: 0, // Add changePrograms
-    changeOpenTickets: 0,
-    changeClosedTickets: 0
 });
-
-const recentActivities = ref([
-    { id: 1, type: 'Program', description: 'Created Agrochemical Program for Crop A' },
-    { id: 2, type: 'Support Ticket', description: 'Opened ticket for Crop B issue' },
-    { id: 3, type: 'Cultivar', description: 'Added new cultivar "Alpha" to database' },
-]);
 
 const fetchData = async () => {
     try {
@@ -148,17 +140,6 @@ const fetchData = async () => {
 };
 
 onMounted(fetchData);
-
-// Navigation functions
-const goToAddCultivar = () => {
-    // Navigate to add cultivar page
-    window.location.href = '/cultivars/create';
-};
-
-const goToAddProgram = () => {
-    // Navigate to add program page
-    window.location.href = '/programs/create';
-};
 
 // Role ID to Role Name Mapping
 const roleMap = {
@@ -206,15 +187,6 @@ const statCards = computed(() => [
         upColorClass: 'text-green-500',
         downColorClass: 'text-red-500',
         changeColorClass: stats.value.changePrograms > 0 ? 'text-green-500' : 'text-red-500',
-    },
-    {
-        title: 'Open Tickets',
-        total: stats.value.openTickets,
-        change: stats.value.changeOpenTickets,
-        // Special rule for tickets: up (increase) is red, down (decrease) is green
-        upColorClass: 'text-red-500', // Up arrow should be red
-        downColorClass: 'text-green-500', // Down arrow should be green
-        changeColorClass: stats.value.changeOpenTickets > 0 ? 'text-red-500' : 'text-green-500',
     },
 ]);
 </script>

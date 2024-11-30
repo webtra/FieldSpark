@@ -39,28 +39,12 @@ class DashboardController extends Controller
         $totalCrops = Crops::whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])->count();
         $totalAgrochemicals = Agrochemicals::whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])->count();
         $totalPrograms = AgrochemicalPrograms::whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])->count();
-        $openTickets = SupportTickets::where('user_id', $userId)
-            ->where('status', 'Open')
-            ->whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])
-            ->count();
-        $closedTickets = SupportTickets::where('user_id', $userId)
-            ->where('status', 'Closed')
-            ->whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])
-            ->count();
 
         // Previous week counts
         $previousWeekCultivars = Cultivars::whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])->count();
         $previousWeekCrops = Crops::whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])->count();
         $previousWeekAgrochemicals = Agrochemicals::whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])->count();
         $previousWeekPrograms = AgrochemicalPrograms::whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])->count();
-        $previousWeekOpenTickets = SupportTickets::where('user_id', $userId)
-            ->where('status', 'Open')
-            ->whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])
-            ->count();
-        $previousWeekClosedTickets = SupportTickets::where('user_id', $userId)
-            ->where('status', 'Closed')
-            ->whereBetween('created_at', [$previousWeekStart, $previousWeekEnd])
-            ->count();
 
         // Helper function to calculate percentage change
         function calculateChange($current, $previous)
@@ -73,24 +57,10 @@ class DashboardController extends Controller
             'totalCrops' => $totalCrops,
             'totalAgrochemicals' => $totalAgrochemicals,
             'totalPrograms' => $totalPrograms,
-            'openTickets' => $openTickets,
-            'closedTickets' => $closedTickets,
             'changeCultivars' => calculateChange($totalCultivars, $previousWeekCultivars),
             'changeCrops' => calculateChange($totalCrops, $previousWeekCrops),
             'changeAgrochemicals' => calculateChange($totalAgrochemicals, $previousWeekAgrochemicals),
             'changePrograms' => calculateChange($totalPrograms, $previousWeekPrograms),
-            'changeOpenTickets' => calculateChange($openTickets, $previousWeekOpenTickets),
-            'changeClosedTickets' => calculateChange($closedTickets, $previousWeekClosedTickets),
-        ]);
-    }
-
-    public function activities()
-    {
-        // For example, returning recent activity mock data
-        return response()->json([
-            ['id' => 1, 'type' => 'Program', 'description' => 'Created Agrochemical Program for Crop A'],
-            ['id' => 2, 'type' => 'Support Ticket', 'description' => 'Opened ticket for Crop B issue'],
-            ['id' => 3, 'type' => 'Cultivar', 'description' => 'Added new cultivar "Alpha" to database'],
         ]);
     }
 }

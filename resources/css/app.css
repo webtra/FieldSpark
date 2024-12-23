@@ -1,25 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 [x-cloak] {
     display: none;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-}
-
-.Toastify__toast {
-    font-family: 'Inter', sans-serif;
-}
-
-.Toastify__close-button {
-    align-self: center;
-    margin-top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

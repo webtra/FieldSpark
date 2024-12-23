@@ -15,10 +15,6 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-            alias: {
-                '@': '/src',
-                'primevue': 'node_modules/primevue',
-            },
         }),
     ],
 });

@@ -50,12 +50,16 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
-        ])->description('Administrator users can perform any action.');
+        ])->description('Administrators have full access to all system features, including creating, reading, updating, and deleting any resource.');
 
-        Jetstream::role('editor', 'Editor', [
+        Jetstream::role('farm_manager', 'Farm Manager', [
             'read',
-            'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Farm Managers oversee operations with permissions to read data and update existing records.');
+
+        Jetstream::role('staff', 'Staff', [
+            'read',
+            'update',
+        ])->description('Staff members are responsible for daily tasks, with the ability to access information and make updates.');
     }
 }

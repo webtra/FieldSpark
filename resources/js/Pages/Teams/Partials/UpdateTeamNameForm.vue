@@ -27,23 +27,23 @@ const updateTeamName = () => {
 <template>
     <FormSection @submitted="updateTeamName">
         <template #title>
-            Team Name
+            Organization Name
         </template>
 
         <template #description>
-            The team's name and owner information.
+            The organization's name and owner information.
         </template>
 
         <template #form>
             <!-- Team Owner Information -->
             <div class="col-span-6">
-                <InputLabel value="Team Owner" />
+                <InputLabel value="Organization Owner" />
 
                 <div class="flex items-center mt-2">
-                    <img class="size-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
+                    <img class="size-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.first_name">
 
                     <div class="ms-4 leading-tight">
-                        <div class="text-gray-900">{{ team.owner.name }}</div>
+                        <div class="font-medium text-gray-900">{{ team.owner.first_name }} {{ team.owner.last_name }}</div>
                         <div class="text-gray-700 text-sm">
                             {{ team.owner.email }}
                         </div>
@@ -52,8 +52,8 @@ const updateTeamName = () => {
             </div>
 
             <!-- Team Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" />
+            <div class="col-span-6">
+                <InputLabel for="name" value="Organization Name" />
 
                 <TextInput
                     id="name"
@@ -68,9 +68,9 @@ const updateTeamName = () => {
         </template>
 
         <template v-if="permissions.canUpdateTeam" #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
-                Saved.
-            </ActionMessage>
+<!--            <ActionMessage :on="form.recentlySuccessful">-->
+<!--                Saved.-->
+<!--            </ActionMessage>-->
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Save

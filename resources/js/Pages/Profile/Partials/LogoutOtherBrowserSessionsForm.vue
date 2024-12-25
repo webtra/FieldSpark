@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import {ref} from 'vue';
+import {useForm} from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import ActionSection from '@/Components/ActionSection.vue';
 import DialogModal from '@/Components/DialogModal.vue';
@@ -53,33 +53,44 @@ const closeModal = () => {
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600">
-                If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.
+            <div class="text-xs text-gray-600">
+                If needed, you can log out of all browser sessions on all devices. Below is a list of recent sessions,
+                but it may not be complete. Update your password if you suspect your account is compromised.
             </div>
 
             <!-- Other Browser Sessions -->
             <div v-if="sessions.length > 0" class="mt-5 space-y-6">
                 <div v-for="(session, i) in sessions" :key="i" class="flex items-center">
                     <div>
-                        <svg v-if="session.agent.is_desktop" class="size-8 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                        <svg v-if="session.agent.is_desktop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                             fill="currentColor" class="h-8 w-8 text-gray-500">
+                            <path fill-rule="evenodd"
+                                  d="M2.25 5.25a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3V15a3 3 0 0 1-3 3h-3v.257c0 .597.237 1.17.659 1.591l.621.622a.75.75 0 0 1-.53 1.28h-9a.75.75 0 0 1-.53-1.28l.621-.622a2.25 2.25 0 0 0 .659-1.59V18h-3a3 3 0 0 1-3-3V5.25Zm1.5 0v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5Z"
+                                  clip-rule="evenodd"/>
                         </svg>
 
-                        <svg v-else class="size-8 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
                         </svg>
+
                     </div>
 
                     <div class="ms-3">
-                        <div class="text-sm text-gray-600">
-                            {{ session.agent.platform ? session.agent.platform : 'Unknown' }} - {{ session.agent.browser ? session.agent.browser : 'Unknown' }}
+                        <div class="text-xs text-gray-600">
+                            {{ session.agent.platform ? session.agent.platform : 'Unknown' }} - {{
+                                session.agent.browser
+                                    ? session.agent.browser : 'Unknown'
+                            }}
                         </div>
 
                         <div>
                             <div class="text-xs text-gray-500">
                                 {{ session.ip_address }},
 
-                                <span v-if="session.is_current_device" class="text-green-500 font-semibold">This device</span>
+                                <span v-if="session.is_current_device" class="text-green-500 font-semibold">This
+                                    device</span>
                                 <span v-else>Last active {{ session.last_active }}</span>
                             </div>
                         </div>
@@ -92,7 +103,7 @@ const closeModal = () => {
                     Log Out Other Browser Sessions
                 </PrimaryButton>
 
-                <ActionMessage :on="form.recentlySuccessful" class="ms-3">
+                <ActionMessage :on="form.recentlySuccessful">
                     Done.
                 </ActionMessage>
             </div>
@@ -104,20 +115,15 @@ const closeModal = () => {
                 </template>
 
                 <template #content>
-                    Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.
+                    Please enter your password to confirm you would like to log out of your other browser sessions
+                    across all of your devices.
 
                     <div class="mt-4">
-                        <TextInput
-                            ref="passwordInput"
-                            v-model="form.password"
-                            type="password"
-                            class="mt-1 block w-3/4"
-                            placeholder="Password"
-                            autocomplete="current-password"
-                            @keyup.enter="logoutOtherBrowserSessions"
-                        />
+                        <TextInput ref="passwordInput" v-model="form.password" type="password" class="mt-1 block w-3/4"
+                                   placeholder="Password" autocomplete="current-password"
+                                   @keyup.enter="logoutOtherBrowserSessions"/>
 
-                        <InputError :message="form.errors.password" class="mt-2" />
+                        <InputError :message="form.errors.password" class="mt-2"/>
                     </div>
                 </template>
 
@@ -126,12 +132,8 @@ const closeModal = () => {
                         Cancel
                     </SecondaryButton>
 
-                    <PrimaryButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="logoutOtherBrowserSessions"
-                    >
+                    <PrimaryButton class="ms-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                                   @click="logoutOtherBrowserSessions">
                         Log Out Other Browser Sessions
                     </PrimaryButton>
                 </template>

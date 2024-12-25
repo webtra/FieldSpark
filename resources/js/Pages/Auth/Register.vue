@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 
 const form = useForm({
     first_name: '',
@@ -28,7 +29,8 @@ const submit = () => {
 <template>
     <Head title="Register" />
 
-    <AuthenticationCard>
+    <AuthLayout>
+        <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
         </template>
@@ -132,4 +134,5 @@ const submit = () => {
             </div>
         </form>
     </AuthenticationCard>
+    </AuthLayout>
 </template>

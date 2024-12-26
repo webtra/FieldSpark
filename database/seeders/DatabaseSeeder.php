@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\BlockCategories;
 use App\Models\Subscriptions;
+use App\Models\Types;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

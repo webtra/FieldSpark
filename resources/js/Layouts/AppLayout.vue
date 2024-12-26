@@ -1,4 +1,7 @@
 <template>
+
+    <Head :title="title" />
+
     <div class="min-h-screen flex flex-col">
         <!-- MOBILE -->
         <div>
@@ -43,7 +46,7 @@
                             </li>
 
                             <li>
-                                <Link :href="route('dashboard')"
+                                <Link :href="route('dashboard.index')"
                                       class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
                                       :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/dashboard' }">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -55,6 +58,27 @@
                                     </svg>
                                     <span class="tracking-wider text-xs">
                                 Dashboard
+                            </span>
+                                </Link>
+                            </li>
+
+                            <li class="my-1">
+                                <span class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">PLANTINGS</span>
+                            </li>
+
+                            <li>
+                                <Link :href="route('types.index')"
+                                      class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                      :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/types' }">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                         class="w-5 h-5">
+                                        <path
+                                            d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+                                        <path
+                                            d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+                                    </svg>
+                                    <span class="tracking-wider text-xs">
+                                Types
                             </span>
                                 </Link>
                             </li>
@@ -90,7 +114,7 @@
                         </li>
 
                         <li>
-                            <Link :href="route('dashboard')"
+                            <Link :href="route('dashboard.index')"
                                   class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
                                   :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/dashboard' }">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -105,13 +129,34 @@
                             </span>
                             </Link>
                         </li>
+
+                        <li class="my-1">
+                            <span class="ml-4 font-medium tracking-wider text-white/50 text-[10px]">PLANTINGS</span>
+                        </li>
+
+                        <li>
+                            <Link :href="route('types.index')"
+                                  class="flex items-center pl-6 py-2.5 space-x-3 text-white border-l-4 border-[#00434b] hover:border-[#BCDA84] hover:bg-[#003C43]"
+                                  :class="{ 'border-l-4 border-[#BCDA84] bg-[#003C43] text-white': $page.url === '/types' }">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                     class="w-5 h-5">
+                                    <path
+                                        d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+                                    <path
+                                        d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+                                </svg>
+                                <span class="tracking-wider text-xs">
+                                Types
+                            </span>
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </nav>
         </div>
 
         <!-- Slot for page-specific content -->
-        <main class="flex-grow lg:ml-64  bg-gray-100 text-xs z-10">
+        <main class="flex-grow lg:ml-64  bg-gray-100 text-xs z-40">
             <div class="bg-white px-4 py-2 md:sticky top-0 shadow-sm">
                 <div class="flex items-center justify-between">
                     <p class="font-medium text-lg text-black">{{ $page.props.pageTitle }}</p>

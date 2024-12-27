@@ -5,7 +5,7 @@
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
                 <p class="text-sm mt-1 text-black font-medium">
-                    <span class="font-bold">Total Types:</span> {{ filteredVarieties.length }}
+                    <span class="font-bold">Total Varieties:</span> {{ filteredVarieties.length }}
                     (Filtered from {{ varietyCount }})
                 </p>
 
@@ -255,7 +255,7 @@
 
                 <div class="mt-6 flex justify-end space-x-4">
                     <CancelButton @click="showEditModal = false">Cancel</CancelButton>
-                    <PrimaryButton @click="editType()">Update</PrimaryButton>
+                    <PrimaryButton @click="editVariety()">Update</PrimaryButton>
                 </div>
             </div>
         </div>
@@ -531,7 +531,7 @@ const openEditModal = (variety) => {
     showEditModal.value = true;
 };
 
-const editType = async () => {
+const editVariety = async () => {
     if (isLoading.value) return;
     isLoading.value = true;
 

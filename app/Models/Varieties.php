@@ -31,4 +31,9 @@ class Varieties extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function fields()
+    {
+        return $this->hasMany(Fields::class);
+    }
 }

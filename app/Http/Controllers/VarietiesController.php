@@ -118,4 +118,24 @@ class VarietiesController extends Controller
             return response()->json(['message' => 'Error deleting variety.', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function fetch(Request $request)
+    {
+        // Get the current team of the authenticated user
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam) {
+            return response()->json([
+                'message' => 'No current team found for the user.',
+            ], 400);
+        }
+
+        // Fetch types belonging to the current team
+        $varieties = Varieties::where('team_id', $currentTeam->id)->get(['id', 'name']);
+
+        return response()->json([
+            'message' => 'Varieties fetched successfully.',
+            'varieties' => $varieties,
+        ]);
+    }
 }

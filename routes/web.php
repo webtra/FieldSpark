@@ -21,6 +21,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('api')->group(function () {
         Route::get('/types', [\App\Http\Controllers\TypesController::class, 'fetch']);
+        Route::get('/varieties', [\App\Http\Controllers\VarietiesController::class, 'fetch']);
     });
 
     Route::prefix('dashboard')->group(function () {
@@ -39,5 +40,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/store', [\App\Http\Controllers\VarietiesController::class, 'store'])->name('varieties.store');
         Route::patch('/{variety}', [\App\Http\Controllers\VarietiesController::class, 'update'])->name('varieties.update');
         Route::delete('/{variety}', [\App\Http\Controllers\VarietiesController::class, 'destroy'])->name('varieties.destroy');
+    });
+
+    Route::prefix('fields')->group(function () {
+        Route::get('/', [\App\Http\Controllers\FieldsController::class, 'index'])->name('fields.index');
+        Route::post('/store', [\App\Http\Controllers\FieldsController::class, 'store'])->name('fields.store');
+        Route::patch('/{field}', [\App\Http\Controllers\FieldsController::class, 'update'])->name('fields.update');
+        Route::delete('/{field}', [\App\Http\Controllers\FieldsController::class, 'destroy'])->name('fields.destroy');
     });
 });

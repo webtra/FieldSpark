@@ -32,17 +32,31 @@ class TypesController extends Controller
      */
     public function store(Request $request)
     {
+        // Get the current team of the authenticated user
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam) {
+            return response()->json([
+                'message' => 'No current team found for the user.',
+            ], 400);
+        }
+
         // Validate the incoming request
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        // Create a new type
+        // Add the team_id to the validated data
+        $validatedData['team_id'] = $currentTeam->id;
+
+        // Create the new type
         $type = Types::create($validatedData);
 
         return response()->json([
-            'message' => 'Type created successfully.',], 201);
+            'message' => 'Type created successfully.',
+            'type' => $type,
+        ], 201);
     }
 
     /**
@@ -79,5 +93,32 @@ class TypesController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error deleting type.', 'error' => $e->getMessage()], 500);
         }
+    }
+
+
+    /**
+     * Fetch types for the current user's team.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetch(Request $request)
+    {
+        // Get the current team of the authenticated user
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam) {
+            return response()->json([
+                'message' => 'No current team found for the user.',
+            ], 400);
+        }
+
+        // Fetch types belonging to the current team
+        $types = Types::where('team_id', $currentTeam->id)->get(['id', 'name']);
+
+        return response()->json([
+            'message' => 'Types fetched successfully.',
+            'types' => $types,
+        ]);
     }
 }

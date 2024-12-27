@@ -49,7 +49,7 @@
 
         <!-- Data Table Section -->
         <div v-if="filteredTypes.length > 0">
-            <div class="rounded-lg overflow-x-auto">
+            <div class="rounded-lg overflow-x-auto overflow-y-hidden z-10">
                 <table class="min-w-full text-sm text-black">
                     <thead class="bg-white border-b-2 border-gray-200">
                     <tr>
@@ -64,11 +64,11 @@
                         <td class="px-6 py-2 text-xs text-gray-500 w-16">{{ type.id }}</td>
                         <td class="px-6 py-2 text-xs text-gray-500 w-48">{{ type.name }}</td>
                         <td class="px-6 py-2 text-xs text-gray-500 w-96">{{ type.description }}</td>
-                        <td class="px-6 py-2 text-xs text-gray-500 text-right w-28 z-30">
+                        <td class="px-6 py-2 text-xs text-gray-500 text-right w-28 z-10">
                             <div class="flex items-center space-x-4 justify-end">
                                 <!-- Open Delete Confirmation Modal -->
                                 <PrimaryButton class="!w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">Delete</PrimaryButton>
-<!--                                <PrimaryButton class="!z-10 !w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50" @click="openDeleteModal(type)">Delete</PrimaryButton>-->
+<!--                            <PrimaryButton class="!z-10 !w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50" @click="openDeleteModal(type)">Delete</PrimaryButton>-->
 
                                 <!-- Open Edit Modal -->
                                 <SecondaryButton class="!w-fit" @click="openEditModal(type)">Edit</SecondaryButton>
@@ -139,7 +139,7 @@ import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const { types, typeCount } = defineProps({
-    types: Object,
+    types: Array,
     typeCount: Number,
 });
 
@@ -148,8 +148,8 @@ const showCreateModal = ref(false);
 const showDeleteModal = ref(false);
 const selectedType = ref(null);
 const showEditModal = ref(false);
+const isLoading = ref(false);
 
-// Filtered Types: Apply search filter
 const filteredTypes = computed(() => {
     if (!Array.isArray(types)) return [];
     if (!search.value) return types;
@@ -161,18 +161,25 @@ const filteredTypes = computed(() => {
     );
 });
 
-// Create New Type
 const createForm = ref({
     name: '',
     description: '',
 });
 
 const create = async () => {
+    if (isLoading.value) return;
+    isLoading.value = true;
+
     try {
-        await axios.post('/types/store', {
+        const response = await axios.post('/types/store', {
             name: createForm.value.name,
             description: createForm.value.description,
         });
+
+        types.push(response.data);
+        showCreateModal.value = false;
+        createForm.value.name = '';
+        createForm.value.description = '';
 
         toast("Type created successfully!", {
             theme: "colored",
@@ -193,19 +200,24 @@ const create = async () => {
             hideProgressBar: true,
             transition: "zoom",
         });
+    } finally {
+        isLoading.value = false;
     }
 };
 
-// Open the Delete Modal
 const openDeleteModal = (type) => {
     selectedType.value = type;
     showDeleteModal.value = true;
 };
 
-// Delete Type
-const deleteType = async (type) => {
+const deleteType = async () => {
+    if (!selectedType.value || isLoading.value) return;
+    isLoading.value = true;
+
     try {
-        await axios.delete(`/types/${type}`);
+        await axios.delete(`/types/${selectedType.value.id}`);
+        const index = types.findIndex(type => type.id === selectedType.value.id);
+        if (index !== -1) types.splice(index, 1);
 
         toast("Type deleted successfully!", {
             theme: "colored",
@@ -214,6 +226,8 @@ const deleteType = async (type) => {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        showDeleteModal.value = false;
 
         window.location.reload();
     } catch (error) {
@@ -226,16 +240,17 @@ const deleteType = async (type) => {
             hideProgressBar: true,
             transition: "zoom",
         });
+    } finally {
+        isLoading.value = false;
     }
 };
 
 const editForm = ref({
     id: null,
     name: '',
-    description: ''
+    description: '',
 });
 
-// Open Edit Modal
 const openEditModal = (type) => {
     editForm.value.id = type.id;
     editForm.value.name = type.name;
@@ -243,13 +258,18 @@ const openEditModal = (type) => {
     showEditModal.value = true;
 };
 
-// Update Type
 const editType = async () => {
+    if (isLoading.value) return;
+    isLoading.value = true;
+
     try {
-        await axios.patch(`/types/${editForm.value.id}`, {
+        const response = await axios.patch(`/types/${editForm.value.id}`, {
             name: editForm.value.name,
             description: editForm.value.description,
         });
+
+        const index = types.findIndex(type => type.id === editForm.value.id);
+        if (index !== -1) types[index] = response.data;
 
         toast("Type updated successfully!", {
             theme: "colored",
@@ -258,6 +278,8 @@ const editType = async () => {
             hideProgressBar: true,
             transition: "zoom",
         });
+
+        showEditModal.value = false;
 
         window.location.reload();
     } catch (error) {
@@ -271,7 +293,7 @@ const editType = async () => {
             transition: "zoom",
         });
     } finally {
-        showEditModal.value = false; // Ensure modal is closed
+        isLoading.value = false;
     }
 };
 </script>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

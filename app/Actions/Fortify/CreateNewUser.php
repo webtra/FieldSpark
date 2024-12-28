@@ -70,7 +70,12 @@ class CreateNewUser  implements CreatesNewUsers
             $team->users()->attach($user, ['role' => $invitation->role]);
 
             // Update the user's current_team_id to the invited team's ID
-            $user->forceFill(['current_team_id' => $team->id])->save();
+//            $user->forceFill(['current_team_id' => $team->id])->save();
+
+            // Direct database query to update current_team_id
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['current_team_id' => $team->id]);
 
             // Delete the invitation
             $invitation->delete();

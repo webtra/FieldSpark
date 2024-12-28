@@ -21,9 +21,13 @@ class RemoveTeamMember implements RemovesTeamMembers
 
         $this->ensureUserDoesNotOwnTeam($teamMember, $team);
 
+        // Remove the user from the team
         $team->removeUser($teamMember);
 
         TeamMemberRemoved::dispatch($team, $teamMember);
+
+        // Check if the team member belongs to any other teams
+        $this->deleteUserIfNoTeams($teamMember);
     }
 
     /**
@@ -46,6 +50,18 @@ class RemoveTeamMember implements RemovesTeamMembers
             throw ValidationException::withMessages([
                 'team' => [__('You may not leave a team that you created.')],
             ])->errorBag('removeTeamMember');
+        }
+    }
+
+    /**
+     * Delete the user if they do not belong to any teams.
+     */
+    protected function deleteUserIfNoTeams(User $teamMember): void
+    {
+        $isMemberOfOtherTeams = $teamMember->teams()->exists(); // Check if user belongs to any teams
+
+        if (! $isMemberOfOtherTeams) {
+            $teamMember->delete(); // Delete the user from the database
         }
     }
 }

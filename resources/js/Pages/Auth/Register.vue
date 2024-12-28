@@ -9,6 +9,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 
+// Form data
 const form = useForm({
     first_name: '',
     last_name: '',
@@ -71,7 +72,6 @@ const submit = () => {
                     v-model="form.team_name"
                     type="text"
                     class="border-white/10 text-white placeholder:text-white/50 placeholder:font-light mt-1 block w-full bg-[#1A565D] rounded-lg text-xs focus:border-[#BCDA84] focus:ring-[#BCDA84]"
-                    required
                     placeholder="Organization Name"
                 />
                 <InputError class="mt-2" :message="form.errors.team_name" />

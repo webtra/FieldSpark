@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\Storerooms;
 use App\Models\Team;
+use App\Models\TeamInvitation;
 use App\Models\Types;
 use App\Models\User;
 use App\Models\Type; // Make sure to import the Type model
@@ -24,27 +25,58 @@ class CreateNewUser  implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        // Check if the user is invited
+        $invitation = TeamInvitation::where('email', $input['email'])->first();
+
+        // Dynamically validate based on invitation status
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'team_name' => ['required', 'string', 'max:255'],
+            'team_name' => ['nullable', 'string', 'max:255'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        return DB::transaction(function () use ($input) {
+        return DB::transaction(function () use ($input, $invitation) {
             return tap(User::create([
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-            ]), function (User  $user) use ($input) {
-                $team = $this->createTeam($user, $input['team_name']);
-                $this->createTypesForTeam($team);
-                $this->createDefaultStoreRoom($team);
+            ]), function (User $user) use ($input, $invitation) {
+                if ($invitation) {
+                    // Assign to the invited team
+                    $this->assignToInvitedTeam($user, $invitation);
+                } else {
+                    // Create a new team
+                    $team = $this->createTeam($user, $input['team_name']);
+                    $this->createTypesForTeam($team);
+                    $this->createDefaultStoreRoom($team);
+                }
             });
         });
+    }
+
+    /**
+     * Assign the user to the invited team and delete the invitation.
+     */
+    protected function assignToInvitedTeam(User $user, TeamInvitation $invitation): void
+    {
+        $team = $invitation->team;
+
+        if ($team) {
+            // Attach the user to the invited team with the specified role
+            $team->users()->attach($user, ['role' => $invitation->role]);
+
+            // Update the user's current_team_id to the invited team's ID
+            $user->forceFill(['current_team_id' => $team->id])->save();
+
+            // Delete the invitation
+            $invitation->delete();
+        } else {
+            throw new \Exception("The invited team does not exist.");
+        }
     }
 
     /**

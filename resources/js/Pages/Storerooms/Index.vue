@@ -18,19 +18,95 @@
             <!-- Create Modal -->
             <div v-if="showCreateModal" class="fixed z-50 inset-0 flex items-center justify-center">
                 <div class="fixed inset-0 bg-black opacity-50"></div>
-                <div class="relative bg-white rounded-lg p-6 w-full max-w-md z-50">
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
                     <h3 class="text-lg font-semibold mb-4">Create New Storeroom</h3>
 
-                    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
-                        <p>
-                            <strong>Note:</strong> You will not be able to create additional storerooms at this time.
-                            This feature is currently disabled.
-                        </p>
+                    <div class="mb-4">
+                        <InputLabel value="Name" />
+                        <TextInput
+                            id="edit-name"
+                            type="text"
+                            v-model="createForm.name"
+                            class="mt-1 block w-full"
+                            placeholder="Name"
+                            required
+                        />
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Country" />
+                        <TextInput
+                            id="edit-country"
+                            type="text"
+                            v-model="createForm.country"
+                            class="mt-1 block w-full"
+                            placeholder="Country"
+                        />
+                    </div>
+
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-full">
+                            <InputLabel value="City" />
+                            <TextInput
+                                id="edit-city"
+                                type="text"
+                                v-model="createForm.city"
+                                class="mt-1 block w-full"
+                                placeholder="City"
+                            />
+                        </div>
+
+                        <div class="w-full">
+                            <InputLabel value="State" />
+                            <TextInput
+                                id="edit-state"
+                                type="text"
+                                v-model="createForm.state"
+                                class="mt-1 block w-full"
+                                placeholder="State"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Zip Code" />
+                        <TextInput
+                            id="edit-zip_code"
+                            type="text"
+                            v-model="createForm.zip_code"
+                            class="mt-1 block w-full"
+                            placeholder="Zip Code"
+                        />
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel value="Status" />
+                        <select
+                            id="edit-status"
+                            v-model="createForm.status"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:ring-[#BCDA84] focus:border-[#BCDA84] rounded-lg"
+                        >
+                            <option value="active">Active</option>
+                            <option value="suspended">Suspended</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <InputLabel for="is-default" value="Default Storeroom" />
+                        <select
+                            id="is-default"
+                            v-model="createForm.is_default"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:ring-[#BCDA84] focus:border-[#BCDA84] rounded-lg"
+                        >
+                            <option :value="true">Yes (Default Storeroom)</option>
+                            <option :value="false">No (Additional Storeroom)</option>
+                        </select>
                     </div>
 
                     <div class="mt-6 text-gray-500 flex justify-end space-x-4">
                         <CancelButton @click="showCreateModal = false">Cancel</CancelButton>
-                        <PrimaryButton @click="createStoreroom" class="cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">Create</PrimaryButton>
+                        <PrimaryButton @click="createStoreroom()">Create</PrimaryButton>
                     </div>
                 </div>
             </div>
@@ -163,9 +239,34 @@
                         </select>
                     </div>
 
+                    <div class="mb-4">
+                        <InputLabel for="is-default" value="Default Storeroom" />
+                        <select
+                            id="is-default"
+                            v-model="editForm.is_default"
+                            class="w-full text-xs mt-1 placeholder:text-xs border-gray-300 focus:ring-[#BCDA84] focus:border-[#BCDA84] rounded-lg"
+                        >
+                            <option :value="true">Yes (Default Storeroom)</option>
+                            <option :value="false">No (Additional Storeroom)</option>
+                        </select>
+                    </div>
+
                     <div class="mt-6 text-gray-500 flex justify-end space-x-4">
                         <CancelButton @click="showEditModal = false">Cancel</CancelButton>
                         <PrimaryButton @click="editStoreroom()">Update</PrimaryButton>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div v-if="showDeleteModal" class="fixed z-50 inset-0 flex items-center justify-center">
+                <div class="fixed inset-0 bg-black/40"></div>
+                <div class="relative bg-white rounded-lg p-6 w-full max-w-sm z-50">
+                    <h3 class="text-lg font-semibold mb-4">Confirm Delete</h3>
+                    <p>Are you sure you want to delete this storeroom?</p>
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <CancelButton @click="showDeleteModal = false">Cancel</CancelButton>
+                        <DangerButton @click="deleteStoreroom()">Delete</DangerButton>
                     </div>
                 </div>
             </div>
@@ -183,6 +284,7 @@ import { ref, computed } from "vue";
 import axios from "axios";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {toast} from "vue3-toastify";
+import DangerButton from "@/Components/DangerButton.vue";
 
 const { storerooms, storeroomCount } = defineProps({
     storerooms: Array,
@@ -192,6 +294,7 @@ const { storerooms, storeroomCount } = defineProps({
 const search = ref("");
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
+const showDeleteModal = ref(false);
 const isLoading = ref(false);
 
 const filteredStorerooms = computed(() => {
@@ -219,7 +322,50 @@ const statusBadgeClass = (status) => {
 };
 
 const getStoreroomType = (isDefault) => {
-    return isDefault ? 'Default Storeroom' : 'Additional Storeroom';
+    return isDefault ? 'Yes' : 'No';
+};
+
+const createForm = ref({
+    name: "",
+    country: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    status: "",
+    is_default: false,
+});
+
+const createStoreroom = async () => {
+    if (isLoading.value) return;
+    isLoading.value = true;
+
+    try {
+        const response = await axios.post('/storerooms/store', createForm.value);
+
+        toast("Record created successfully!", {
+            theme: "colored",
+            type: "success",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+
+        showCreateModal.value = false;
+
+        window.location.reload();
+    } catch (error) {
+        console.error(`Error creating storeroom:`, error);
+
+        toast("Error creating record!", {
+            theme: "colored",
+            type: "error",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+    } finally {
+        isLoading.value = false;
+    }
 };
 
 const editForm = ref({
@@ -229,12 +375,20 @@ const editForm = ref({
     city: "",
     state: "",
     zip_code: "",
-    status: "active",
+    status: "",
+    is_default: false,
 });
 
 const openEditModal = (storeroom) => {
-    editForm.value = { ...storeroom };
-    showEditModal.value = true;
+    console.log("Opening Edit Modal with storeroom:", storeroom); // Log the storeroom data
+
+    editForm.value = {
+        ...storeroom,
+        is_default: Boolean(storeroom.is_default), // Ensure the is_default value is a boolean
+    };
+
+    console.log("Populated editForm:", editForm.value); // Log the editForm after populating it
+    showEditModal.value = true; // Show the modal
 };
 
 const editStoreroom = async () => {
@@ -244,7 +398,7 @@ const editStoreroom = async () => {
     try {
         const response = await axios.patch(`/storerooms/${editForm.value.id}`, editForm.value);
 
-        toast("Storeroom updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -258,7 +412,7 @@ const editStoreroom = async () => {
     } catch (error) {
         console.error(`Error updating storeroom:`, error);
 
-        toast("Error updating storeroom!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -270,4 +424,36 @@ const editStoreroom = async () => {
     }
 };
 
+const deleteStoreroom = async () => {
+    if (isLoading.value) return;
+    isLoading.value = true;
+
+    try {
+        const response = await axios.delete(`/storerooms/${editForm.value.id}`);
+
+        toast("Record deleted successfully!", {
+            theme: "colored",
+            type: "success",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+
+        showDeleteModal.value = false;
+
+        window.location.reload();
+    } catch (error) {
+        console.error(`Error deleting storeroom:`, error);
+
+        toast("Error deleting record!", {
+            theme: "colored",
+            type: "error",
+            position: "top-center",
+            hideProgressBar: true,
+            transition: "zoom",
+        });
+    } finally {
+        isLoading.value = false;
+    }
+};
 </script>

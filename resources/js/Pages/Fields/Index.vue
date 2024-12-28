@@ -258,7 +258,7 @@ const createField = async () => {
     try {
         const response = await axios.post('/fields/store', createForm.value);
 
-        toast("Field created successfully!", {
+        toast("Record created successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -270,7 +270,7 @@ const createField = async () => {
     } catch (error) {
         console.error("Error creating field:", error);
 
-        toast("Error creating field!", {
+        toast("Error creating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -294,7 +294,7 @@ const editField = async () => {
     try {
         const response = await axios.patch(`/fields/${editForm.value.id}`, editForm.value);
 
-        toast("Field updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -308,7 +308,7 @@ const editField = async () => {
     } catch (error) {
         console.error("Error updating field:", error);
 
-        toast("Error updating field!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -332,7 +332,7 @@ const deleteField = async () => {
     try {
         await axios.delete(`/varieties/${selectedField.value.id}`);
 
-        toast("Field deleted successfully!", {
+        toast("Record deleted successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -346,7 +346,7 @@ const deleteField = async () => {
     } catch (error) {
         console.error("Error deleting field:", error);
 
-        toast("Error deleting field!", {
+        toast("Error deleting record!", {
             theme: "colored",
             type: "error",
             position: "top-center",

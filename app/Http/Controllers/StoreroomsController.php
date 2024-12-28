@@ -33,6 +33,44 @@ class StoreroomsController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam) {
+            return response()->json(['error' => 'No team associated with the user.'], 403);
+        }
+
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'zip_code' => 'nullable|string|max:20',
+            'status' => 'nullable|in:active,inactive,suspended',
+            'is_default' => 'nullable|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Create the field
+        $storerooms = Storerooms::create([
+            'team_id' => $currentTeam->id,
+            'name' => $request->name,
+            'country' => $request->country,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip_code' => $request->zip_code,
+            'status' => $request->status,
+            'is_default' => $request->is_default ?? false,
+        ]);
+
+        return response()->json(['storeroom' => $storerooms], 201);
+    }
+
     public function update(Request $request, Storerooms $storeroom)
     {
         $currentTeam = $request->user()->currentTeam;
@@ -46,9 +84,6 @@ class StoreroomsController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'country' => 'nullable|string|max:255',
-            'address_line_1' => 'nullable|string|max:255',
-            'address_line_2' => 'nullable|string|max:255',
-            'address_line_3' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'zip_code' => 'nullable|string|max:20',
@@ -64,16 +99,27 @@ class StoreroomsController extends Controller
         $storeroom->update([
             'name' => $request->name,
             'country' => $request->country,
-            'address_line_1' => null,
-            'address_line_2' => null,
-            'address_line_3' => null,
             'city' => $request->city,
             'state' => $request->state,
             'zip_code' => $request->zip_code,
-            'status' => 'active',
-            'is_default' => null,
+            'status' => $request->status,
+            'is_default' => $request->is_default,
         ]);
 
         return response()->json(['storeroom' => $storeroom], 200);
+    }
+
+    public function destroy(Request $request, Storerooms $storeroom)
+    {
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam || $storeroom->team_id !== $currentTeam->id) {
+            return response()->json(['error' => 'Unauthorized.'], 403);
+        }
+
+        // Delete the field
+        $storeroom->delete();
+
+        return response()->json(['message' => 'Field deleted successfully.'], 200);
     }
 }

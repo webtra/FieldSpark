@@ -181,7 +181,7 @@ const create = async () => {
         createForm.value.name = '';
         createForm.value.description = '';
 
-        toast("Type created successfully!", {
+        toast("Record created successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -193,7 +193,7 @@ const create = async () => {
     } catch (error) {
         console.error("Error creating type:", error);
 
-        toast("Error creating type!", {
+        toast("Error creating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -219,7 +219,7 @@ const deleteType = async () => {
         const index = types.findIndex(type => type.id === selectedType.value.id);
         if (index !== -1) types.splice(index, 1);
 
-        toast("Type deleted successfully!", {
+        toast("Record deleted successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -233,7 +233,7 @@ const deleteType = async () => {
     } catch (error) {
         console.error("Error deleting type:", error);
 
-        toast("Error deleting type!", {
+        toast("Error deleting record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -271,7 +271,7 @@ const editType = async () => {
         const index = types.findIndex(type => type.id === editForm.value.id);
         if (index !== -1) types[index] = response.data;
 
-        toast("Type updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -285,7 +285,7 @@ const editType = async () => {
     } catch (error) {
         console.error("Error updating type:", error);
 
-        toast("Error updating type!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",

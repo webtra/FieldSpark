@@ -440,7 +440,7 @@ const create = async () => {
         createForm.value.root_depth = '';
         createForm.value.growth_season = '';
 
-        toast("Variety created successfully!", {
+        toast("Record created successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -452,7 +452,7 @@ const create = async () => {
     } catch (error) {
         console.error("Error creating variety:", error);
 
-        toast("Error creating variety!", {
+        toast("Error creating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -478,7 +478,7 @@ const deleteVariety = async () => {
         const index = varieties.findIndex(variety => variety.id === selectedVariety.value.id);
         if (index !== -1) varieties.splice(index, 1);
 
-        toast("Variety deleted successfully!", {
+        toast("Record deleted successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -492,7 +492,7 @@ const deleteVariety = async () => {
     } catch (error) {
         console.error("Error deleting variety:", error);
 
-        toast("Error deleting variety!", {
+        toast("Error deleting record!", {
             theme: "colored",
             type: "error",
             position: "top-center",
@@ -541,7 +541,7 @@ const editVariety = async () => {
         const index = varieties.findIndex(variety => variety.id === editForm.value.id);
         if (index !== -1) varieties[index] = response.data;
 
-        toast("Variety updated successfully!", {
+        toast("Record updated successfully!", {
             theme: "colored",
             type: "success",
             position: "top-center",
@@ -555,7 +555,7 @@ const editVariety = async () => {
     } catch (error) {
         console.error("Error updating variety:", error);
 
-        toast("Error updating variety!", {
+        toast("Error updating record!", {
             theme: "colored",
             type: "error",
             position: "top-center",

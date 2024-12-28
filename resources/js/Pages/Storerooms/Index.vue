@@ -128,8 +128,8 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="storeroom in filteredStorerooms" :key="storeroom.id">
                             <td class="px-6 py-2 text-xs text-gray-500 w-20">{{ storeroom.id }}</td>
-                            <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ storeroom.name }}</td>
-                            <td class="px-6 py-2 text-xs text-gray-500 w-72">
+                            <td class="px-6 py-2 text-xs text-gray-500 w-36 whitespace-nowrap">{{ storeroom.name }}</td>
+                            <td class="px-6 py-2 text-xs text-gray-500 w-72 whitespace-nowrap">
                                 {{ storeroom.country || storeroom.state || storeroom.city || storeroom.zip_code ?
                                 `${storeroom.country || ''}, ${storeroom.state || ''}, ${storeroom.city || ''}, ${storeroom.zip_code || ''}`.replace(/(,\s)+$/, '') : 'N/A' }}
                             </td>

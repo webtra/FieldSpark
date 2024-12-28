@@ -325,8 +325,13 @@
                         <div class="ms-3 relative">
                             <Dropdown align="right" width="48">
                                 <template #trigger>
-                                    <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                        <img class="size-10 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                                    <button v-if="$page.props.jetstream.managesProfilePhotos"
+                                            class="flex text-xs border-2 border-transparent rounded-full focus:outline-none focus:border-[#BCDA84] transition">
+                                        <!-- <img class="h-10 w-10 rounded-full object-cover"
+                                            :src="$page.props.auth.user.profile_photo_url"
+                                            :alt="$page.props.auth.user.first_name">
+                                            -->
+                                        <div class="h-10 w-10 bg-[#00434b] rounded-full"></div>
                                     </button>
 
                                     <span v-else class="inline-flex rounded-md">

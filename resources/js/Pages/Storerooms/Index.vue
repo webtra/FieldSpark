@@ -4,7 +4,7 @@
         <div class="overflow-x-hidden overflow-y-auto">
             <div class="block md:flex items-center justify-between mb-4">
                 <p class="text-sm mt-1 text-black font-medium">
-                    <span class="font-bold">Total Fields:</span> {{ filteredStorerooms.length }}
+                    <span class="font-bold">Total Storerooms:</span> {{ filteredStorerooms.length }}
                     (Filtered from {{ storeroomCount }})
                 </p>
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">

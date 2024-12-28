@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Storerooms;
 use App\Models\Team;
 use App\Models\Types;
 use App\Models\User;
@@ -41,6 +42,7 @@ class CreateNewUser  implements CreatesNewUsers
             ]), function (User  $user) use ($input) {
                 $team = $this->createTeam($user, $input['team_name']);
                 $this->createTypesForTeam($team);
+                $this->createDefaultStoreRoom($team);
             });
         });
     }
@@ -92,5 +94,27 @@ class CreateNewUser  implements CreatesNewUsers
                 'description' => $type['description'],
             ]);
         }
+    }
+
+    /**
+     * Create a default store room for the team.
+     *
+     * @param  \App\Models\Team  $team
+     */
+    protected function createDefaultStoreRoom(Team $team): void
+    {
+        Storerooms::create([
+            'team_id' => $team->id,
+            'name' => 'Primary Storeroom',
+            'country' => null,
+            'address_line_1' => null,
+            'address_line_2' => null,
+            'address_line_3' => null,
+            'city' => null,
+            'state' => null,
+            'zip_code' => null,
+            'status' => 'active',
+            'is_default' => true,
+        ]);
     }
 }

@@ -48,4 +48,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::patch('/{field}', [\App\Http\Controllers\FieldsController::class, 'update'])->name('fields.update');
         Route::delete('/{field}', [\App\Http\Controllers\FieldsController::class, 'destroy'])->name('fields.destroy');
     });
+
+    Route::prefix('storerooms')->group(function () {
+        Route::get('/', [\App\Http\Controllers\StoreroomsController::class, 'index'])->name('storerooms.index');
+        Route::post('/store', [\App\Http\Controllers\StoreroomsController::class, 'store'])->name('storerooms.store');
+        Route::patch('/{storeroom}', [\App\Http\Controllers\StoreroomsController::class, 'update'])->name('storerooms.update');
+        Route::delete('/{storeroom}', [\App\Http\Controllers\StoreroomsController::class, 'destroy'])->name('storerooms.destroy');
+    });
 });

@@ -94,8 +94,8 @@
                            <th class="px-6 py-4 text-left text-xs font-medium w-36">Variety</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium w-36">Type</th>
                            <th class="px-6 py-4 text-left text-xs font-medium w-36">Size (hectare)</th>
-                           <th class="px-6 py-4 text-left text-xs font-medium w-36">Status</th>
                            <th class="px-6 py-4 text-left text-xs font-medium w-36">Planted At</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium w-36">Status</th>
                            <th class="px-6 py-4 text-right text-xs font-medium w-28">Actions</th>
                        </tr>
                         </thead>
@@ -106,13 +106,13 @@
                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.variety.name || 'N/A' }}</td>
                                 <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.variety?.type?.name || 'N/A' }}</td> <!-- Type Name -->
                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.size }}</td>
+
+                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.planted_at }}</td>
                                 <td class="px-6 py-2 text-xs capitalize w-36">
                                     <span class="px-3 py-1 uppercase tracking-wide rounded-full text-xs font-medium" :class="statusBadgeClass(field.status)">
                                         {{ field.status }}
                                     </span>
                                 </td>
-
-                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.planted_at }}</td>
                                <td class="px-6 py-2 text-xs text-gray-500 text-right w-28">
                                    <div class="flex items-center space-x-4 justify-end">
                                        <!-- Open Delete Confirmation Modal -->

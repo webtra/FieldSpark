@@ -163,8 +163,15 @@
             </div>
 
             <!-- No Types Found -->
-            <div v-else>
-                <p>No fields found</p>
+            <div v-else class="flex flex-col items-center justify-center py-10">
+                <div class="text-gray-500 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-28">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                </div>
+
+                <p class="text-gray-500 text-lg font-semibold">No Records Found</p>
+                <p class="text-gray-400 text-sm">Try adjusting your search or adding new records.</p>
             </div>
 
             <!-- Edit Modal -->

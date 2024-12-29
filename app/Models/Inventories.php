@@ -33,6 +33,6 @@ class Inventories extends Model
 
     public function prices()
     {
-        return $this->hasMany(Prices::class);
+        return $this->hasMany(Prices::class, 'inventory_id');
     }
 }

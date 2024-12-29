@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventories;
 use App\Models\Items;
 use App\Models\Prices;
+use App\Models\Storerooms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,10 +37,13 @@ class ItemsController extends Controller
         ]);
     }
 
-    public function create()
+    public function create($storeroomId)
     {
+        $storeroom = Storerooms::findOrFail($storeroomId);
+
         return Inertia::render('Items/Create', [
             'pageTitle' => 'Add Item',
+            'storeroom' => $storeroom,
         ]);
     }
 

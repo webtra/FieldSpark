@@ -114,11 +114,11 @@
             <!-- Data Table Section -->
             <div v-if="filteredStorerooms.length > 0">
                 <div class="rounded-lg overflow-x-auto">
-                    <table class="min-w-full text-sm text-black">
+                    <table class="min-w-full text-sm text-black table-fixed">
                         <thead class="bg-white border-b-2 border-gray-200">
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-medium w-20">ID</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium w-36">Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium w-44">Name</th>
                             <th class="px-6 py-4 text-left text-xs font-medium w-72">Location</th>
                             <th class="px-6 py-4 text-left text-xs font-medium w-36">Default</th>
                             <th class="px-6 py-4 text-left text-xs font-medium w-20">Status</th>
@@ -128,26 +128,31 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="storeroom in filteredStorerooms" :key="storeroom.id">
                             <td class="px-6 py-2 text-xs text-gray-500 w-20">{{ storeroom.id }}</td>
-                            <td class="px-6 py-2 text-xs text-gray-500 w-36 whitespace-nowrap">{{ storeroom.name }}</td>
+                            <td class="px-6 py-2 text-xs text-gray-500 w-44 whitespace-nowrap">
+                                <a
+                                    :href="`/storerooms/${storeroom.id}/dashboard`"
+                                    class="text-blue-500 hover:underline"
+                                >
+                                    {{ storeroom.name }}
+                                </a>
+                            </td>
                             <td class="px-6 py-2 text-xs text-gray-500 w-72 whitespace-nowrap">
-                                {{ storeroom.country || storeroom.state || storeroom.city || storeroom.zip_code ?
-                                `${storeroom.country || ''}, ${storeroom.state || ''}, ${storeroom.city || ''}, ${storeroom.zip_code || ''}`.replace(/(,\s)+$/, '') : 'N/A' }}
+                                {{ storeroom.country || storeroom.state || storeroom.city || storeroom.zip_code
+                                ? `${storeroom.country || ''}, ${storeroom.state || ''}, ${storeroom.city || ''}, ${storeroom.zip_code || ''}`.replace(/(,\s)+$/, '')
+                                : 'N/A' }}
                             </td>
                             <td class="px-6 py-2 text-xs text-gray-500 w-36">
                                 {{ getStoreroomType(storeroom.is_default) }}
                             </td>
                             <td class="px-6 py-2 text-xs capitalize w-20">
-                                    <span class="px-3 py-1 uppercase tracking-wide rounded-full text-xs font-medium" :class="statusBadgeClass(storeroom.status)">
-                                        {{ storeroom.status }}
-                                    </span>
+                        <span class="px-3 py-1 uppercase tracking-wide rounded-full text-xs font-medium"
+                              :class="statusBadgeClass(storeroom.status)">
+                            {{ storeroom.status }}
+                        </span>
                             </td>
                             <td class="px-6 py-2 text-xs text-gray-500 text-right w-28">
                                 <div class="flex items-center space-x-4 justify-end">
-                                    <!-- Open Delete Confirmation Modal -->
                                     <PrimaryButton class="!w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50">Delete</PrimaryButton>
-                                    <!-- <PrimaryButton class="!z-10 !w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50" @click="openDeleteModal(storeroom)">Delete</PrimaryButton>-->
-
-                                    <!-- Open Edit Modal -->
                                     <SecondaryButton class="!w-fit" @click.stop="openEditModal(storeroom)">Edit</SecondaryButton>
                                 </div>
                             </td>

@@ -266,11 +266,15 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {toast} from "vue3-toastify";
 import axios from "axios";
 
-const storerooms = ref([]);
+const props = defineProps({
+    storeroom: Object, // The current storeroom passed from the backend
+});
+
+const storerooms = ref([]); // All storerooms
 const isLoading = ref(false);
 
 const createForm = ref({
-    storeroom_id: '',
+    storeroom_id: props.storeroom.id || '',
     name: 'Enter Item Name',
     unit: '',
     quantity: '',

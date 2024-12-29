@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventories;
 use App\Models\Storerooms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +31,33 @@ class StoreroomsController extends Controller
             'pageTitle' => 'Storerooms',
             'storerooms' => $storerooms,
             'storeroomCount' => $storerooms->count(),
+        ]);
+    }
+
+    public function showDashboard(Request $request, $storeroomId)
+    {
+        $teamId = $request->user()->currentTeam->id;
+
+        $storeroom = Storerooms::findOrFail($storeroomId);
+
+        // Fetch all items for the storeroom
+        $items = Inventories::with(['item', 'prices'])
+            ->where('storeroom_id', $storeroomId)
+            ->where('team_id', $teamId)
+            ->get();
+
+        // Calculate the total value of the storeroom
+        $totalValue = $items->sum(function ($inventory) {
+            $price = $inventory->prices->last(); // Assuming the most recent price
+            return $inventory->quantity * ($price ? $price->price : 0);
+        });
+
+        // Render the Inertia view
+        return Inertia::render('Storerooms/Dashboard', [
+            'pageTitle' => 'Storeroom Dashboard',
+            'storeroom' => $storeroom,
+            'items' => $items,
+            'totalValue' => $totalValue,
         ]);
     }
 

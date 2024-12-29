@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->references('id')->on('teams');
+            $table->foreignId('storeroom_id')->references('id')->on('storerooms');
             $table->string('name');
             $table->enum('unit', ['g', 'kg', 'ml', 'l'])->nullable();
+            $table->string('size')->nullable();
             $table->text('description')->nullable();
             $table->decimal('recommended_dosage', 8, 2)->nullable();
             $table->enum('category', [
@@ -45,6 +47,7 @@ return new class extends Migration
                 'Water-Soluble Liquids',
                 'Foliar Feedings'
             ])->nullable();
+            $table->string('msds_file_path')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

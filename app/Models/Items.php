@@ -11,8 +11,10 @@ class Items extends Model
 
     protected $fillable = [
         'team_id',
+        'storeroom_id',
         'name',
         'unit',
+        'size',
         'description',
         'recommended_dosage',
         'category',
@@ -25,7 +27,8 @@ class Items extends Model
         'safety_precautions',
         'mixing_compatibility',
         'mixing_order',
-        'mixing_category'
+        'mixing_category',
+        'msds_file_path',
     ];
 
     protected $casts = [
@@ -40,5 +43,10 @@ class Items extends Model
     public function storeroom()
     {
         return $this->belongsTo(Storerooms::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany(Inventories::class);
     }
 }

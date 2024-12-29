@@ -31,4 +31,14 @@ class Storerooms extends Model
     {
         return $this->hasMany(Items::class);
     }
+
+    public function inventory()
+    {
+        return $this->hasMany(Inventories::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasManyThrough(Prices::class, Inventories::class);
+    }
 }

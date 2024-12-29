@@ -15,7 +15,7 @@
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateModal = true">
-                            Create Type
+                            Add Type
                         </PrimaryButton>
                     </div>
                 </div>

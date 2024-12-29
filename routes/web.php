@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::prefix('api')->group(function () {
         Route::get('/types', [\App\Http\Controllers\TypesController::class, 'fetch']);
         Route::get('/varieties', [\App\Http\Controllers\VarietiesController::class, 'fetch']);
+        Route::get('/storerooms', [\App\Http\Controllers\StoreroomsController::class, 'fetch']);
     });
 
     Route::prefix('dashboard')->group(function () {
@@ -54,5 +55,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/store', [\App\Http\Controllers\StoreroomsController::class, 'store'])->name('storerooms.store');
         Route::patch('/{storeroom}', [\App\Http\Controllers\StoreroomsController::class, 'update'])->name('storerooms.update');
         Route::delete('/{storeroom}', [\App\Http\Controllers\StoreroomsController::class, 'destroy'])->name('storerooms.destroy');
+    });
+
+    Route::prefix('items')->group(function () {
+        Route::get('/', [\App\Http\Controllers\ItemsController::class, 'index'])->name('items.index');
+        Route::get('/add', [\App\Http\Controllers\ItemsController::class, 'create'])->name('items.create');
+        Route::post('/store', [\App\Http\Controllers\ItemsController::class, 'store'])->name('items.store');
+        Route::patch('/{item}', [\App\Http\Controllers\ItemsController::class, 'update'])->name('items.update');
+        Route::delete('/{item}', [\App\Http\Controllers\ItemsController::class, 'destroy'])->name('items.destroy');
     });
 });

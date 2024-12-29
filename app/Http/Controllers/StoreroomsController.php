@@ -122,4 +122,24 @@ class StoreroomsController extends Controller
 
         return response()->json(['message' => 'Field deleted successfully.'], 200);
     }
+
+    public function fetch(Request $request)
+    {
+        // Get the current team of the authenticated user
+        $currentTeam = $request->user()->currentTeam;
+
+        if (!$currentTeam) {
+            return response()->json([
+                'message' => 'No current team found for the user.',
+            ], 400);
+        }
+
+        // Fetch types belonging to the current team
+        $storerooms = Storerooms::where('team_id', $currentTeam->id)->get(['id', 'name']);
+
+        return response()->json([
+            'message' => 'Storerooms fetched successfully.',
+            'storerooms' => $storerooms,
+        ]);
+    }
 }

@@ -26,4 +26,9 @@ class Storerooms extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function items()
+    {
+        return $this->hasMany(Items::class);
+    }
 }

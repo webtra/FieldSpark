@@ -100,7 +100,7 @@
                        </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="field in filteredFields" :key="field.id">
+                            <tr v-for="field in filteredFields" :key="field.id" @click.stop="openDetailDrawer(field)" class="cursor-pointer">
                                <td class="px-6 py-2 text-xs text-gray-500 w-20">{{ field.id }}</td>
                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.name }}</td>
                                <td class="px-6 py-2 text-xs text-gray-500 w-36">{{ field.variety.name || 'N/A' }}</td>
@@ -120,7 +120,7 @@
                                        <!-- <PrimaryButton class="!z-10 !w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50" @click="openDeleteModal(field)">Delete</PrimaryButton>-->
 
                                        <!-- Open Edit Modal -->
-                                       <SecondaryButton class="!w-fit" @click.stop="openEditModal(field)">Edit</SecondaryButton>
+                                       <SecondaryButton class="!w-fit" @click="openEditModal(field)">Edit</SecondaryButton>
                                    </div>
                                </td>
                             </tr>
@@ -216,6 +216,32 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Detailed View Side Drawer -->
+            <div>
+                <div v-if="showDetailDrawer" class="fixed top-0 right-0 w-full md:w-[475px] h-full bg-white shadow-lg z-50">
+                    <div class="fixed inset-0 bg-black/40"></div>
+
+                    <div class="relative bg-white h-full z-50">
+                        <div class="flex justify-between items-center px-6 py-4">
+                            <h3 class="text-base font-semibold">Field Details</h3>
+                            <button @click="closeDetailDrawer" class="text-gray-500 hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="px-6 pt-6">
+                            <div class="mb-4">
+                                <InputLabel value="Name" />
+                                <TextInput id="name" type="text" v-model="selectedField.name" class="mt-1 block w-full"
+                                           placeholder="Name" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </AppLayout>
 </template>
@@ -230,6 +256,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import {toast} from "vue3-toastify";
+import TextArea from "@/Components/TextArea.vue";
 
 const { fields, fieldCount } = defineProps({
     fields: Array,
@@ -245,6 +272,17 @@ const selectedField = ref(null);
 const createForm = ref({ name: "", size: "", variety_id: "", status: "active", planted_at: "" });
 const editForm = ref({ id: null, name: "", size: "", variety_id: "", status: "", planted_at: "" });
 const isLoading = ref(false);
+
+const showDetailDrawer = ref(false);
+const openDetailDrawer = (variety) => {
+    selectedField.value = variety;
+    showDetailDrawer.value = true;
+};
+
+const closeDetailDrawer = () => {
+    showDetailDrawer.value = false;
+    selectedField.value = null;
+};
 
 const filteredFields = computed(() => {
     if (!Array.isArray(fields)) return [];
@@ -290,7 +328,12 @@ const createField = async () => {
 };
 
 const openEditModal = (field) => {
-    Object.assign(editForm.value, field);
+    editForm.value.id = field.id;
+    editForm.value.name = field.name;
+    editForm.value.size = field.size;
+    editForm.value.variety_id = field.variety_id;
+    editForm.value.status = field.status;
+    editForm.value.planted_at = field.planted_at;
     showEditModal.value = true;
 };
 

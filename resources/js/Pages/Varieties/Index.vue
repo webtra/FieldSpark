@@ -273,8 +273,8 @@
                 <div class="fixed inset-0 bg-black/40"></div>
 
                 <div class="relative bg-white h-full z-50">
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <h3 class="text-lg font-semibold">Variety Details</h3>
+                    <div class="flex justify-between items-center px-6 py-4">
+                        <h3 class="text-base font-semibold">Variety Details</h3>
                         <button @click="closeDetailDrawer" class="text-gray-500 hover:text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                 <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -282,7 +282,7 @@
                         </button>
                     </div>
 
-                    <div class="px-4 pt-4">
+                    <div class="px-6 pt-6">
                         <div class="mb-4">
                             <InputLabel value="Name" />
                             <TextInput id="name" type="text" v-model="selectedVariety.name" class="mt-1 block w-full"

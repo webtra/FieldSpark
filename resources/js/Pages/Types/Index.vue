@@ -60,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="type in filteredTypes" :key="type.id">
+                    <tr v-for="type in filteredTypes" :key="type.id" @click.stop="openDetailDrawer(type)" class="cursor-pointer">
                         <td class="px-6 py-2 text-xs text-gray-500 w-16">{{ type.id }}</td>
                         <td class="px-6 py-2 text-xs text-gray-500 w-48">{{ type.name }}</td>
                         <td class="px-6 py-2 text-xs text-gray-500 w-96">{{ type.description }}</td>
@@ -131,6 +131,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Detailed View Side Drawer -->
+        <div>
+            <div v-if="showDetailDrawer" class="fixed top-0 right-0 w-full md:w-[475px] h-full bg-white shadow-lg z-50">
+                <div class="fixed inset-0 bg-black/40"></div>
+
+                <div class="relative bg-white h-full z-50">
+                    <div class="flex justify-between items-center px-6 py-4">
+                        <h3 class="text-base font-semibold">Type Details</h3>
+                        <button @click="closeDetailDrawer" class="text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="px-6 pt-6">
+                        <div class="mb-4">
+                            <InputLabel value="Name" />
+                            <TextInput id="name" type="text" v-model="selectedType.name" class="mt-1 block w-full"
+                                       placeholder="Name" readonly />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel value="Description" />
+                            <TextArea id="description" type="text" v-model="selectedType.description" class="mt-1 block w-full"
+                                       placeholder="Description" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </AppLayout>
 </template>
 
@@ -144,6 +176,7 @@ import CancelButton from '@/Components/CancelButton.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import TextArea from "@/Components/TextArea.vue";
 
 const { types, typeCount } = defineProps({
     types: Array,
@@ -155,6 +188,17 @@ const showCreateModal = ref(false);
 const showDeleteModal = ref(false);
 const selectedType = ref(null);
 const showEditModal = ref(false);
+const showDetailDrawer = ref(false);
+const openDetailDrawer = (variety) => {
+    selectedType.value = variety;
+    showDetailDrawer.value = true;
+};
+
+const closeDetailDrawer = () => {
+    showDetailDrawer.value = false;
+    selectedType.value = null;
+};
+
 const isLoading = ref(false);
 
 const filteredTypes = computed(() => {

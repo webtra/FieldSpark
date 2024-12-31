@@ -120,7 +120,7 @@
                                        <!-- <PrimaryButton class="!z-10 !w-fit cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-gray-700 opacity-50" @click="openDeleteModal(field)">Delete</PrimaryButton>-->
 
                                        <!-- Open Edit Modal -->
-                                       <SecondaryButton class="!w-fit" @click="openEditModal(field)">Edit</SecondaryButton>
+                                       <SecondaryButton class="!w-fit" @click.stop="openEditModal(field)">Edit</SecondaryButton>
                                    </div>
                                </td>
                             </tr>

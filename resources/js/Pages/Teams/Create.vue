@@ -1,8 +1,3 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import CreateTeamForm from '@/Pages/Teams/Partials/CreateTeamForm.vue';
-</script>
-
 <template>
     <AppLayout title="Create Organization">
         <template #header>
@@ -18,3 +13,8 @@ import CreateTeamForm from '@/Pages/Teams/Partials/CreateTeamForm.vue';
         </div>
     </AppLayout>
 </template>
+
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import CreateTeamForm from '@/Pages/Teams/Partials/CreateTeamForm.vue';
+</script>

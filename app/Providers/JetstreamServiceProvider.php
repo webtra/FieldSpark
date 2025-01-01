@@ -45,6 +45,15 @@ class JetstreamServiceProvider extends ServiceProvider
     {
         Jetstream::defaultApiTokenPermissions(['read']);
 
+        // Organization Owner Role
+        Jetstream::role('organization_owner', 'Organization Owner', [
+            'create',
+            'read',
+            'update',
+            'delete',
+        ])->description('Organization Owners have full access and control over their organization and its settings.');
+
+        // Administrator Role
         Jetstream::role('admin', 'Administrator', [
             'create',
             'read',
@@ -52,11 +61,33 @@ class JetstreamServiceProvider extends ServiceProvider
             'delete',
         ])->description('Administrators have full access to all system features, including creating, reading, updating, and deleting any resource.');
 
+        // Farm Manager Role
         Jetstream::role('farm_manager', 'Farm Manager', [
+            'create',
             'read',
             'update',
-        ])->description('Farm Managers oversee operations with permissions to read data and update existing records.');
+            'delete',
+        ])->description('Farm Managers oversee operations with permissions to create, read, update, and delete data related to agrochemical programs, the inventory system, and other farm activities.');
 
+        // Financial Manager Role
+        Jetstream::role('financial_manager', 'Financial Manager', [
+            'read',
+            'update',
+        ])->description('Financial Managers can access financial data and reports, and manage payroll and expenses.');
+
+        // Compliance Officer Role
+        Jetstream::role('compliance_officer', 'Compliance Officer', [
+            'read',
+            'update',
+        ])->description('Compliance Officers ensure adherence to standards and regulations, with access to relevant data.');
+
+        // Supervisor Role
+        Jetstream::role('supervisor', 'Supervisor', [
+            'read',
+            'update',
+        ])->description('Supervisors manage assigned teams and tasks, with permissions to access and update relevant information.');
+
+        // Staff Role
         Jetstream::role('staff', 'Staff', [
             'read',
             'update',

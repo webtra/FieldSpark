@@ -10,7 +10,7 @@
                 <div class="mt-4 md:mt-0 flex items-center space-x-2 md:space-x-4">
                     <TextInput type="text" v-model="search" placeholder="Search" class="w-96" />
                     <div class="w-full md:w-fit">
-                        <PrimaryButton @click="showCreateModal = true">Add Field</PrimaryButton>
+                        <PrimaryButton @click="showCreateModal = true">Create</PrimaryButton>
                     </div>
                 </div>
             </div>

@@ -107,7 +107,7 @@ const submit = () => {
                 </div>
             </div>
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="my-4">
+            <!-- <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="my-4">
                 <InputLabel for="terms">
                     <div class="flex items-center">
                         <Checkbox class="bg-[#1A565D] text-[#BCDA84]" id="terms" v-model:checked="form.terms" name="terms" required />
@@ -118,9 +118,9 @@ const submit = () => {
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
                 </InputLabel>
-            </div>
+            </div> -->
 
-            <div>
+            <div class="mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
                 </PrimaryButton>

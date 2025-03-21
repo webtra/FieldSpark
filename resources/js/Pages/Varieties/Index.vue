@@ -15,7 +15,7 @@
 
                     <div class="w-full md:w-fit">
                         <PrimaryButton @click="showCreateModal = true">
-                            Add Variety
+                            Create
                         </PrimaryButton>
                     </div>
                 </div>
